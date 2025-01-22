@@ -16,6 +16,10 @@ std::string char32ToUtf8(char32_t c) {
     return converter.to_bytes(c);
 }
 
+std::string sizeTtoUtf8(size_t s){
+    return std::to_string(s);
+}
+
 std::u32string charToU32String(const char* c) {
     if (c == nullptr || c[0] == '\0' ){
         return std::u32string();

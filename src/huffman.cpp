@@ -24,6 +24,26 @@ class HuffmanTree {
         generateCodes(node->left, code + charToU32String("0"), codes);
         generateCodes(node->right, code + charToU32String("1"), codes);
     }
+
+    Node* buildFromSerializedTree(const std::u32string& serialized_tree, size_t& index){
+        if (index >= serialized_tree.size()) return nullptr;
+
+        char32_t marker = serialized_tree[index++];
+
+        if (marker == U'1'){
+            //lehti
+            return new Node(serialized_tree[index++], 0);
+        } else if (marker == U'0'){
+            //sisäsolmu
+            Node* left = buildFromSerializedTree(serialized_tree, index);
+            Node* right = buildFromSerializedTree(serialized_tree, index);
+            return new Node(0, left, right);
+        }
+
+        return nullptr;
+
+    }
+
 public:
     HuffmanTree() : root(nullptr) {}
 
@@ -63,6 +83,11 @@ public:
         return codes;
     }
 
+    void rebuildTree(const std::u32string& serialized) {
+        size_t index = 0;
+        root = buildFromSerializedTree(serialized, index);
+    }
+
 };
 
 std::unordered_map<char32_t, int> get_frequencies(const std::u32string& text){
@@ -94,9 +119,40 @@ std::u32string serializeTree(Node* root){
     return charToU32String("0") + serializeTree(root->left) + serializeTree(root->right);
 }
 
+std::pair<std::u32string, std::string> stripData(const std::string& raw_data){
 
-int main() {
-    const std::u32string test = U"ÄÄÄBBC";
+    std::string metaData = raw_data.substr(0, 8);
+    int metaDataSize = std::stoi(metaData);
+
+    std::string treeUtf8 = raw_data.substr(8, metaDataSize);
+
+    std::u32string tree = utf8ToU32(treeUtf8);
+
+    std::string text = raw_data.substr(8 + metaDataSize);
+    return std::make_pair(tree, text);
+}
+
+std::u32string decode(const std::string& text, Node* root){
+    std::u32string decoded_text = charToU32String("");
+    Node* current = root;
+
+    for (char c : text){
+        if (c == '0'){
+            current = current->left;
+        } else{
+            current = current->right;
+        }
+        if (!current->left && !current->right){
+            decoded_text += current->symbol;
+            current = root;
+        }
+    }
+    return decoded_text;
+}
+
+
+int main(void) {
+    const std::u32string test = U"jooooo";
     std::unordered_map<char32_t, int> frequencies = get_frequencies(test);
     std::cout << "Frequencies:\n";
     for (auto pair : frequencies) {
@@ -116,10 +172,32 @@ int main() {
 
     Node* root = tree.getRoot();
     std::u32string serialized_tree = serializeTree(root);
-    size_t metaDataSize = serialized_tree.size();
+
+    std::string serializedTreeUtf8 = u32ToUtf8(serialized_tree);
+
+    size_t metaDataSize = serializedTreeUtf8.size();
 
     std::cout << "metaDataSize: " << metaDataSize << "\n";
     std::cout << "serialized_tree: " << u32ToUtf8(serialized_tree) << "\n";
     std::cout << "Encoded bitstream " << u32ToUtf8(encoded) << "\n";
+
+    std::ostringstream oss;
+
+    oss << std::setw(8) << std::setfill('0') << metaDataSize;
+    std::string sizeHeader = oss.str();
+
+    std::string final_bitstream = sizeHeader + serializedTreeUtf8 + u32ToUtf8(encoded);
+
+    std::pair<std::u32string, std::string> stripped = stripData(final_bitstream);
+
+    std::u32string tree_str = stripped.first;
+    std::string text = stripped.second;
+
+    HuffmanTree tree2 = HuffmanTree();
+    tree2.rebuildTree(tree_str);
+
+    std::u32string decoded = decode(text, tree2.getRoot());
+    std::cout << "Decoded: " << u32ToUtf8(decoded) << "\n";
+
     return 0;
 }
