@@ -31,4 +31,8 @@
 *.out
 *.app
 
+# wordin muokattava tekstitiedosto
 *.docx
+
+# cpplint.py, joka ei ole itsekirjoittamani vaan työkalu kehityksessä
+*.py
