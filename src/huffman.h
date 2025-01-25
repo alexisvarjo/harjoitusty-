@@ -9,6 +9,9 @@
 #include <unordered_map>
 #include <vector>
 
+//Tämä otsake ja huffman.cpp sisältää suoraan Huffmanin puun algoritmiin liittyvät funktiot ja luokat.
+
+
 struct Node {
     int frequency; //kuinka monta kertaa merkki esiintyy
     char32_t symbol; //merkki

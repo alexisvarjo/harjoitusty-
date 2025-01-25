@@ -16,10 +16,12 @@ void HuffmanTree::generateCodes(Node* node, const std::u32string& code,
     std::unordered_map<char32_t, std::u32string>& codes){
     if (!node) return;
 
+    //lehti
     if (!node->left && !node->right){
         codes[node->symbol] = code;
     }
 
+    //käy rekursiivisesti oikeassa ja vasemmassa jonossa, ja lisää koodiin 0 tai 1
     generateCodes(node->left, code + charToU32String("0"), codes);
     generateCodes(node->right, code + charToU32String("1"), codes);
 }
@@ -40,7 +42,6 @@ Node* HuffmanTree::buildFromSerializedTree(const std::u32string& serialized_tree
     }
 
     return nullptr;
-
 }
 
 HuffmanTree::HuffmanTree() : root(nullptr) {}
@@ -54,14 +55,14 @@ Node* HuffmanTree::getRoot(){
 }
 
 void HuffmanTree::build(const std::unordered_map<char32_t, int>& frequencies){
-
     auto compare = [](Node* a, Node* b) { return a->frequency > b->frequency; };
-    std::priority_queue<Node*, std::vector<Node*>, decltype(compare)> pq(compare);
+    std::priority_queue<Node*, std::vector<Node*>, decltype(compare)> pq(compare); //min-heap
 
     for (const std::pair<const char32_t, int>& pair : frequencies){
-        pq.push(new Node(pair.first, pair.second));
+        pq.push(new Node(pair.first, pair.second)); //uusi solmu jokaiselle merkille
     }
 
+    //tässä kohtaa rakennetaan itse puu
     while (pq.size() > 1){
         Node* left = pq.top();
         pq.pop();
@@ -107,26 +108,24 @@ std::u32string encode(const std::u32string& original_text, HuffmanTree& huffman_
 
 std::u32string serializeTree(Node* root){
     if (!root) return charToU32String("");
-
     //Lehti:
     if (!root->left && !root->right){
         return charToU32String("1") + std::u32string(1, root->symbol);
     }
-
     //sisäsolmu:
     return charToU32String("0") + serializeTree(root->left) + serializeTree(root->right);
 }
 
 std::pair<std::u32string, std::string> stripData(const std::string& raw_data){
 
-    std::string metaData = raw_data.substr(0, 8);
+    std::string metaData = raw_data.substr(0, 8); //ensimmäiset 8 merkkiä sisältää puun bittien lukumäärän
     int metaDataSize = std::stoi(metaData);
 
-    std::string treeUtf8 = raw_data.substr(8, metaDataSize);
+    std::string treeUtf8 = raw_data.substr(8, metaDataSize); //puun bittijono
 
-    std::u32string tree = utf8ToU32(treeUtf8);
+    std::u32string tree = utf8ToU32(treeUtf8); //puun bittijono u32string-muotoon
 
-    std::string text = raw_data.substr(8 + metaDataSize);
+    std::string text = raw_data.substr(8 + metaDataSize); //koodattu teksti on kaikki loput bitit
     return std::make_pair(tree, text);
 }
 
@@ -135,12 +134,13 @@ std::u32string decode(const std::string& text, Node* root){
     Node* current = root;
 
     for (char c : text){
-        if (c == '0'){
+        if (c == '0'){ //puun bittiesityksessä 0 tarkoittaa vasempaan haaraan siirtymistä
             current = current->left;
-        } else{
+        } else{ //1 vastaa oikeaan haaraan siirtymistä
             current = current->right;
         }
-        if (!current->left && !current->right){
+        if (!current->left && !current->right){ //jos solmulla ei ole lapsia, sillä on symbol-muuttujassa sen merkki
+            //ja tähän asti kerätyt 0 1 -bitit muodostavat sen koodin
             decoded_text += current->symbol;
             current = root;
         }
@@ -149,34 +149,37 @@ std::u32string decode(const std::string& text, Node* root){
 }
 
 std::string huffman_encode(const std::u32string& string_to_encode){
-    std::unordered_map<char32_t, int> frequencies = get_frequencies(string_to_encode);
+    std::unordered_map<char32_t, int> frequencies = get_frequencies(string_to_encode); //lasketaan merkkien esiintymistiheydet
     HuffmanTree tree;
-    tree.build(frequencies);
+    tree.build(frequencies); //rakennetaan puu merkkien esiintymisten perusteella
 
-    std::unordered_map<char32_t, std::u32string> code = tree.getCodes();
+    //std::unordered_map<char32_t, std::u32string> code = tree.getCodes(); merkkien koodit, jos haluaa tarkastella mitkä lyhytkoodit huffmanpuu on antanut merkeille
 
-    std::u32string encoded = encode(string_to_encode, tree);
-    Node* root = tree.getRoot();
-    std::u32string serialized_tree = serializeTree(root);
-    std::string serializedTreeUtf8 = u32ToUtf8(serialized_tree);
-    size_t metaDataSize = serializedTreeUtf8.size();
+    std::u32string encoded = encode(string_to_encode, tree); //pakataan teksti merkkien perusteella
+    Node* root = tree.getRoot(); //puun juuri
+    std::u32string serialized_tree = serializeTree(root); //haetaan juuren perusteella bittiesitys
+    std::string serializedTreeUtf8 = u32ToUtf8(serialized_tree); //bittiesitys utf8-muotoon
+    size_t metaDataSize = serializedTreeUtf8.size(); //haetaan puun bittiesityksen koko
     std::ostringstream oss;
-    oss << std::setw(8) << std::setfill('0') << metaDataSize;
-    std::string sizeHeader = oss.str();
-    std::string final_bitstream = sizeHeader + serializedTreeUtf8 + u32ToUtf8(encoded);
+    oss << std::setw(8) << std::setfill('0') << metaDataSize; //muutetaan koko 8 merkkiä pitkäksi merkkijonoksi, sillä metaDataSize on aina 8 merkkiä pitkä
+    std::string sizeHeader = oss.str();  //muutetaan tietotyyppi merkkijonoksi
+    std::string final_bitstream = sizeHeader + serializedTreeUtf8 + u32ToUtf8(encoded); //muodostetaan lopullinen pakattu bittijono
 
     return final_bitstream;
 }
 
 std::u32string huffman_decode(const std::string& bitstream){
-    std::pair<std::u32string, std::string> stripped = stripData(bitstream);
+    std::pair<std::u32string, std::string> stripped = stripData(bitstream); //erotellaan pakatusta bittijonosta kolme asiaa
+    //ensimmäiset kahdeksan tavua sisältää puun bittien lukumäärän, sen jälkeen voidaan lukea puun bittiesitys ja loput ovat koodattu teksti
+    //funktio palauttaa vain puun bittiesityksen ja koodatun tekstin, koska puun bittiesitys on aina 8 merkkiä pitkä
 
-    std::u32string tree_str = stripped.first;
-    std::string text = stripped.second;
+    std::u32string tree_str = stripped.first; //puun bittiesitys
+    std::string text = stripped.second; //koodattu teksti
 
-    HuffmanTree tree = HuffmanTree();
-    tree.rebuildTree(tree_str);
+    HuffmanTree tree = HuffmanTree(); //init huffmantree
+    tree.rebuildTree(tree_str); //rakennetaan puu uudelleen bittiesityksen perusteella
 
-    std::u32string decoded = decode(text, tree.getRoot());
+    std::u32string decoded = decode(text, tree.getRoot()); //puretaan koodattu teksti puun avulla.
+
     return decoded;
 }

@@ -1,6 +1,5 @@
 #include "utils.h"
 
-// Converts std::u32string to std::string (UTF-8)
 std::string u32ToUtf8(const std::u32string& u32str) {
     icu::UnicodeString unicode_str;
     for (char32_t c : u32str){
@@ -14,7 +13,6 @@ std::string u32ToUtf8(const std::u32string& u32str) {
 std::u32string utf8ToU32(const std::string& utf8Str){
     icu::UnicodeString unicode_str = icu::UnicodeString::fromUTF8(utf8Str);
     std::u32string utf32_text;
-
     for (int32_t i = 0; i < unicode_str.length();){
         UChar32 c = unicode_str.char32At(i);
         utf32_text.push_back(c);
