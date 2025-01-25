@@ -1,0 +1,7 @@
+g++ -std=c++17 \
+    -I/opt/homebrew/include \
+    -I/opt/homebrew/opt/icu4c/include \
+    -L/opt/homebrew/lib \
+    -L/opt/homebrew/opt/icu4c/lib \
+    -lgtest -lgtest_main -licuuc -licudata \
+    test_huffman.cpp ../src/huffman.cpp ../src/utils.cpp -o testhuffman

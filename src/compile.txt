@@ -1,0 +1,1 @@
+g++ -std=c++17 -I/opt/homebrew/opt/icu4c/include -L/opt/homebrew/opt/icu4c/lib -licuuc -licudata huffman.cpp utils.cpp -o huffman
