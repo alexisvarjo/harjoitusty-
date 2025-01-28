@@ -4,6 +4,8 @@
 #include <unicode/unistr.h>
 
 #include <codecvt>
+#include <fstream>
+#include <iostream>
 #include <locale>
 #include <string>
 
@@ -25,5 +27,14 @@ std::u32string utf8ToU32(const std::string& utf8Str);
 
 // tietotyyppimuunnos size_t -> std::u32string
 std::string sizeTtoUtf8(size_t s);
+
+// kirjoittaa sisällön annettuun tiedostoon binäärinä
+void write_to_file(const std::string& filename, const std::string& content);
+
+// lukee binääritiedostosta sisällön ja palauttaa sen merkkijonona
+std::string read_from_file(const std::string& filename);
+
+// lukee tekstitiedostosta sisällön ja palauttaa sen merkkijonona
+std::string read_textfile(const std::string& filename);
 
 #endif  // SRC_UTILS_H_

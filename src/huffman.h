@@ -34,10 +34,10 @@ class HuffmanTree {
 
     // luo jokaista merkkiä vastaavan lyhytkoodin (binäärin) huffman-puuhun
     void generateCodes(Node* node, const std::u32string& code,
-        const std::unordered_map<char32_t, std::u32string>& codes);
+        std::unordered_map<char32_t, std::u32string>& codes);
 
     // luo puun uudelleen merkkijonosta, joka sisältää puun informaation binäärinä
-    Node* buildFromSerializedTree(const std::u32string& serialized_tree, const size_t& index);
+    Node* buildFromSerializedTree(const std::u32string& serialized_tree, size_t& index);
 
  public:
     HuffmanTree();  // konstruktori

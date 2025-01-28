@@ -210,3 +210,23 @@ std::u32string huffman_decode(const std::string& bitstream) {
 
     return decoded;
 }
+
+
+int main(void){
+    std::string utf8_test = read_textfile("test.txt");
+    std::u32string utf32 = utf8ToU32(utf8_test);
+    std::string encoded = huffman_encode(utf32);
+    write_to_file("testi.bin", encoded);
+
+    std::string str2 = read_from_file("testi.bin");
+    std::cout << "line 222" << std::endl;
+    std::cout << "str2: " << str2 << std::endl;
+
+    std::u32string decoded = huffman_decode(str2);
+    std::cout << "line 225" << std::endl;
+
+    std::cout << "Original: " << utf8_test << std::endl;
+    std::cout << "after: " << u32ToUtf8(decoded) << std::endl;
+
+    return 0;
+}

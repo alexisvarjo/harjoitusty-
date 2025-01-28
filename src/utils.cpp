@@ -47,3 +47,46 @@ std::u32string charToU32String(const char* c) {
 
     return u32str;
 }
+
+void write_to_file(const std::string& filename, const std::string& content) {
+    std::ofstream wf(filename, std::ios::out | std::ios::binary);
+    if (!wf) {
+        std::cerr << "Error opening file " << filename << std::endl;
+        return;
+    }
+    wf.write(content.c_str(), content.size());
+    wf.close();
+    std::cout << "File written to " << filename << " successfully" <<std::endl;
+}
+
+std::string read_from_file(const std::string& filename) {
+    std::ifstream rf(filename, std::ios::in | std::ios::binary);
+    if (!rf) {
+        std::cerr << "Error opening file " << filename << std::endl;
+        return "";
+    }
+    rf.seekg(0, std::ios::end);
+    std::streampos length = rf.tellg();
+    std::cout << "line 70" << std::endl;
+    rf.seekg(0, std::ios::beg);
+    std::string content(length, '\0');
+    std::cout << "line 73" << std::endl;
+    rf.read(&content[0], length);
+    if (rf.is_open()) {
+        rf.close();
+    }
+    std::cout << "line 78" << std::endl;
+    return content;
+}
+
+std::string read_textfile(const std::string& filename) {
+    std::ifstream rf(filename, std::ios::in);
+    rf.imbue(std::locale(""));
+    if (!rf) {
+        std::cerr << "Error opening file " << filename << std::endl;
+        return "";
+    }
+    std::string content((std::istreambuf_iterator<char>(rf)), std::istreambuf_iterator<char>());
+    rf.close();
+    return content;
+}
