@@ -24,6 +24,17 @@ std::vector<std::tuple<int, char32_t> > LZ78_compress(const std::u32string& text
             sequence.clear();
         }
     }
+    if (!sequence.empty()) {
+        std::u32string prefix = sequence.substr(0, sequence.size()-1);
+        char32_t newChar = sequence.back();
+
+        int prefixIndex = 0;
+        if (!prefix.empty()) {
+            prefixIndex = dictionary[prefix];
+        }
+        compressed.emplace_back(prefixIndex, newChar);
+    }
+
     compressed.push_back(std::make_tuple(-1, U'\0'));
 
     return compressed;
