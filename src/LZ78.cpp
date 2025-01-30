@@ -35,7 +35,7 @@ std::vector<std::tuple<int, char32_t> > LZ78_compress(const std::u32string& text
         compressed.emplace_back(prefixIndex, newChar);
     }
 
-    compressed.push_back(std::make_tuple(-1, U'\0'));
+    compressed.push_back(std::make_tuple(-1, U'\0')); // end of file -merkintä
 
     return compressed;
 }
@@ -72,6 +72,7 @@ std::u32string LZ78_decompress(const std::vector<std::tuple<int, char32_t> >& di
     std::unordered_map<int, std::u32string> dict;
     int index = 1;
     for (size_t i = 0; i < dictionary.size(); ++i) {
+        // end of file -merkinnän tarkistus
         if (std::get<0>(dictionary[i]) == -1 && std::get<1>(dictionary[i]) == U'\0') {
             break;
         }

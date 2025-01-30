@@ -51,14 +51,14 @@ class HuffmanTree {
     void rebuildTree(const std::u32string& serialized);
     // luo sanakirjan, jossa jokaiselle merkille on vastaava lyhytkoodi. kutsuu yksityistä metodia
     // generateCodes
-    std::unordered_map<char32_t, std::u32string> getCodes();
+    std::unordered_map<char32_t, std::u32string> getCodes(void);
 };
 
 // laskee merkkien esiintymismäärät
 std::unordered_map<char32_t, int> get_frequencies(const std::u32string& text);
 
 // muuttaa merkkijonon huffman-puun mukaisiksi lyhytkoodeiksi
-std::u32string encode(const std::u32string& original_text, const HuffmanTree& huffman_tree);
+std::u32string encode(std::u32string const& original_text, HuffmanTree& huffman_tree);
 
 // muuttaa huffman-puun merkkijonoksi, jossa puu on binäärimuodossa
 std::u32string serializeTree(Node* root);

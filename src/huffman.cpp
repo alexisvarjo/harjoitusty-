@@ -1,5 +1,6 @@
 #include "huffman.h"
 #include "utils.h"
+#include <__config>
 
 
 // Huffmantree-luokan toteutus ja metodit
@@ -19,7 +20,12 @@ void HuffmanTree::generateCodes(Node* node, const std::u32string& code,
 
     // lehti
     if (!node->left && !node->right) {
+        if (code.empty()) {
+            codes[node->symbol] = U"0";
+        } else {
         codes[node->symbol] = code;
+        }
+        return;
     }
 
     // käy rekursiivisesti oikeassa ja vasemmassa
@@ -57,6 +63,13 @@ Node* HuffmanTree::getRoot() {
 }
 
 void HuffmanTree::build(const std::unordered_map<char32_t, int>& frequencies) {
+    // vain yhdenlaisen merkin tapaus
+    if (frequencies.size() == 1) {
+        char32_t c = frequencies.begin()->first;
+        root = new Node(c, frequencies.at(c));
+        return;
+    }
+
     auto compare = [](Node* a, Node* b) { return a->frequency > b->frequency; };
     // min-heap
     std::priority_queue<Node*, std::vector<Node*>, decltype(compare)> pq(compare);
@@ -80,7 +93,7 @@ void HuffmanTree::build(const std::unordered_map<char32_t, int>& frequencies) {
     root = pq.top();
 }
 
-std::unordered_map<char32_t, std::u32string> HuffmanTree::getCodes() {
+std::unordered_map<char32_t, std::u32string> HuffmanTree::getCodes(void) {
     std::unordered_map<char32_t, std::u32string> codes;
     generateCodes(root, charToU32String(""), codes);
     return codes;
@@ -100,7 +113,7 @@ std::unordered_map<char32_t, int> get_frequencies(const std::u32string& text) {
     return frequencies;
 }
 
-std::u32string encode(const std::u32string& original_text, HuffmanTree& huffman_tree) {
+std::u32string encode(std::u32string const& original_text, HuffmanTree& huffman_tree) {
     std::u32string encoded_text = charToU32String("");
     std::unordered_map<char32_t, std::u32string> codes = huffman_tree.getCodes();
     for (char32_t c : original_text) {
@@ -136,6 +149,16 @@ std::pair<std::u32string, std::string> stripData(const std::string& raw_data) {
 }
 
 std::u32string decode(const std::string& text, Node* root) {
+
+    if (!root->left && !root->right){
+        if (text.empty()) {
+            return std::u32string(1, root->symbol);
+        }
+
+        return std::u32string(text.size(), root->symbol);
+    }
+
+
     std::u32string decoded_text = charToU32String("");
     Node* current = root;
 
@@ -157,6 +180,11 @@ std::u32string decode(const std::string& text, Node* root) {
 }
 
 std::string huffman_encode(const std::u32string& string_to_encode) {
+    if (string_to_encode.empty()) {
+        std::cerr << "Error: Empty string" << std::endl;
+        return "";
+    }
+
     // lasketaan merkkien esiintymistiheydet
     std::unordered_map<char32_t, int> frequencies = get_frequencies(string_to_encode);
     HuffmanTree tree;
@@ -189,11 +217,15 @@ std::string huffman_encode(const std::u32string& string_to_encode) {
 
     // muodostetaan lopullinen pakattu bittijono
     std::string final_bitstream = sizeHeader + serializedTreeUtf8 + u32ToUtf8(encoded);
-
     return final_bitstream;
 }
 
 std::u32string huffman_decode(const std::string& bitstream) {
+    if (bitstream.empty()) {
+        std::cerr << "Error: Empty string" << std::endl;
+        return U"";
+    }
+
     // erotellaan pakatusta bittijonosta kolme asiaa
     // ensimmäiset kahdeksan tavua sisältää puun bittien lukumäärän, sen jälkeen voidaan lukea puun bittiesitys ja loput ovat koodattu teksti
     // funktio palauttaa vain puun bittiesityksen ja koodatun tekstin, koska puun bittiesitys on aina 8 merkkiä pitkä
@@ -209,24 +241,4 @@ std::u32string huffman_decode(const std::string& bitstream) {
     std::u32string decoded = decode(text, tree.getRoot());  // puretaan koodattu teksti puun avulla.
 
     return decoded;
-}
-
-
-int main(void){
-    std::string utf8_test = read_textfile("test.txt");
-    std::u32string utf32 = utf8ToU32(utf8_test);
-    std::string encoded = huffman_encode(utf32);
-    write_to_file("testi.bin", encoded);
-
-    std::string str2 = read_from_file("testi.bin");
-    std::cout << "line 222" << std::endl;
-    std::cout << "str2: " << str2 << std::endl;
-
-    std::u32string decoded = huffman_decode(str2);
-    std::cout << "line 225" << std::endl;
-
-    std::cout << "Original: " << utf8_test << std::endl;
-    std::cout << "after: " << u32ToUtf8(decoded) << std::endl;
-
-    return 0;
 }
