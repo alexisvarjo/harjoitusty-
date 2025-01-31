@@ -81,17 +81,17 @@ std::u32string LZ78_decompress(const std::vector<std::tuple<int, char32_t> >& di
     std::unordered_map<int, std::u32string> dict;
     int index = 1;
     for (size_t i = 0; i < dictionary.size(); ++i) {
-        // end of file -merkinnän tarkistus
-        if (std::get<0>(dictionary[i]) == -1 && std::get<1>(dictionary[i]) == U'\0') {
-            break;
-        }
         int prefixIndex = std::get<0>(dictionary[i]);
         char32_t newChar = std::get<1>(dictionary[i]);
-        std::u32string prefix = charToU32String("");
-        if (prefixIndex != 0) {
-            prefix = dict[prefixIndex];
+        // end of file -merkinnän tarkistus
+        if (prefixIndex == -1 && newChar == U'\0') {
+            break;
         }
-        std::u32string sequence = prefix + newChar;
+        std::u32string sequence;
+        if (prefixIndex > 0) {
+            sequence = dict[prefixIndex];
+        }
+        sequence += newChar;
         dict[index++] = sequence;
         decompressed += sequence;
     }
