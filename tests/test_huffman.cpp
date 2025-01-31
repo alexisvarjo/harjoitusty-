@@ -209,7 +209,14 @@ TEST(DecodeTest, LongerStringTest) {
 
 TEST(HuffmanEncodeTest, EmptyString) {
     std::u32string test_string = U"";
-    EXPECT_EQ(huffman_encode(test_string), "");
+    testing::internal::CaptureStderr();
+
+    std::string result = huffman_encode(test_string);
+
+    std::string stderr_output = testing::internal::GetCapturedStderr();
+
+    EXPECT_EQ(result, "");
+    EXPECT_EQ(stderr_output, "Error: Empty string\n");
 }
 
 TEST(HuffmanEncodeTest, SingleChar) {
