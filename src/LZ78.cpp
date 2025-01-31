@@ -43,6 +43,14 @@ std::vector<std::tuple<int, char32_t> > LZ78_compress(const std::u32string& text
 std::string makebin(const std::vector<std::tuple<int, char32_t> > compressedData) {
     std::ostringstream oss(std::ios::binary);
 
+    if (compressedData.empty()) {
+        int prefixIndex = -1;
+        char32_t newChar = U'\0';
+        oss.write(reinterpret_cast<const char*>(&prefixIndex), sizeof(prefixIndex));
+        oss.write(reinterpret_cast<const char*>(&newChar), sizeof(newChar));
+        return oss.str();
+    }
+
     for (std::vector<std::tuple<int, char32_t> >::const_iterator it = compressedData.begin(); it != compressedData.end(); ++it) {
         int prefixIndex = std::get<0>(*it);
         char32_t newChar = std::get<1>(*it);
@@ -63,6 +71,7 @@ std::vector<std::tuple<int, char32_t> > readbin(std::string bitstream) {
         iss.read(reinterpret_cast<char*>(&newChar), sizeof(newChar));
         compressed.emplace_back(prefixIndex, newChar);
     }
+    compressed.pop_back(); // poistetaan lopetusmerkintä
     return compressed;
 }
 
@@ -99,15 +108,4 @@ std::u32string lz78_decode(const std::string& bitstream) {
     std::vector<std::tuple<int, char32_t>> compressed = readbin(bitstream);
     std::u32string decompressed = LZ78_decompress(compressed);
     return decompressed;
-}
-
-int main(void) {
-    std::string utf8_test = read_textfile("test.txt");
-    std::u32string utf32 = utf8ToU32(utf8_test);
-    std::string encoded = lz78_encode(utf32);
-    write_to_file("testi.bin", encoded);
-    std::string bitstream = read_textfile("testi.bin");
-    std::u32string decoded = lz78_decode(bitstream);
-    std::cout << "after: " << u32ToUtf8(decoded) << std::endl;
-    return 0;
 }
