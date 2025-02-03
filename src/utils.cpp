@@ -56,7 +56,6 @@ void write_to_file(const std::string& filename, const std::string& content) {
     }
     wf.write(content.c_str(), content.size());
     wf.close();
-    std::cout << "File written to " << filename << " successfully" <<std::endl;
 }
 
 std::string read_from_file(const std::string& filename) {
@@ -67,15 +66,12 @@ std::string read_from_file(const std::string& filename) {
     }
     rf.seekg(0, std::ios::end);
     std::streampos length = rf.tellg();
-    std::cout << "line 70" << std::endl;
     rf.seekg(0, std::ios::beg);
     std::string content(length, '\0');
-    std::cout << "line 73" << std::endl;
     rf.read(&content[0], length);
     if (rf.is_open()) {
         rf.close();
     }
-    std::cout << "line 78" << std::endl;
     return content;
 }
 
