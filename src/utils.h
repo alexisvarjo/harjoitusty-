@@ -37,4 +37,10 @@ std::string read_from_file(const std::string& filename);
 // lukee tekstitiedostosta sisällön ja palauttaa sen merkkijonona
 std::string read_textfile(const std::string& filename);
 
+bool areFilesIdentical(const std::string& file1, const std::string& file2);
+
+void write_as_textfile(const std::string& filename, const std::string& content);
+
+std::vector<bool> concat_v(const std::vector<bool>& v1, const std::vector<bool>& v2);
+
 #endif  // SRC_UTILS_H_

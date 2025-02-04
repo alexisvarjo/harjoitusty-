@@ -1,4 +1,5 @@
 #include "utils.h"
+#include <fstream>
 
 std::string u32ToUtf8(const std::u32string& u32str) {
     icu::UnicodeString unicode_str;
@@ -85,4 +86,47 @@ std::string read_textfile(const std::string& filename) {
     std::string content((std::istreambuf_iterator<char>(rf)), std::istreambuf_iterator<char>());
     rf.close();
     return content;
+}
+
+bool areFilesIdentical(const std::string& file1, const std::string& file2) {
+    std::ifstream f1(file1, std::ios::binary);
+    std::ifstream f2(file2, std::ios::binary);
+
+    if (!f1 || !f2) {
+        std::cerr << "Error opening files " << file1 << " and " << file2 << std::endl;
+        return false;
+    }
+
+    int c1, c2;
+    while (true) {
+        c1 = f1.get();
+        c2 = f2.get();
+
+        if (c1 == EOF && c2 == EOF)
+            break;
+
+        if (c1 != c2)
+            return false;
+    }
+
+    return true;
+}
+
+void write_as_textfile(const std::string& filename, const std::string& content) {
+    std::ofstream wf(filename);
+    wf.imbue(std::locale(""));
+    if (!wf) {
+        std::cerr << "Error opening file " << filename << std::endl;
+        return;
+    }
+    wf << content;
+    wf.close();
+}
+
+std::vector<bool> concat_v(const std::vector<bool>& v1, const std::vector<bool>& v2) {
+    std::vector<bool> v3;
+    v3.reserve(v1.size() + v2.size());
+    v3.insert(v3.end(), v1.begin(), v1.end());
+    v3.insert(v3.end(), v2.begin(), v2.end());
+    return v3;
 }

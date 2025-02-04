@@ -1,6 +1,7 @@
 #ifndef SRC_HUFFMAN_H
 #define SRC_HUFFMAN_H
 
+#include <bitset>
 #include <iomanip>
 #include <iostream>
 #include <memory>
