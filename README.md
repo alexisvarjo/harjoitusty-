@@ -24,14 +24,14 @@ tulosten oikeellisuuden. Ohjelma myös kertoo kuinka paljon tilaa pakattu tiedos
 Ohjelman on tarkoitus tulevaisuudessa pystyä käsittelemään sekä kansioita, että yksittäisiä tiedostoja.
 
 ## Viikkoraportit
-[Viikkoraportti 1](viikkoraportit/viikkoraportti1.pdf)
+[Viikkoraportti 1](Viikkoraportit/viikkoraportti1.pdf)
 
-[Viikkoraportti 2](viikkoraportit/viikkoraportti2.pdf)
+[Viikkoraportti 2](Viikkoraportit/viikkoraportti2.pdf)
 
-[Viikkoraportti 3](viikkoraportit/viikkoraportti3.pdf)
+[Viikkoraportti 3](Viikkoraportit/viikkoraportti3.pdf)
 
-[Viikkoraportti 4](viikkoraportit/viikkoraportti4.pdf)
+[Viikkoraportti 4](Viikkoraportit/viikkoraportti4.pdf)
 
-[Viikkoraportti 5](viikkoraportit/viikkoraportti5.pdf)
+[Viikkoraportti 5](Viikkoraportit/viikkoraportti5.pdf)
 
-[Viikkoraportti 6](viikkoraportit/viikkoraportti6.pdf)
+[Viikkoraportti 6](Viikkoraportit/viikkoraportti6.pdf)
