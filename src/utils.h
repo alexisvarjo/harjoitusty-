@@ -43,4 +43,8 @@ void write_as_textfile(const std::string& filename, const std::string& content);
 
 std::vector<bool> concat_v(const std::vector<bool>& v1, const std::vector<bool>& v2);
 
+std::u32string unpackBits(const std::string &packed, size_t bitCount);
+
+std::string packBits(const std::u32string &bits);
+
 #endif  // SRC_UTILS_H_

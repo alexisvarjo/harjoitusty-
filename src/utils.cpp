@@ -130,3 +130,37 @@ std::vector<bool> concat_v(const std::vector<bool>& v1, const std::vector<bool>&
     v3.insert(v3.end(), v2.begin(), v2.end());
     return v3;
 }
+
+// Packs a u32string of bits (each character is '0' or '1') into a compact binary string.
+std::string packBits(const std::u32string &bits) {
+    std::string out;
+    uint8_t current = 0;
+    int count = 0;
+    for (char32_t bit : bits) {
+        current = (current << 1) | (bit == U'1' ? 1 : 0);
+        count++;
+        if (count == 8) {
+            out.push_back(static_cast<char>(current));
+            current = 0;
+            count = 0;
+        }
+    }
+    if (count > 0) {
+        current = current << (8 - count);
+        out.push_back(static_cast<char>(current));
+    }
+    return out;
+}
+
+std::u32string unpackBits(const std::string &packed, size_t bitCount) {
+    std::u32string bits;
+    for (size_t i = 0; i < packed.size() && bitCount > 0; ++i) {
+        uint8_t byte = static_cast<uint8_t>(packed[i]);
+        int bitsToRead = (bitCount >= 8) ? 8 : static_cast<int>(bitCount);
+        for (int j = 7; j >= 8 - bitsToRead; --j) {
+            bits.push_back((byte & (1 << j)) ? U'1' : U'0');
+        }
+        bitCount = (bitCount >= 8) ? bitCount - 8 : 0;
+    }
+    return bits;
+}

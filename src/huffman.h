@@ -10,6 +10,7 @@
 #include <string>
 #include <unordered_map>
 #include <utility>
+#include <tuple>
 #include <vector>
 
 // Tämä otsake ja huffman.cpp sisältää suoraan
@@ -66,7 +67,7 @@ std::u32string serializeTree(Node* root);
 
 // erittelee datan huffman-koodauksen purkamiseksi, palauttaa merkkijonot jotka esittävät
 // itse puuta ja koodattua merkkijonoa
-std::pair<std::u32string, std::string> stripData(const std::string& raw_data);
+std::tuple<std::u32string, size_t, std::string> stripData(const std::string& raw_data);
 
 // purkaa koodatun merkkijonon huffman-puun avulla
 std::u32string decode(const std::string& text, Node* root);
@@ -81,6 +82,8 @@ std::string huffman_encode(const std::u32string& string_to_encode);
 // @param bitstream pakattu merkkijono
 // @return purettu merkkijono
 std::u32string huffman_decode(const std::string& bitstream);
+
+std::u32string decode(const std::string& text, Node* root);
 
 
 #endif  // SRC_HUFFMAN_H_

@@ -36,3 +36,7 @@
 
 # cpplint.py, joka ei ole itsekirjoittamani vaan työkalu kehityksessä
 *.py
+
+*.txt
+
+*.bin

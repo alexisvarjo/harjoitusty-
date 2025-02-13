@@ -132,24 +132,26 @@ std::u32string serializeTree(Node* root) {
     return charToU32String("0") + serializeTree(root->left) + serializeTree(root->right);
 }
 
-std::pair<std::u32string, std::string> stripData(const std::string& raw_data) {
-    // ensimmäiset 8 merkkiä sisältää puun bittien lukumäärän
-    std::string metaData = raw_data.substr(0, 8);
-    int metaDataSize = std::stoi(metaData);
+std::tuple<std::u32string, size_t, std::string> stripData(const std::string& raw_data) {
+    // First 8 bytes: tree size.
+    std::string treeSizeStr = raw_data.substr(0, 8);
+    size_t treeSize = std::stoi(treeSizeStr);
 
-    // puun bittijono
-    std::string treeUtf8 = raw_data.substr(8, metaDataSize);
-
-    // puun bittijono u32string-muotoon
+    // Next: the serialized tree.
+    std::string treeUtf8 = raw_data.substr(8, treeSize);
     std::u32string tree = utf8ToU32(treeUtf8);
 
-    // koodattu teksti on kaikki loput bitit
-    std::string text = raw_data.substr(8 + metaDataSize);
-    return std::make_pair(tree, text);
+    // Next 8 bytes: number of valid bits in the encoded data.
+    std::string bitCountStr = raw_data.substr(8 + treeSize, 8);
+    size_t encodedBitCount = std::stoi(bitCountStr);
+
+    // The remainder: the packed encoded data.
+    std::string packedEncoded = raw_data.substr(8 + treeSize + 8);
+
+    return {tree, encodedBitCount, packedEncoded};
 }
 
-std::u32string decode(const std::string& text, Node* root) {
-
+std::u32string decode(const std::u32string& text, Node* root) {
     if (!root->left && !root->right){
         if (text.empty()) {
             return std::u32string(1, root->symbol);
@@ -185,40 +187,31 @@ std::string huffman_encode(const std::u32string& string_to_encode) {
         return "";
     }
 
-    // lasketaan merkkien esiintymistiheydet
     std::unordered_map<char32_t, int> frequencies = get_frequencies(string_to_encode);
     HuffmanTree tree;
-    // rakennetaan puu merkkien esiintymisten perusteella
     tree.build(frequencies);
-
-    // std::unordered_map<char32_t, std::u32string> code = tree.getCodes();
-    // merkkien koodit, jos haluaa tarkastella mitkä lyhytkoodit huffmanpuu on antanut merkeille
-
-    // pakataan teksti merkkien perusteella
     std::u32string encoded = encode(string_to_encode, tree);
 
+    // Serialize the tree.
     Node* root = tree.getRoot();
-
-    // haetaan juuren perusteella bittiesitys
     std::u32string serialized_tree = serializeTree(root);
-
-    // bittiesitys utf8-muotoon
     std::string serializedTreeUtf8 = u32ToUtf8(serialized_tree);
+    size_t treeSize = serializedTreeUtf8.size();
 
-    // haetaan puun bittiesityksen koko
-    size_t metaDataSize = serializedTreeUtf8.size();
+    std::string packedEncoded = packBits(encoded);
+    size_t encodedBitCount = encoded.size();
     std::ostringstream oss;
+    oss << std::setw(8) << std::setfill('0') << treeSize;
+    std::string treeHeader = oss.str();
+    oss.str("");
+    oss.clear();
+    oss << std::setw(8) << std::setfill('0') << encodedBitCount;
+    std::string bitCountHeader = oss.str();
 
-    // muutetaan koko 8 merkkiä pitkäksi merkkijonoksi, sillä metaDataSize on aina 8 merkkiä pitkä
-    oss << std::setw(8) << std::setfill('0') << metaDataSize;
-
-    // muutetaan tietotyyppi merkkijonoksi
-    std::string sizeHeader = oss.str();
-
-    // muodostetaan lopullinen pakattu bittijono
-    std::string final_bitstream = sizeHeader + serializedTreeUtf8 + u32ToUtf8(encoded);
+    std::string final_bitstream = treeHeader + serializedTreeUtf8 + bitCountHeader + packedEncoded;
     return final_bitstream;
 }
+
 
 std::u32string huffman_decode(const std::string& bitstream) {
     if (bitstream.empty()) {
@@ -226,19 +219,15 @@ std::u32string huffman_decode(const std::string& bitstream) {
         return U"";
     }
 
-    // erotellaan pakatusta bittijonosta kolme asiaa
-    // ensimmäiset kahdeksan tavua sisältää puun bittien lukumäärän, sen jälkeen voidaan lukea puun bittiesitys ja loput ovat koodattu teksti
-    // funktio palauttaa vain puun bittiesityksen ja koodatun tekstin, koska puun bittiesitys on aina 8 merkkiä pitkä
-    std::pair<std::u32string, std::string> stripped = stripData(bitstream);
+    // Extract metadata and data from the bitstream.
+    auto [tree_str, encodedBitCount, packedEncoded] = stripData(bitstream);
 
+    // Unpack the encoded bits.
+    std::u32string const encodedBits = unpackBits(packedEncoded, encodedBitCount);
 
-    std::u32string tree_str = stripped.first;  // puun bittiesitys
-    std::string text = stripped.second;  // koodattu teksti
-
-    HuffmanTree tree = HuffmanTree();  // init huffmantree
-    tree.rebuildTree(tree_str);  // rakennetaan puu uudelleen bittiesityksen perusteella
-
-    std::u32string decoded = decode(text, tree.getRoot());  // puretaan koodattu teksti puun avulla.
-
+    // Rebuild the Huffman tree and decode.
+    HuffmanTree tree;
+    tree.rebuildTree(tree_str);
+    std::u32string decoded = decode(encodedBits, tree.getRoot());
     return decoded;
 }
