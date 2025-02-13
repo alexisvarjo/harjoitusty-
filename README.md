@@ -35,8 +35,12 @@ Ohjelman on tarkoitus tulevaisuudessa pystyä käsittelemään sekä kansioita, 
 ## Viikkoraportit
 
 [Viikkoraportti 1](Viikkoraportit/Viikkoraportti1.pdf)
+
 [Viikkoraportti 2](Viikkoraportit/Viikkoraportti2.pdf)
+
 [Viikkoraportti 3](Viikkoraportit/Viikkoraportti3.pdf)
+
 [Viikkoraportti 4](Viikkoraportit/Viikkoraportti4.pdf)
+
 [Viikkoraportti 5](Viikkoraportit/Viikkoraportti5.pdf)
 [Viikkoraportti 6](Viikkoraportit/Viikkoraportti6.pdf)
