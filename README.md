@@ -8,16 +8,17 @@ Tätä ohjelmaa voi käyttää tiedostojen pakkaamiseen ja purkamiseen tai Huffm
 # Käyttöohjeet
 Valmista projektia voi käyttää kahdella eri tavalla:
 
-./exec <tiedoston tai kansion nimi> <algoritmi> <käyttötila>
+```./exec <tiedoston tai kansion nimi> <algoritmi> <käyttötila>```
 
 tai 
 
-./exec <tiedoston tai kansion nimi> p
+```./exec <tiedoston tai kansion nimi> p```
 
-Vipu <algoritmi> valitsee algoritmin, vaihtoehdolla 'lz' se käyttää Lempel-Ziv algoritmia, ja vaihtoehdolla 'h' se käyttää Huffmanin koodausta.
+Vipu ```<algoritmi>``` valitsee algoritmin, vaihtoehdolla ```lz``` se käyttää Lempel-Ziv algoritmia, ja vaihtoehdolla ```h``` se käyttää Huffmanin koodausta.
 
-Vipu <käyttötila> tarkoittaa puretaanko pakattu tiedosto, vai pakataanko tiedosto. 'e' pakkaa tiedoston, ja 'd' purkaa pakatun tiedoston.
+Vipu ```<käyttötila>``` tarkoittaa puretaanko pakattu tiedosto, vai pakataanko tiedosto. ```e``` pakkaa tiedoston, ja ```d``` purkaa pakatun tiedoston.
 
 Toinen käyttötapa suorittaa testin, jossa ohjelma ajaa molemmat algoritmit, ensin pakkaa, sitten purkaa ottaa tästä ajan ja tarkistaa
 tulosten oikeellisuuden. Ohjelma myös kertoo kuinka paljon tilaa pakattu tiedosto vie.
 
+Ohjelman on tarkoitus tulevaisuudessa pystyä käsittelemään sekä kansioita, että yksittäisiä tiedostoja.
