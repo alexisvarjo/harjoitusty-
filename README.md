@@ -43,4 +43,5 @@ Ohjelman on tarkoitus tulevaisuudessa pystyä käsittelemään sekä kansioita, 
 [Viikkoraportti 4](Viikkoraportit/Viikkoraportti4.pdf)
 
 [Viikkoraportti 5](Viikkoraportit/Viikkoraportti5.pdf)
+
 [Viikkoraportti 6](Viikkoraportit/Viikkoraportti6.pdf)
