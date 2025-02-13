@@ -2,10 +2,10 @@
 
 Tätä ohjelmaa voi käyttää tiedostojen pakkaamiseen ja purkamiseen tai Huffmanin koodauksen ja Lempel-Ziv78 algoritmin tehojen vertailuun.
 
-# Kääntöohjeet
+## Kääntöohjeet
 - tulevaisuudessa lisää tästä
 
-# Käyttöohjeet
+## Käyttöohjeet
 Valmista projektia voi käyttää kahdella eri tavalla:
 
 ```./exec <tiedoston tai kansion nimi> <algoritmi> <käyttötila>```
