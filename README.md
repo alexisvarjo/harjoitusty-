@@ -22,3 +22,11 @@ Toinen käyttötapa suorittaa testin, jossa ohjelma ajaa molemmat algoritmit, en
 tulosten oikeellisuuden. Ohjelma myös kertoo kuinka paljon tilaa pakattu tiedosto vie.
 
 Ohjelman on tarkoitus tulevaisuudessa pystyä käsittelemään sekä kansioita, että yksittäisiä tiedostoja.
+
+## Viikkoraportit
+[Viikkoraportti 1](viikkoraportit/viikkoraportti1.pdf)
+[Viikkoraportti 2](viikkoraportit/viikkoraportti2.pdf)
+[Viikkoraportti 3](viikkoraportit/viikkoraportti3.pdf)
+[Viikkoraportti 4](viikkoraportit/viikkoraportti4.pdf)
+[Viikkoraportti 5](viikkoraportit/viikkoraportti5.pdf)
+[Viikkoraportti 6](viikkoraportit/viikkoraportti6.pdf)
