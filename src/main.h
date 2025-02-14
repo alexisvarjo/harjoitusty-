@@ -8,6 +8,6 @@
 #include <filesystem>
 #include <iostream>
 
-int test_functions(std::string filename);
+int test_functions(std::vector<std::filesystem::path> files_vector);
 int main(int argc, char *argv[]);
 #endif //MAIN_H

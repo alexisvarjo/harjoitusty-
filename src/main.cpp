@@ -9,7 +9,7 @@ std::vector<std::filesystem::path> getFiles(std::filesystem::path fp) {
             }
         }
         else {
-            files_vector.push_back(fp.string());
+            files_vector.push_back(fp);
         }
     } else {
         std::cout << "File not found" << std::endl;
@@ -20,16 +20,10 @@ std::vector<std::filesystem::path> getFiles(std::filesystem::path fp) {
 }
 
 int test_functions(std::vector<std::filesystem::path> files_vector) {
-    for (const std::string &file : files_vector) {
-        std::filesystem::path filePath(file);
-        std::string ext = filePath.extension().string();
-        if (ext == ".txt") {
-            content = read_textfile(file);
-        } else if (ext == ".bin") {
-            content = read_from_file(file);
-        } else {
-            return 1;
-        }
+    for (const std::filesystem::path &file : files_vector) {
+        std::string content = readfile(file);
+        if (content.empty())
+            continue;
         std::u32string u32content = utf8ToU32(content);
         auto encode_start_huffman = std::chrono::high_resolution_clock::now();
         std::string huffman_encoded = huffman_encode(u32content);
@@ -38,20 +32,20 @@ int test_functions(std::vector<std::filesystem::path> files_vector) {
         std::string lz78_encoded = lz78_encode(u32content);
         auto encode_end_lz78 = std::chrono::high_resolution_clock::now();
 
-        std::filesystem::path dir = filePath.parent_path();
-        std::string stem = filePath.stem().string();
+        std::filesystem::path dir = file.parent_path();
+        std::string stem = file.stem().string();
         std::filesystem::path huffEncPath = dir / (stem + "_huffman_encoded.bin");
         std::filesystem::path lzEncPath = dir / (stem + "_lz78_encoded.bin");
 
-        write_to_file(huffEncPath.string(), huffman_encoded);
-        write_to_file(lzEncPath.string(), lz78_encoded);
+        writefile(huffEncPath, huffman_encoded);
+        writefile(lzEncPath, lz78_encoded);
 
-        auto size_huffman = std::filesystem::file_size(huffEncPath.string());
-        auto size_lz78 = std::filesystem::file_size(lzEncPath.string());
+        auto size_huffman = std::filesystem::file_size(huffEncPath);
+        auto size_lz78 = std::filesystem::file_size(lzEncPath);
         auto size_original = std::filesystem::file_size(file);
 
-        std::string huffman_encoded_fromfile = read_from_file(huffEncPath.string());
-        std::string lz78_encoded_fromfile = read_from_file(lzEncPath.string());
+        std::string huffman_encoded_fromfile = readfile(huffEncPath);
+        std::string lz78_encoded_fromfile = readfile(lzEncPath);
 
         auto decode_start_huffman = std::chrono::high_resolution_clock::now();
         std::u32string huffman_decoded = huffman_decode(huffman_encoded_fromfile);
@@ -65,8 +59,8 @@ int test_functions(std::vector<std::filesystem::path> files_vector) {
         std::filesystem::path huffDecPath = dir / (stem + "_huffman_decoded.txt");
         std::filesystem::path lzDecPath = dir / (stem + "_lz78_decoded.txt");
 
-        write_as_textfile(huffDecPath.string(), huffman_decoded_utf8);
-        write_as_textfile(lzDecPath.string(), lz78_decoded_utf8);
+        writefile(huffDecPath, huffman_decoded_utf8);
+        writefile(lzDecPath, lz78_decoded_utf8);
 
         if (!areFilesIdentical(file, huffDecPath.string())) {
             std::cout << "Huffman decoding failed" << std::endl;
@@ -131,37 +125,42 @@ int main(int argc, char *argv[]) {
             std::cout << "Invalid argument" << std::endl;
             return 1;
         }
-        for (auto fp : files_vector) {
+        for (std::filesystem::path& fp : files_vector) {
             std::string filename = fp.string();
+            std::cout << "Processing file: " << filename << std::endl;
             if (encodingmode == "e") {
-                std::string content = read_textfile(filename);
+                std::string content = readfile(fp);
+                if (content.empty())
+                    continue;
                 std::u32string u32content = utf8ToU32(content);
-            std::filesystem::path outPath = file;
-            outPath.replace_extension(".bin");
-            if (algo == "h") {
-                std::string encoded = huffman_encode(u32content);
-                write_to_file(outPath.string(), encoded);
-            } else if (algo == "lz") {
-                std::string encoded = lz78_encode(u32content);
-                write_to_file(outPath.string(), encoded);
+                std::filesystem::path outPath = fp;
+                outPath.replace_extension(".bin");
+                if (algo == "h") {
+                    std::string encoded = huffman_encode(u32content);
+                    writefile(outPath, encoded);
+                } else if (algo == "lz") {
+                    std::string encoded = lz78_encode(u32content);
+                    writefile(outPath, encoded);
+                }
+                std::filesystem::remove(fp);
+            } else if (encodingmode == "d") {
+                // Decoding: read the .bin file and output as .txt, then remove the .bin file.
+                std::string encoded = readfile(fp);
+                if (encoded.empty())
+                    continue;
+                std::filesystem::path outPath = fp;
+                outPath.replace_extension(".txt");
+                if (algo == "h") {
+                    std::u32string decoded = huffman_decode(encoded);
+                    std::string decoded_utf8 = u32ToUtf8(decoded);
+                    writefile(outPath.string(), decoded_utf8);
+                } else if (algo == "lz") {
+                    std::u32string decoded = lz78_decode(encoded);
+                    std::string decoded_utf8 = u32ToUtf8(decoded);
+                    writefile(outPath.string(), decoded_utf8);
+                }
+                std::filesystem::remove(filename);
             }
-            std::filesystem::remove(file);
-        } else if (encodingmode == "d") {
-            // Decoding: read the .bin file and output as .txt, then remove the .bin file.
-            std::string encoded = read_from_file(filename);
-            std::filesystem::path outPath = fp;
-            outPath.replace_extension(".txt");
-            if (algo == "h") {
-                std::u32string decoded = huffman_decode(encoded);
-                std::string decoded_utf8 = u32ToUtf8(decoded);
-                write_to_file(outPath.string(), decoded_utf8);
-            } else if (algo == "lz") {
-                std::u32string decoded = lz78_decode(encoded);
-                std::string decoded_utf8 = u32ToUtf8(decoded);
-                write_to_file(outPath.string(), decoded_utf8);
-            }
-            std::filesystem::remove(filename);
-        }
         }
         return 0;
     }
@@ -171,7 +170,7 @@ int main(int argc, char *argv[]) {
             std::cout << "Invalid argument" << std::endl;
             return 1;
         }
-        return test_functions(filePath);
+        return test_functions(files_vector);
     }
     return 0;
 }

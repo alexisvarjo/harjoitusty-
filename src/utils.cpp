@@ -49,44 +49,56 @@ std::u32string charToU32String(const char* c) {
     return u32str;
 }
 
-void write_to_file(const std::string& filename, const std::string& content) {
-    std::ofstream wf(filename, std::ios::out | std::ios::binary);
-    if (!wf) {
-        std::cerr << "Error opening file " << filename << std::endl;
-        return;
+std::string readfile(const std::filesystem::path& fp) {
+    std::string ext = fp.extension().string();
+    std::string content;
+    if (ext == ".txt") {
+        std::ifstream rf(fp, std::ios::in);
+        if (!rf) {
+            std::cerr << "Error opening file " << fp.string() << std::endl;
+            return "";
+        }
+        content = std::string((std::istreambuf_iterator<char>(rf)), std::istreambuf_iterator<char>());
+        // rf will be closed automatically when it goes out of scope.
+    } else if (ext == ".bin") {
+        std::ifstream rf(fp, std::ios::in | std::ios::binary);
+        if (!rf) {
+            std::cerr << "Error opening file " << fp.string() << std::endl;
+            return "";
+        }
+        rf.seekg(0, std::ios::end);
+        std::streampos length = rf.tellg();
+        rf.seekg(0, std::ios::beg);
+        content.resize(length);
+        rf.read(&content[0], length);
+        // rf will be closed automatically when it goes out of scope.
+    } else {
+        std::cerr << "Unsupported file type: " << ext << std::endl;
+        return "";
     }
-    wf.write(content.c_str(), content.size());
+    return content;
+}
+
+void writefile(const std::filesystem::path& path, const std::string& content) {
+    if (path.extension() == ".txt") {
+        std::ofstream wf(path, std::ios::out | std::ios::binary);
+        if (!wf) {
+            std::cerr << "Error opening file " << path.string() << std::endl;
+            return;
+        }
+        wf.write(content.c_str(), content.size());
     wf.close();
+    } else if (path.extension() == ".bin") {
+        std::ofstream wf(path, std::ios::out | std::ios::binary);
+        if (!wf) {
+            std::cerr << "Error opening file " << path.string() << std::endl;
+            return;
+        }
+        wf.write(content.c_str(), content.size());
+        wf.close();
+    }
 }
 
-std::string read_from_file(const std::string& filename) {
-    std::ifstream rf(filename, std::ios::in | std::ios::binary);
-    if (!rf) {
-        std::cerr << "Error opening file " << filename << std::endl;
-        return "";
-    }
-    rf.seekg(0, std::ios::end);
-    std::streampos length = rf.tellg();
-    rf.seekg(0, std::ios::beg);
-    std::string content(length, '\0');
-    rf.read(&content[0], length);
-    if (rf.is_open()) {
-        rf.close();
-    }
-    return content;
-}
-
-std::string read_textfile(const std::string& filename) {
-    std::ifstream rf(filename, std::ios::in);
-    rf.imbue(std::locale(""));
-    if (!rf) {
-        std::cerr << "Error opening file " << filename << std::endl;
-        return "";
-    }
-    std::string content((std::istreambuf_iterator<char>(rf)), std::istreambuf_iterator<char>());
-    rf.close();
-    return content;
-}
 
 bool areFilesIdentical(const std::string& file1, const std::string& file2) {
     std::ifstream f1(file1, std::ios::binary);
@@ -112,24 +124,6 @@ bool areFilesIdentical(const std::string& file1, const std::string& file2) {
     return true;
 }
 
-void write_as_textfile(const std::string& filename, const std::string& content) {
-    std::ofstream wf(filename);
-    wf.imbue(std::locale(""));
-    if (!wf) {
-        std::cerr << "Error opening file " << filename << std::endl;
-        return;
-    }
-    wf << content;
-    wf.close();
-}
-
-std::vector<bool> concat_v(const std::vector<bool>& v1, const std::vector<bool>& v2) {
-    std::vector<bool> v3;
-    v3.reserve(v1.size() + v2.size());
-    v3.insert(v3.end(), v1.begin(), v1.end());
-    v3.insert(v3.end(), v2.begin(), v2.end());
-    return v3;
-}
 
 // Packs a u32string of bits (each character is '0' or '1') into a compact binary string.
 std::string packBits(const std::u32string &bits) {

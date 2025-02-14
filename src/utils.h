@@ -29,19 +29,12 @@ std::u32string utf8ToU32(const std::string& utf8Str);
 std::string sizeTtoUtf8(size_t s);
 
 // kirjoittaa sisällön annettuun tiedostoon binäärinä
-void write_to_file(const std::string& filename, const std::string& content);
+void writefile(const std::filesystem::path& path, const std::string& content);
 
 // lukee binääritiedostosta sisällön ja palauttaa sen merkkijonona
-std::string read_from_file(const std::string& filename);
-
-// lukee tekstitiedostosta sisällön ja palauttaa sen merkkijonona
-std::string read_textfile(const std::string& filename);
+std::string readfile(const std::filesystem::path& fp);
 
 bool areFilesIdentical(const std::string& file1, const std::string& file2);
-
-void write_as_textfile(const std::string& filename, const std::string& content);
-
-std::vector<bool> concat_v(const std::vector<bool>& v1, const std::vector<bool>& v2);
 
 std::u32string unpackBits(const std::string &packed, size_t bitCount);
 
