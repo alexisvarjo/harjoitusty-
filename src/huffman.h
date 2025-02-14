@@ -70,7 +70,7 @@ std::u32string serializeTree(Node* root);
 std::tuple<std::u32string, size_t, std::string> stripData(const std::string& raw_data);
 
 // purkaa koodatun merkkijonon huffman-puun avulla
-std::u32string decode(const std::string& text, Node* root);
+std::u32string decode(const std::u32string& text, Node* root);
 
 // ylätason funktio, joka kutsuu kaikkia yllämainittuja funktioita ja luokkia.
 // Ottaa parametrina koodattavan merkkijonon ja palauttaa koodatun merkkijonon
@@ -82,8 +82,6 @@ std::string huffman_encode(const std::u32string& string_to_encode);
 // @param bitstream pakattu merkkijono
 // @return purettu merkkijono
 std::u32string huffman_decode(const std::string& bitstream);
-
-std::u32string decode(const std::string& text, Node* root);
 
 
 #endif  // SRC_HUFFMAN_H_

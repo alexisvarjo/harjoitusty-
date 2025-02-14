@@ -1,5 +1,0 @@
-g++ -std=c++17 -I/opt/homebrew/opt/icu4c/include -L/opt/homebrew/opt/icu4c/lib -licuuc -licudata huffman.cpp utils.cpp -o huffman
-
-g++ LZ78.cpp lz78.cpp -o lz78 -std=c++17 -I/opt/homebrew/opt/icu4c/include -L/opt/homebrew/opt/icu4c/lib -licuuc -licudata
-
-g++ LZ78.cpp huffman.cpp utils.cpp main.cpp -o main -std=c++17 -I/opt/homebrew/opt/icu4c/include -L/opt/homebrew/opt/icu4c/lib -licuuc -licudata

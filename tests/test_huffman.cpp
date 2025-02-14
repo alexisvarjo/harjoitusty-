@@ -147,24 +147,41 @@ TEST(TreeDeserializationTest, SingleNodeTree) {
 }
 
 TEST(DataStripTest, SimpleTreeAndText) {
-    std::string raw_data = "000000021aencodedtext";
+    // "00000002" => treeSize = 2
+    // "1a"       => the tree (2 bytes)
+    // "00000008" => bitCount = 8
+    // "encodedtext" => remainder
+    std::string raw_data = "000000021a00000008encodedtext";
+
     auto result = stripData(raw_data);
-    EXPECT_EQ(result.first, U"1a");
-    EXPECT_EQ(result.second, "encodedtext");
+    EXPECT_EQ(std::get<0>(result), U"1a");          // The UTF-32 tree
+    EXPECT_EQ(std::get<1>(result), 8);              // The bit count
+    EXPECT_EQ(std::get<2>(result), "encodedtext");  // The remaining data
 }
 
 TEST(DataStripTest, EmptyTreeAndText) {
-    std::string raw_data = "00000000encodedtext";
+    // "00000000" => treeSize = 0, so no tree bytes
+    // "00000000" => bitCount = 0
+    // "encodedtext" => remainder
+    std::string raw_data = "0000000000000000encodedtext";
+
     auto result = stripData(raw_data);
-    EXPECT_EQ(result.first, U"");
-    EXPECT_EQ(result.second, "encodedtext");
+    EXPECT_EQ(std::get<0>(result), U"");            // Empty tree
+    EXPECT_EQ(std::get<1>(result), 0);              // Bit count = 0
+    EXPECT_EQ(std::get<2>(result), "encodedtext");  // The remaining data
 }
 
 TEST(DataStripTest, ComplexTreeAndText) {
-    std::string raw_data = "000000130010d1e010f1gencodedtext";
+    // "00000013" => treeSize = 13
+    // "0010d1e010f1g" => the tree (13 bytes)
+    // "00000012" => bitCount = 12
+    // "encodedtext" => remainder
+    std::string raw_data = "000000130010d1e010f1g00000012encodedtext";
+
     auto result = stripData(raw_data);
-    EXPECT_EQ(result.first, U"0010d1e010f1g");
-    EXPECT_EQ(result.second, "encodedtext");
+    EXPECT_EQ(std::get<0>(result), U"0010d1e010f1g");  // The UTF-32 tree
+    EXPECT_EQ(std::get<1>(result), 12);               // The bit count
+    EXPECT_EQ(std::get<2>(result), "encodedtext");    // The remaining data
 }
 
 TEST(DecodeTest, SingleCharTest) {
@@ -172,8 +189,7 @@ TEST(DecodeTest, SingleCharTest) {
     HuffmanTree tree;
     tree.build(get_frequencies(test_string));
     std::u32string encoded = encode(test_string, tree);
-    std::string encoded_UTF8 = u32ToUtf8(encoded);
-    EXPECT_EQ(decode(encoded_UTF8, tree.getRoot()), test_string);
+    EXPECT_EQ(decode(encoded, tree.getRoot()), test_string);
 }
 
 TEST(DecodeTest, AllSameCharactersTest) {
@@ -182,8 +198,7 @@ TEST(DecodeTest, AllSameCharactersTest) {
     HuffmanTree tree;
     tree.build(get_frequencies(test_string));
     std::u32string encoded = encode(test_string, tree);
-    std::string encoded_UTF8 = u32ToUtf8(encoded);
-    EXPECT_EQ(decode(encoded_UTF8, tree.getRoot()), test_string);
+    EXPECT_EQ(decode(encoded, tree.getRoot()), test_string);
 }
 
 TEST(DecodeTest, MixedWithSpaceTest) {
@@ -193,8 +208,7 @@ TEST(DecodeTest, MixedWithSpaceTest) {
     HuffmanTree tree;
     tree.build(get_frequencies(test_string));
     std::u32string encoded = encode(test_string, tree);
-    std::string encoded_UTF8 = u32ToUtf8(encoded);
-    EXPECT_EQ(decode(encoded_UTF8, tree.getRoot()), test_string);
+    EXPECT_EQ(decode(encoded, tree.getRoot()), test_string);
 }
 
 TEST(DecodeTest, LongerStringTest) {
@@ -203,8 +217,7 @@ TEST(DecodeTest, LongerStringTest) {
     HuffmanTree tree;
     tree.build(get_frequencies(test_string));
     std::u32string encoded = encode(test_string, tree);
-    std::string encoded_UTF8 = u32ToUtf8(encoded);
-    EXPECT_EQ(decode(encoded_UTF8, tree.getRoot()), test_string);
+    EXPECT_EQ(decode(encoded, tree.getRoot()), test_string);
 }
 
 TEST(HuffmanEncodeTest, EmptyString) {
