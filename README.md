@@ -6,21 +6,21 @@ Tätä ohjelmaa voi käyttää tiedostojen pakkaamiseen ja purkamiseen tai Huffm
 - [icu4c](https://github.com/unicode-org/icu)
 - [googletest](https://github.com/google/googletest)
 
-## Kääntöohjeet
-# MacOS
+# Kääntöohjeet
+## MacOS
 Aja komentokehotteessa
 ```brew install icu4c@75```
 Sen jälkeen projektikansion juuressa
 ```make```
 
-# Linux (Debian/Ubuntu tai pkg-config asennettuna)
+## Linux (Debian/Ubuntu tai pkg-config asennettuna)
 ```sudo apt-get install libicu-dev```
 Sen jälkeen projektikansion juuressa
 ```make```
 Jos tämä ei toimi, Makefilessä on kommentoituna lisää ohjeita, joista saattaa olla hyötyä.
 
 
-## Käyttöohjeet
+# Käyttöohjeet
 Valmista projektia voi käyttää kahdella eri tavalla:
 
 ```./exec <tiedoston tai kansion nimi> <algoritmi> <käyttötila>```
