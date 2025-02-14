@@ -155,7 +155,6 @@ int main(int argc, char *argv[]) {
             std::cout << "Invalid argument" << std::endl;
             return 1;
         }
-        std::cout<<"going to call test_functions()"<<std::endl;
         return test_functions(filename);
     }
     return 0;
