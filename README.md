@@ -25,7 +25,7 @@ Valmista projektia voi käyttää kahdella eri tavalla:
 
 ```build/main <tiedoston tai kansion nimi> <algoritmi> <käyttötila>```
 
-tai 
+tai
 
 ```build/main <tiedoston tai kansion nimi> p```
 
@@ -60,3 +60,11 @@ Ohjelman on tarkoitus pystyä käsittelemään sekä kansioita että yksittäisi
 [Viikkoraportti 5](Viikkoraportit/Viikkoraportti5.pdf)
 
 [Viikkoraportti 6](Viikkoraportit/Viikkoraportti6.pdf)
+
+# To do
+
+- Käyttäjän ei tarvitse valita purkaako tiedoston vai pakkaako, vaan ohjelma tietää sen tiedostopäätteen perusteella
+- Käyttäjän ei tarvitse valita algoritmia purkaessa, koska ohjelma merkitsee käytetyn algoritmin pakatun tiedoston ensimmäisellä bitillä
+- Siistimistä koodiin, erityisesti main.cpp
+- Lisää testejä
+- Toteutusdokumentti
