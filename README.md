@@ -36,7 +36,7 @@ Vipu ```<käyttötila>``` tarkoittaa puretaanko pakattu tiedosto, vai pakataanko
 Toinen käyttötapa suorittaa testin, jossa ohjelma ajaa molemmat algoritmit, ensin pakkaa, sitten purkaa ottaa tästä ajan ja tarkistaa
 tulosten oikeellisuuden. Ohjelma myös kertoo kuinka paljon tilaa pakattu tiedosto vie.
 
-Ohjelman on tarkoitus tulevaisuudessa pystyä käsittelemään sekä kansioita, että yksittäisiä tiedostoja.
+Ohjelman on tarkoitus pystyä käsittelemään sekä kansioita että yksittäisiä tiedostoja.
 
 ## [Määrittelydokumentti](dokumentaatio/Määrittelydokumentti.pdf)
 
