@@ -16,7 +16,6 @@ int test_functions(std::string filename) {
         std::cout << "File not found" << std::endl;
         return 1;
     }
-    std::cout << "starting loop" << std::endl;
     for (const std::string &file : files) {
         std::string ext = std::filesystem::path(file).extension().string();
         if (ext == ".txt") {
