@@ -23,11 +23,11 @@ Jos tämä ei toimi, Makefilessä on kommentoituna lisää ohjeita, joista saatt
 # Käyttöohjeet
 Valmista projektia voi käyttää kahdella eri tavalla:
 
-```./exec <tiedoston tai kansion nimi> <algoritmi> <käyttötila>```
+```build/main <tiedoston tai kansion nimi> <algoritmi> <käyttötila>```
 
 tai 
 
-```./exec <tiedoston tai kansion nimi> p```
+```build/main <tiedoston tai kansion nimi> p```
 
 Vipu ```<algoritmi>``` valitsee algoritmin, vaihtoehdolla ```lz``` se käyttää Lempel-Ziv algoritmia, ja vaihtoehdolla ```h``` se käyttää Huffmanin koodausta.
 
