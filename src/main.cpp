@@ -122,12 +122,14 @@ int main(int argc, char *argv[]) {
                 std::u32string u32content = utf8ToU32(content);
                 std::string huffman_encoded = huffman_encode(u32content);
                 write_to_file(stem+"_huffman_encoded.bin", huffman_encoded);
+                std::filesystem::remove(filename);
             }
             if (encodingmode == "d") {
                 std::string huffman_encoded = read_from_file(stem+"_huffman_encoded.bin");
                 std::u32string huffman_decoded = huffman_decode(huffman_encoded);
                 std::string huffman_decoded_utf8 = u32ToUtf8(huffman_decoded);
                 write_as_textfile(stem+"_huffman_decoded.txt", huffman_decoded_utf8);
+                std::filesystem::remove(stem+"_huffman_encoded.bin");
             }
         } else if (algo == "lz") {
             if (encodingmode == "e") {
@@ -135,12 +137,14 @@ int main(int argc, char *argv[]) {
                 std::u32string u32content = utf8ToU32(content);
                 std::string lz78_encoded = lz78_encode(u32content);
                 write_to_file(stem+"_lz78_encoded.bin", lz78_encoded);
+                std::filesystem::remove(filename);
             }
             if (encodingmode == "d") {
                 std::string lz78_encoded = read_from_file(stem+"_lz78_encoded.bin");
                 std::u32string lz78_decoded = lz78_decode(lz78_encoded);
                 std::string lz78_decoded_utf8 = u32ToUtf8(lz78_decoded);
                 write_as_textfile(stem+"_lz78_decoded.txt", lz78_decoded_utf8);
+                std::filesystem::remove(stem+"_lz78_encoded.bin");
             }
         }
         return 0;
