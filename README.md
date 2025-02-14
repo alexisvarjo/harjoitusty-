@@ -3,7 +3,17 @@
 Tätä ohjelmaa voi käyttää tiedostojen pakkaamiseen ja purkamiseen tai Huffmanin koodauksen ja Lempel-Ziv78 algoritmin tehojen vertailuun.
 
 ## Kääntöohjeet
-- tulevaisuudessa lisää tästä
+# MacOS
+Aja komentokehotteessa
+```brew install icu4c@75```
+Sen jälkeen projektikansion juuressa
+```make```
+
+# Linux (Debian/Ubuntu tai pkg-config asennettuna)
+```sudo apt-get install libicu-dev```
+Sen jälkeen projektikansion juuressa
+```make```
+
 
 ## Käyttöohjeet
 Valmista projektia voi käyttää kahdella eri tavalla:
