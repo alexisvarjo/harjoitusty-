@@ -40,3 +40,5 @@
 *.txt
 
 *.bin
+
+build/
