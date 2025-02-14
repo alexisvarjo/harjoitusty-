@@ -8,14 +8,14 @@ Tätä ohjelmaa voi käyttää tiedostojen pakkaamiseen ja purkamiseen tai Huffm
 
 # Kääntöohjeet
 ## MacOS
-Aja komentokehotteessa ```brew install icu4c@75```
+Aja komentokehotteessa ```brew install icu4c@75 && brew install googletest``
 
-Sen jälkeen projektikansion juuressa ```make```
+Sen jälkeen projektikansion juuressa ```make``` itse ohjelmaa varten ja ```make test``` testejä varten.
 
 ## Linux (Debian/Ubuntu tai pkg-config asennettuna)
-Aja komentokehotteessa ```sudo apt-get install libicu-dev```
+Aja komentokehotteessa ```sudo apt-get install libicu-dev && sudo apt install libgtest-dev```
 
-Sen jälkeen projektikansion juuressa ```make```
+Sen jälkeen projektikansion juuressa ```make``` ja ```make test``` testejä varten.
 
 Jos tämä ei toimi, Makefilessä on kommentoituna lisää ohjeita, joista saattaa olla hyötyä.
 
