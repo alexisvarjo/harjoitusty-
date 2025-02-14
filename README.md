@@ -2,6 +2,10 @@
 
 Tätä ohjelmaa voi käyttää tiedostojen pakkaamiseen ja purkamiseen tai Huffmanin koodauksen ja Lempel-Ziv78 algoritmin tehojen vertailuun.
 
+# Riippuvuudet:
+- [icu4c](https://github.com/unicode-org/icu)
+- [googletest](https://github.com/google/googletest)
+
 ## Kääntöohjeet
 # MacOS
 Aja komentokehotteessa
@@ -13,6 +17,7 @@ Sen jälkeen projektikansion juuressa
 ```sudo apt-get install libicu-dev```
 Sen jälkeen projektikansion juuressa
 ```make```
+Jos tämä ei toimi, Makefilessä on kommentoituna lisää ohjeita, joista saattaa olla hyötyä.
 
 
 ## Käyttöohjeet
