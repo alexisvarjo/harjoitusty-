@@ -1,22 +1,26 @@
 #include "main.h"
 
-int test_functions(std::string filename) {
-    std::string content;
-    std::vector<std::string> files;
-    if (std::filesystem::exists(filename)) {
-        if (std::filesystem::is_directory(filename)) {
-            for (const auto &entry : std::filesystem::directory_iterator(filename)) {
-                files.push_back(entry.path().string());
+std::vector<std::filesystem::path> getFiles(std::filesystem::path fp) {
+    std::vector<std::filesystem::path> files_vector;
+    if (std::filesystem::exists(fp)){
+        if (std::filesystem::is_directory(fp)) {
+            for (const auto &entry : std::filesystem::directory_iterator(fp)) {
+                files_vector.push_back(entry.path());
             }
         }
         else {
-            files.push_back(filename);
+            files_vector.push_back(fp.string());
         }
     } else {
         std::cout << "File not found" << std::endl;
-        return 1;
+        std::vector<std::filesystem::path> empty;
+        return empty;
     }
-    for (const std::string &file : files) {
+    return files_vector;
+}
+
+int test_functions(std::vector<std::filesystem::path> files_vector) {
+    for (const std::string &file : files_vector) {
         std::filesystem::path filePath(file);
         std::string ext = filePath.extension().string();
         if (ext == ".txt") {
@@ -113,6 +117,7 @@ int main(int argc, char *argv[]) {
     }
     std::string filename = argv[1];
     std::filesystem::path filePath(filename);
+    std::vector<std::filesystem::path> files_vector = getFiles(filePath);
 
     // When doing encoding or decoding, use the same directory for the output file.
     if (argc == 4) {
@@ -126,11 +131,12 @@ int main(int argc, char *argv[]) {
             std::cout << "Invalid argument" << std::endl;
             return 1;
         }
-        if (encodingmode == "e") {
-            // Encoding: read the text file and output as .bin, then remove the original .txt file.
-            std::string content = read_textfile(filename);
-            std::u32string u32content = utf8ToU32(content);
-            std::filesystem::path outPath = filePath;
+        for (auto fp : files_vector) {
+            std::string filename = fp.string();
+            if (encodingmode == "e") {
+                std::string content = read_textfile(filename);
+                std::u32string u32content = utf8ToU32(content);
+            std::filesystem::path outPath = file;
             outPath.replace_extension(".bin");
             if (algo == "h") {
                 std::string encoded = huffman_encode(u32content);
@@ -139,11 +145,11 @@ int main(int argc, char *argv[]) {
                 std::string encoded = lz78_encode(u32content);
                 write_to_file(outPath.string(), encoded);
             }
-            std::filesystem::remove(filename);
+            std::filesystem::remove(file);
         } else if (encodingmode == "d") {
             // Decoding: read the .bin file and output as .txt, then remove the .bin file.
             std::string encoded = read_from_file(filename);
-            std::filesystem::path outPath = filePath;
+            std::filesystem::path outPath = fp;
             outPath.replace_extension(".txt");
             if (algo == "h") {
                 std::u32string decoded = huffman_decode(encoded);
@@ -156,6 +162,7 @@ int main(int argc, char *argv[]) {
             }
             std::filesystem::remove(filename);
         }
+        }
         return 0;
     }
     if (argc == 3) {
@@ -164,7 +171,7 @@ int main(int argc, char *argv[]) {
             std::cout << "Invalid argument" << std::endl;
             return 1;
         }
-        return test_functions(filename);
+        return test_functions(filePath);
     }
     return 0;
 }
