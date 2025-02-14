@@ -8,7 +8,7 @@ Tätä ohjelmaa voi käyttää tiedostojen pakkaamiseen ja purkamiseen tai Huffm
 
 # Kääntöohjeet
 ## MacOS
-Aja komentokehotteessa ```brew install icu4c@75 && brew install googletest``
+Aja komentokehotteessa ```brew install icu4c@75 && brew install googletest```
 
 Sen jälkeen projektikansion juuressa ```make``` itse ohjelmaa varten ja ```make test``` testejä varten.
 
