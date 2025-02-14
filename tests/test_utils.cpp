@@ -1,6 +1,5 @@
 #include <gtest/gtest.h>
 
-
 #include "../src/utils.h"
 
 TEST(UtilsTest, U32ToUtf8TestBasic) {
@@ -136,7 +135,7 @@ TEST(UtilsTest, CharToU32StringTestLongString) {
 }
 
 TEST(UtilsTest, WriteToFileTestBasic) {
-    std::string filename = "testfile.txt";
+    std::string filename = "test_files/testfile.txt";
     std::string content = "test";
     write_to_file(filename, content);
     std::ifstream rf(filename);
@@ -147,7 +146,7 @@ TEST(UtilsTest, WriteToFileTestBasic) {
 }
 
 TEST(UtilsTest, WriteToFileTestEmpty) {
-    std::string filename = "testfile_empty.txt";
+    std::string filename = "test_files/testfile_empty.txt";
     std::string content = "";
     write_to_file(filename, content);
     std::ifstream rf(filename);
@@ -158,7 +157,7 @@ TEST(UtilsTest, WriteToFileTestEmpty) {
 }
 
 TEST(UtilsTest, WriteToFileTestSpecialCharacters) {
-    std::string filename = "testfile_special.txt";
+    std::string filename = "test_files/testfile_special.txt";
     std::string content = "tëstî";
     write_to_file(filename, content);
     std::ifstream rf(filename);
@@ -169,7 +168,7 @@ TEST(UtilsTest, WriteToFileTestSpecialCharacters) {
 }
 
 TEST(UtilsTest, read_from_filetest) {
-    std::string filename = "testfile.txt";
+    std::string filename = "test_files/testfile.txt";
     std::string content = "test";
     write_to_file(filename, content);
     std::string read_content = read_from_file(filename);
@@ -177,7 +176,7 @@ TEST(UtilsTest, read_from_filetest) {
 }
 
 TEST(UtilsTest, read_from_filetest_empty) {
-    std::string filename = "testfile_empty.txt";
+    std::string filename = "test_files/testfile_empty.txt";
     std::string content = "";
     write_to_file(filename, content);
     std::string read_content = read_from_file(filename);
@@ -185,7 +184,7 @@ TEST(UtilsTest, read_from_filetest_empty) {
 }
 
 TEST(UtilsTest, read_from_filetest_special_characters) {
-    std::string filename = "testfile_special.txt";
+    std::string filename = "test_files/testfile_special.txt";
     std::string content = "tëstî";
     write_to_file(filename, content);
     std::string read_content = read_from_file(filename);
@@ -193,7 +192,7 @@ TEST(UtilsTest, read_from_filetest_special_characters) {
 }
 
 TEST(UtilsTest, read_from_filetest_long_string) {
-    std::string filename = "testfile_long.txt";
+    std::string filename = "test_files/testfile_long.txt";
     std::string content = "this is a longer test string with multiple characters";
     write_to_file(filename, content);
     std::string read_content = read_from_file(filename);
@@ -201,7 +200,7 @@ TEST(UtilsTest, read_from_filetest_long_string) {
 }
 
 TEST(UtilsTest, read_from_filetest_overwrite) {
-    std::string filename = "testfile_overwrite.txt";
+    std::string filename = "test_files/testfile_overwrite.txt";
     std::string content1 = "first content";
     std::string content2 = "second content";
     write_to_file(filename, content1);
@@ -211,7 +210,7 @@ TEST(UtilsTest, read_from_filetest_overwrite) {
 }
 
 TEST(UtilsTest, read_from_filetest_binary_data) {
-    std::string filename = "testfile_binary.txt";
+    std::string filename = "test_files/testfile_binary.txt";
     std::string content = "\x00\x01\x02\x03\x04\x05";
     write_to_file(filename, content);
     std::string read_content = read_from_file(filename);
@@ -219,7 +218,7 @@ TEST(UtilsTest, read_from_filetest_binary_data) {
 }
 
 TEST(UtilsTest, read_textfile_basic) {
-    std::string filename = "testfile.txt";
+    std::string filename = "test_files/testfile.txt";
     std::string content = "test";
     write_to_file(filename, content);
     std::string read_content = read_textfile(filename);
@@ -227,7 +226,7 @@ TEST(UtilsTest, read_textfile_basic) {
 }
 
 TEST(UtilsTest, read_textfile_empty) {
-    std::string filename = "testfile_empty.txt";
+    std::string filename = "test_files/testfile_empty.txt";
     std::string content = "";
     write_to_file(filename, content);
     std::string read_content = read_textfile(filename);
@@ -235,7 +234,7 @@ TEST(UtilsTest, read_textfile_empty) {
 }
 
 TEST(UtilsTest, read_textfile_special_characters) {
-    std::string filename = "testfile_special.txt";
+    std::string filename = "test_files/testfile_special.txt";
     std::string content = "tëstî";
     write_to_file(filename, content);
     std::string read_content = read_textfile(filename);
@@ -243,7 +242,7 @@ TEST(UtilsTest, read_textfile_special_characters) {
 }
 
 TEST(UtilsTest, read_textfile_long_string) {
-    std::string filename = "testfile_long.txt";
+    std::string filename = "test_files/testfile_long.txt";
     std::string content = "this is a longer test string with multiple characters";
     write_to_file(filename, content);
     std::string read_content = read_textfile(filename);
@@ -251,7 +250,7 @@ TEST(UtilsTest, read_textfile_long_string) {
 }
 
 TEST(UtilsTest, read_textfile_overwrite) {
-    std::string filename = "testfile_overwrite.txt";
+    std::string filename = "test_files/testfile_overwrite.txt";
     std::string content1 = "first content";
     std::string content2 = "second content";
     write_to_file(filename, content1);
@@ -261,7 +260,7 @@ TEST(UtilsTest, read_textfile_overwrite) {
 }
 
 TEST(UtilsTest, read_textfile_binary_data) {
-    std::string filename = "testfile_binary.txt";
+    std::string filename = "test_files/testfile_binary.txt";
     std::string content = "\x00\x01\x02\x03\x04\x05";
     write_to_file(filename, content);
     std::string read_content = read_textfile(filename);
