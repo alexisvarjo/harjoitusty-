@@ -161,6 +161,7 @@ int main(int argc, char *argv[]) {
                 }
                 std::filesystem::remove(filename);
             }
+            std::cout << "Processed file: " << fp.string() << std::endl;
         }
         return 0;
     }
