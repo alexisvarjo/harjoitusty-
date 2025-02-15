@@ -24,6 +24,7 @@ int test_functions(std::vector<std::filesystem::path> files_vector) {
         std::string content = readfile(file);
         if (content.empty())
             continue;
+        std::cout << "File: " << file.string() << std::endl;
         std::u32string u32content = utf8ToU32(content);
         auto encode_start_huffman = std::chrono::high_resolution_clock::now();
         std::string huffman_encoded = huffman_encode(u32content);
@@ -132,6 +133,7 @@ int main(int argc, char *argv[]) {
                 encodingmode = "d";
             } else {
                 std::cout << "Unsupported file type in directory" << std::endl;
+                std::cout << files_vector[0].string() << std::endl;
                 return 1;
             }
         }
