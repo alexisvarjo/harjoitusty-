@@ -59,6 +59,7 @@ Ohjelman on tarkoitus pystyä käsittelemään sekä kansioita että yksittäisi
 
 # To do
 
+- Yksinkertaista ohjelmaa siten, että kaikkialla käytetään utf-8 utf32:n sijaan.
 - Käyttäjän ei tarvitse valita algoritmia purkaessa, koska ohjelma merkitsee käytetyn algoritmin pakatun tiedoston ensimmäisellä bitillä
 - Siistimistä koodiin, erityisesti main.cpp
 - Lisää testejä
