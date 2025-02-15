@@ -23,18 +23,14 @@ Jos tämä ei toimi, Makefilessä on kommentoituna lisää ohjeita, joista saatt
 # Käyttöohjeet
 Valmista projektia voi käyttää kahdella eri tavalla:
 
-```build/main <tiedoston tai kansion nimi> <algoritmi> <käyttötila>```
+```build/main <tiedoston tai kansion nimi> <algoritmi/käyttötila>```
 
-tai
+```<algoritmi/käyttötila>```voi saada seuraavat arvot:
 
-```build/main <tiedoston tai kansion nimi> p```
-
-Vipu ```<algoritmi>``` valitsee algoritmin, vaihtoehdolla ```lz``` se käyttää Lempel-Ziv algoritmia, ja vaihtoehdolla ```h``` se käyttää Huffmanin koodausta.
-
-Vipu ```<käyttötila>``` tarkoittaa puretaanko pakattu tiedosto, vai pakataanko tiedosto. ```e``` pakkaa tiedoston, ja ```d``` purkaa pakatun tiedoston.
-
-Toinen käyttötapa suorittaa testin, jossa ohjelma ajaa molemmat algoritmit, ensin pakkaa, sitten purkaa ottaa tästä ajan ja tarkistaa
+'p', jolloin ohjelma suorittaa testin, jossa ohjelma ajaa molemmat algoritmit, ensin pakkaa, sitten purkaa ottaa tästä ajan ja tarkistaa
 tulosten oikeellisuuden. Ohjelma myös kertoo kuinka paljon tilaa pakattu tiedosto vie.
+'h' jolloin ohjelma purkaa tai pakkaa tiedoston Huffmanin koodauksella.
+'lz' jolloin ohjelma purkaa tai pakkaa tiedoston Lempel-Ziv78-algoritmilla.
 
 Ohjelman on tarkoitus pystyä käsittelemään sekä kansioita että yksittäisiä tiedostoja.
 
@@ -63,7 +59,6 @@ Ohjelman on tarkoitus pystyä käsittelemään sekä kansioita että yksittäisi
 
 # To do
 
-- Käyttäjän ei tarvitse valita purkaako tiedoston vai pakkaako, vaan ohjelma tietää sen tiedostopäätteen perusteella
 - Käyttäjän ei tarvitse valita algoritmia purkaessa, koska ohjelma merkitsee käytetyn algoritmin pakatun tiedoston ensimmäisellä bitillä
 - Siistimistä koodiin, erityisesti main.cpp
 - Lisää testejä
