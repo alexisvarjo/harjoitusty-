@@ -65,5 +65,4 @@ Ohjelman on tarkoitus pystyä käsittelemään sekä kansioita että yksittäisi
 
 - Linuxilla projekti ei tällä hetkellä käänny, vaan tulee erroreita
 - Siistimistä koodiin, erityisesti main.cpp
-- Lisää testejä
 - Toteutusdokumentti
