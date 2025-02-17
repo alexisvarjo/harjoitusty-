@@ -10,19 +10,19 @@
 
 // compress LZ78 algorithm
 
-std::vector<std::tuple<int, char32_t>> LZ78_compress(const std::u32string& text);
+std::vector<std::tuple<int, char>> LZ78_compress(const std::string& text);
 
 // decompress LZ78 algorithm
-std::u32string LZ78_decompress(const std::vector<std::tuple<int, char32_t> >& dictionary);
+std::string LZ78_decompress(const std::vector<std::tuple<int, char> >& dictionary);
 
 // make binary from LZ78 compressed data
-std::string makebin(const std::vector<std::tuple<int, char32_t> > data);
+std::string makebin(const std::vector<std::tuple<int, char> > data);
 // read binary data to LZ78 compressed data
-std::vector<std::tuple<int, char32_t> > readbin(std::string bitstream);
+std::vector<std::tuple<int, char> > readbin(std::string bitstream);
 
-std::u32string lz78_decode(const std::string& bitstream);
+std::string lz78_decode(const std::string& bitstream);
 
-std::string lz78_encode(const std::u32string& text);
+std::string lz78_encode(const std::string& text);
 
 
 

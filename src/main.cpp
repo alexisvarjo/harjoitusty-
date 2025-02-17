@@ -25,12 +25,11 @@ int test_functions(std::vector<std::filesystem::path> files_vector) {
         if (content.empty())
             continue;
         std::cout << "File: " << file.string() << std::endl;
-        std::u32string u32content = utf8ToU32(content);
         auto encode_start_huffman = std::chrono::high_resolution_clock::now();
-        std::string huffman_encoded = huffman_encode(u32content);
+        std::string huffman_encoded = huffman_encode(content);
         auto encode_end_huffman = std::chrono::high_resolution_clock::now();
         auto encode_start_lz78 = std::chrono::high_resolution_clock::now();
-        std::string lz78_encoded = lz78_encode(u32content);
+        std::string lz78_encoded = lz78_encode(content);
         auto encode_end_lz78 = std::chrono::high_resolution_clock::now();
 
         std::filesystem::path dir = file.parent_path();
@@ -49,19 +48,17 @@ int test_functions(std::vector<std::filesystem::path> files_vector) {
         std::string lz78_encoded_fromfile = readfile(lzEncPath);
 
         auto decode_start_huffman = std::chrono::high_resolution_clock::now();
-        std::u32string huffman_decoded = huffman_decode(huffman_encoded_fromfile);
+        std::string huffman_decoded = huffman_decode(huffman_encoded_fromfile);
         auto decode_end_huffman = std::chrono::high_resolution_clock::now();
         auto decode_start_lz78 = std::chrono::high_resolution_clock::now();
-        std::u32string lz78_decoded = lz78_decode(lz78_encoded_fromfile);
+        std::string lz78_decoded = lz78_decode(lz78_encoded_fromfile);
         auto decode_end_lz78 = std::chrono::high_resolution_clock::now();
-        std::string huffman_decoded_utf8 = u32ToUtf8(huffman_decoded);
-        std::string lz78_decoded_utf8 = u32ToUtf8(lz78_decoded);
 
         std::filesystem::path huffDecPath = dir / (stem + "_huffman_decoded.txt");
         std::filesystem::path lzDecPath = dir / (stem + "_lz78_decoded.txt");
 
-        writefile(huffDecPath, huffman_decoded_utf8);
-        writefile(lzDecPath, lz78_decoded_utf8);
+        writefile(huffDecPath, huffman_decoded);
+        writefile(lzDecPath, lz78_decoded);
 
         if (!areFilesIdentical(file, huffDecPath.string())) {
             std::cout << "Huffman decoding failed" << std::endl;
@@ -154,14 +151,13 @@ int main(int argc, char *argv[]) {
                     std::string content = readfile(fp);
                     if (content.empty())
                         continue;
-                    std::u32string u32content = utf8ToU32(content);
                     std::filesystem::path outPath = fp;
                     outPath.replace_extension(".bin");
                     if (algo == "h") {
-                        std::string encoded = huffman_encode(u32content);
+                        std::string encoded = huffman_encode(content);
                         writefile(outPath, encoded);
                     } else if (algo == "lz") {
-                        std::string encoded = lz78_encode(u32content);
+                        std::string encoded = lz78_encode(content);
                         writefile(outPath, encoded);
                     }
                     std::filesystem::remove(fp);
@@ -175,13 +171,11 @@ int main(int argc, char *argv[]) {
                     std::filesystem::path outPath = fp;
                     outPath.replace_extension(".txt");
                     if (algo == "h") {
-                        std::u32string decoded = huffman_decode(encoded);
-                        std::string decoded_utf8 = u32ToUtf8(decoded);
-                        writefile(outPath.string(), decoded_utf8);
+                        std::string decoded = huffman_decode(encoded);
+                        writefile(outPath.string(), decoded);
                     } else if (algo == "lz") {
-                        std::u32string decoded = lz78_decode(encoded);
-                        std::string decoded_utf8 = u32ToUtf8(decoded);
-                        writefile(outPath.string(), decoded_utf8);
+                        std::string decoded = lz78_decode(encoded);
+                        writefile(outPath.string(), decoded);
                     }
                     std::filesystem::remove(filename);
                 }
