@@ -1,0 +1,206 @@
+
+C (ohjelmointikieli)
+C
+
+Paradigma	proseduraalinen
+Tyypitys	heikko, staattinen
+Yleinen suoritusmalli	käännetty
+Muistinhallinta	manuaalinen
+Julkaistu	1972
+Kehittäjä	Dennis Ritchie[1]
+Vakaa versio	ISO/IEC 9899:2024[2]
+Merkittävimmät toteutukset	GCC, Borland C, Visual C, Watcom C, LLVM/Clang, IBM XL C
+Vaikutteet	B, BCPL, Assembly
+Vaikuttanut	C++, D, Objective-C, C#
+Murteet	K&R C, ANSI C, C99, C*
+Käyttöjärjestelmä	Alustariippumaton
+Uutisryhmä	comp.lang.c
+C on yleiskäyttöinen, imperatiivinen ja rakenteinen käännettävä tietokoneiden ohjelmointikieli, joka on levinnyt laajalle 1970-luvulta lähtien, jolloin Dennis Ritchie[1] kehitti sen UNIX-käyttöjärjestelmää varten. Kielessä yhdistyvät koneenläheisyys ja korkean tason kielen ominaisuudet. C:n suosiota selittää kielen yksinkertaisuus, tehokkuus, joustavuus ja siirrettävyys. C:ssä itsessään ei ole paljoa varattuja sanoja, monet toiminnot tehdään funktiokirjastoilla. C++, Java, C# ja monet muut myöhemmät kielet perustuvat syntaksiltaan ja avainsanoiltaan C:hen.
+
+
+Sisällys
+1	C-kieli
+2	Standardit
+2.1	K&R C
+2.2	ANSI C ja ISO C
+2.3	Ohjelmointikäytännöt
+3	Esimerkkiohjelma
+4	Kääntäjät
+5	Lähteet
+5.1	Viitteet
+6	Aiheesta muualla
+C-kieli
+C perustuu Ken Thompsonin kehittämään B-kieleen, jonka juuret ovat BCPL-kielessä.[3] Kielen kehitys alkoi nimellä NB (New B).[3] Kieli kehitettiin Bell Labsissa vuonna 1972 PDP-11:lle Unix-käyttöjärjestelmää varten, joka muutettiin assemblystä C:lle.[4]
+
+Kielen kehitykseen vaikuttivat muun muassa Alan Snyder, joka ehdotti boolean-operaattoreihin muutoksia ja esikääntäjän lisäämisen.[3] Mike Lesk kirjoitti kielelle alustalta toiselle siirrettävän IO-kirjaston, josta myöhemmin muodostui C-kielen standardikirjasto.[3] 1970-luvun lopulla Stephen Johnson aloitti Portable C Compiler (PCC) -kääntäjän kehittämisen, joka olisi helppo kohdistaa uudelle alustalle.[3]
+
+C-kieli tarkoitettiin alun perin pelkästään järjestelmäohjelmointiin, mutta se on saavuttanut suosiota myös sovellusohjelmien toteutuksessa. C yleistyi Unixin yleistyessä ja nykyisin käytännössä kaikki järjestelmäalustat käyttävät C-kieltä järjestelmäkielenään. C-kielen merkitys näkyy myös siinä, että monet kielet muistuttavat C:tä avainsanoiltaan ja syntaksiltaan, vaikka niiden toimintaperiaate ja käyttötarkoitus olisi erilainen. Jotkin uudemmat ohjelmointikielet, kuten C++, C# ja Java, pohjautuvat C-kieleen[1]. Ne eivät kuitenkaan ole syrjäyttäneet C-kieltä täysin. Joidenkin korkean tason ohjelmointikielten toteutukset käyttävät C-kieltä välikielenä[1].
+
+C-kielellä on seuraavia ominaispiirteitä:
+
+Yksinkertainen ydinkieli, jonka lisäksi keskeisiä toimintoja toteutettu kirjastoissa
+Minimalistinen määrä varattuja avainsanoja
+Keskeisenä periaatteena rakenteellinen proseduraalinen ohjelmointi
+Yksinkertainen ALGOL-sukulaiskielten tapainen tyyppijärjestelmä
+Matalan tason pääsy tietokoneen muistiin osoittimien avulla
+Parametrien välitys aliohjelmille joko arvoina tai viitteinä käyttämällä osoittimia
+Funktio-osoittimet, jotka mahdollistavat yksinkertaisten jatkumoiden ja ad hoc -polymorfismin käytön
+Leksikaalinen muuttujien määrittelyalue (lexical variable scoping)
+Tietueet, käyttäjän luomat datatyypit (struct-avainsana) joiden avulla toisiinsa liittyviä muuttujia voidaan käsitellä yhdessä
+C-esikääntäjä, jonka avulla voidaan mm. yhdistää useissa tiedostoissa sijaitsevaa lähdekoodia ja määritellä makroja
+Yksinkertaisuuden tavoittelun vuoksi C-kielestä puuttuu suora tuki monille muista kielistä löytyville ominaisuuksille. Näitä ovat mm. vahva tyypitys (type safety), roskienkeräys, funktioiden ja operaattoreiden ylikuormitus, tuki säikeille, listojenkäsittely ym. Tosin useimmat näistä ominaisuuksista voidaan ohjelmoida C-kielellä epäsuorasti.
+
+C-kielisen lähdekooditiedoston tunnus on tiedostopääte .c[1].
+
+Standardit
+K&R C
+
+The C Programming Language
+Kielen ensimmäinen "standardi" tunnetaan nimellä K&R C, joka perustuu kirjaan The C Programming Language, jonka Kerninghan ja Ritchie julkaisivat 1978.[5][3][1] Ritchien mukaan K&R C oli approksimaatio standardille, mutta muodollisen standardin tarve ilmeni, koska se ei ollut riittävän tarkka kielen yksityiskohdissa.[3]
+
+K&R sisälsi myös tietyn ohjelmointityylin.[6] Tyyliin kuuluu tietty aaltosulkujen merkintätapa ja sisennysmäärä (kahdeksan välilyöntiä).[7]
+
+ANSI C ja ISO C
+Pääartikkeli: ANSI C
+Vuonna 1983 ANSI perusti X3J11-komitean standardoimaan C.[8][1] Standardit koskevat paitsi itse kielen semantiikkaa ja syntaksia, myös eräitä peruskirjastoluokkia, jotka tulevat yleensä kunkin valmistajan toimittaman kääntäjän mukana. Suurin osa standardista perustuu Unix-ympäristössä käytettyyn C:hen, kuitenkin se osa Unixin C-kirjastosta, jota ei voi toteuttaa muissa ympäristöissä siirrettiin IEEE:lle ja siitä tuli osa POSIX-standardia.
+
+ANSI X3.159-1989 hyväksyttiin vuonna 1989 ja tunnetaan nimellä ANSI C.[8] ISO julkaisi kansainvälisen standardin nimellä ISO/IEC 9899:1990.[8][3] Näihin viitataan myös nimillä C89 ja C90.[8]
+
+C-standardia laajennettiin 1990-luvun lopussa, jolloin syntyi ISO/IEC 9899:1999, joka myös tunnetaan nimellä C99.[1]
+
+ISO-standardin pääversiot:
+
+ISO/IEC 9899:1990, C90
+ISO/IEC 9899:1999, C99
+ISO/IEC 9899:2011, C11
+ISO/IEC 9899:2018, C18
+ISO/IEC 9899:2024, C23
+Uusien standardiversioiden julkaisusta huolimatta monet käyttävät edelleen C90-versiota.[9]
+
+Ohjelmointikäytännöt
+Vuonna 1990 MISRA (Motor Industry Software Reliability Association) julkaisi ohjenuoria C-kielen käyttöön kulkuneuvojen järjestelmissä. Tämä tunnetaan nimellä MISRA C.[10]
+
+CERT C on CERTin julkaisema joukko ohjelmointikäytäntöjä.[11][12]
+
+Esimerkkiohjelma
+Esimerkkiohjelma, joka kysyy käyttäjältä kaksi lukua ja tulostaa niiden summan.
+
+#include <stdio.h>
+int main(void)
+{
+    int a, b, c;
+    printf("Anna 1. luku:\n");
+    scanf("%d", &a);
+    printf("Anna 2. luku:\n");
+    scanf("%d", &b);
+    c = a + b;
+    printf("Antamiesi lukujen summa on %d\n", c);
+    return 0;
+}
+Kääntäjät
+Kielelle on kehitetty useita kääntäjäohjelmia. Alan Snyder kehitti siirrettävää kääntäjää 1970-luvulla.[13] 1980-luvun alussa lähes jokainen kääntäjä perustui Stephen Johnsonin PCC-kääntäjään ja vuonna 1985 oli jo useita itsenäisesti kehitettyjä kääntäjiä.[3]
+
+Yksi varhaisimpia kaupallisia C-kääntäjiä oli 1978 julkaistu Whitesmiths-yhtiön saman niminen kääntäjä, joka toteutti C-kielen siten kuin se määriteltiin version 6 Unixissa. Whitesmiths oli itsenäinen toteutus, eikä lainannut Unixin koodia. Kääntäjä oli saatavissa ainakin DEC PDP-11:lle, Intel 8080/Zilog Z80, Intel 8086 ja Motorola 68000 ja IBM System/370 ja System/36 -järjestelmiin.[14]
+
+Lifeboat Associatesin Lattice C oli ensimmäinen C-kääntäjä joka julkaistiin IBM PC:lle.[15] Microsoft lisensoi Lattice C:n ja julkaisi sen nimellä Microsoft C/C++.[16] Watcom C ja Borlandin Turbo C tulivat markkinoille 1980-luvun lopussa.
+
+Laajalle levinneisiin kääntäjiin kuuluu GNU-projektin GCC.
+
+CompCert C-kääntäjä on formaalisti verifioitu kääntäjä, joka on tarkoitettu turvakriittisten ja tehtäväkriittisien järjestelmien toteutukseen.[17]
+
+Lähteet
+Kernighan, Brian W. & Ritchie, Dennis M.: The C Programming Language. Prentice-Hall, Inc. (copyright Bell Laboratories), 1978. ISBN 0-13-110163-3
+Kernighan, Brian W. & Ritchie, Dennis M.: The C Programming Language. (2. uudistettu painos) Prentice-Hall, Inc., 1989. ISBN 0-13-110362-8
+Harbison, Samuel M. & Steele, Guy L.: C: A Reference Manual. (5. painos) Prentice-Hall, Inc., 2002. ISBN 0-13-089592-X
+King, K. N.: C Programming: A Modern Approach. (2. painos) W. W. Norton & Company, 2008. ISBN 0-39-397950-4
+Viitteet
+ Rahikainen, Markku: C-kieli teku.fi. 2000–2004. Arkistoitu 17.2.2015. Viitattu 16.2.2015.
+ ISO/IEC 9899:2024 iso.org. Viitattu 31.1.2025. (englanniksi)
+ Ritchie, Dennis M.: The Development of the C Language bell-labs.com. Viitattu 24.7.2017.
+ S. C. Johnson & D. M. Ritchie: Portability of C Programs and the UNIX System bell-labs.com. 1978. Viitattu 6.9.2019. (englanniksi)
+ Steve Lohr: To the Liberal Arts, He Adds Computer Science 31.10.2002. The New York Times. Viitattu 7.9.2019. (englanniksi)
+ Notes on Coding Style for C Programming cas.mcmaster.ca. Viitattu 29.11.2022. (englanniksi)
+ indent style catb.org. Viitattu 29.11.2022. (englanniksi)
+ Brad Kelechava: The Origin of ANSI C and ISO C blog.ansi.org. 14.9.2017. Viitattu 21.11.2022. (englanniksi)
+ Dan Saks: “New” Features in C (PDF) accu.org. 2015. Viitattu 28.9.2022. (englanniksi)
+ Colin Walls: MISRA C: Write safer, clearer C code embedded.com. 16.3.2021. Viitattu 21.11.2022. (englanniksi)
+ David Svoboda: SEI CERT C Coding Standard wiki.sei.cmu.edu. 5.12.2018. Viitattu 21.11.2022. (englanniksi)
+ SEI CERT C Coding Standard (PDF) resources.sei.cmu.edu. Viitattu 21.11.2022. (englanniksi)
+ Alan Snyder: A Portable Compiler for the Language C (PDF) apps.dtic.mil. toukokuu 1975. Arkistoitu 27.5.2019. Viitattu 27.5.2019. (englanniksi)
+ https://github.com/hansake/Whitesmiths-C-compiler/blob/main/README.md
+ https://books.google.com/books?id=XDAEAAAAMBAJ&pg=PA61
+ https://winworldpc.com/product/microsoft-c-c/2x
+ Formally verified compilation AbsInt. Viitattu 2.10.2017.
+Aiheesta muualla
+ Kuvia tai muita tiedostoja aiheesta C (ohjelmointikieli) Wikimedia Commonsissa
+
+Wikikirjastossa on aihe: C
+Suomalainen C-opassarja
+Suomenkielinen Johdanto C-ohjelmointiin (60 ss.) (Arkistoitu – Internet Archive)
+Coding Programmer Page / C Library Reference and Examples (englanniksi)
+The syntax of C in Backus-Naur Form (englanniksi)
+nkm
+Yleisimmät ohjelmointikielet
+Auktoriteettitunnisteet Muokkaa Wikidatassa
+Kansainväliset
+FAST
+Kansalliset
+Ranska BnF data Saksa Israel Yhdysvallat Tšekki
+Muut
+IdRef
+Luokat: CBell Labs
+Navigointivalikko
+Et ole kirjautunut
+Keskustelu
+Muokkaukset
+Luo tunnus
+Kirjaudu sisään
+ArtikkeliKeskustelu
+LueMuokkaaMuokkaa wikitekstiäNäytä historia
+Haku
+
+Etusivu
+Tietoja Wikipediasta
+Kaikki sivut
+Satunnainen artikkeli
+Osallistuminen
+Ohje
+Kahvihuone
+Ajankohtaista
+Tuoreet muutokset
+Työkalut
+Tänne viittaavat sivut
+Linkitettyjen sivujen muutokset
+Toimintosivut
+Ikilinkki
+Sivun tiedot
+Viitetiedot
+Lyhennä URL-osoite
+Lataa QR-koodi
+Laajenna kaikki
+Tulosta/vie
+Lataa PDF-tiedostona
+Tulostettava versio
+Muissa hankkeissa
+Wikimedia Commons
+Wikikirjasto
+Wikidata-kohde
+
+Muilla kielillä
+Deutsch
+Eesti
+English
+हिन्दी
+Latina
+Polski
+Русский
+Svenska
+中文
+114 muuta kieltä
+Muokkaa linkkejä
+Sivua on viimeksi muutettu 31. tammikuuta 2025 kello 09.11.
+Teksti on saatavilla Creative Commons Attribution/Share-Alike -lisenssillä; lisäehtoja voi sisältyä. Katso käyttöehdot.
+Wikipedia® on Wikimedia Foundationin rekisteröimä tavaramerkki.
+Ongelma artikkelissa?
+TietosuojakäytäntöTietoja WikipediastaVastuuvapausKäytössäännöstöKehittäjätTilastotEvästekäytäntöMobiilinäkymä
+Wikimedia FoundationPowered by MediaWiki
