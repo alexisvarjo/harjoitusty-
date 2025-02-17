@@ -9,6 +9,5 @@
 #include <iostream>
 
 int test_functions(std::vector<std::filesystem::path> files_vector);
-std::vector<std::filesystem::path> getFiles(std::filesystem::path fp);
 int main(int argc, char *argv[]);
 #endif //MAIN_H

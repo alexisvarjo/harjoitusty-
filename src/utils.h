@@ -11,7 +11,6 @@
 // tämä otsaketiedosto ja utils.cpp sisältävät apufunktioita,
 // joita tarvitaan molemmissa algoritmeissa
 
-
 // kirjoittaa sisällön annettuun tiedostoon binäärinä
 void writefile(const std::filesystem::path& path, const std::string& content);
 
@@ -23,5 +22,7 @@ bool areFilesIdentical(const std::string& file1, const std::string& file2);
 std::string unpackBits(const std::string &packed, size_t bitCount);
 
 std::string packBits(const std::string &bits);
+
+std::vector<std::filesystem::path> getFiles(std::filesystem::path fp);
 
 #endif  // SRC_UTILS_H_

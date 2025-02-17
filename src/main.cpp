@@ -2,24 +2,7 @@
 #include <iostream>
 #include <sys/signal.h>
 
-std::vector<std::filesystem::path> getFiles(std::filesystem::path fp) {
-    std::vector<std::filesystem::path> files_vector;
-    if (std::filesystem::exists(fp)){
-        if (std::filesystem::is_directory(fp)) {
-            for (const auto &entry : std::filesystem::directory_iterator(fp)) {
-                files_vector.push_back(entry.path());
-            }
-        }
-        else {
-            files_vector.push_back(fp);
-        }
-    } else {
-        std::cout << "File not found" << std::endl;
-        std::vector<std::filesystem::path> empty;
-        return empty;
-    }
-    return files_vector;
-}
+
 
 int test_functions(std::vector<std::filesystem::path> files_vector) {
     for (const std::filesystem::path &file : files_vector) {

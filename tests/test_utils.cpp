@@ -223,3 +223,47 @@ TEST(UtilsTest, UnpackBits_MultipleBytesPartial) {
     // Reads 8 bits from 0xDC and 3 bits from 0x00.
     EXPECT_EQ("11011100", bits);
 }
+
+TEST(UtilsTest, getFilesTest_NonExistentPath) {
+    std::filesystem::path path("test_files/non_existent_path");
+    std::vector<std::filesystem::path> result = getFiles(path);
+    EXPECT_TRUE(result.empty());
+}
+
+TEST(UtilsTest, getFilesTest_SingleFile) {
+    std::filesystem::path path("test_files/single_file_test.txt");
+    std::string content = "Single file content";
+    writefile(path, content);
+
+    std::vector<std::filesystem::path> result = getFiles(path);
+    EXPECT_EQ(result.size(), 1u);
+    EXPECT_EQ(result[0].filename().string(), "single_file_test.txt");
+}
+
+TEST(UtilsTest, getFilesTest_DirectoryWithMultipleFiles) {
+    std::filesystem::path dirPath("test_files/multiple_files_test");
+    std::filesystem::create_directories(dirPath);
+
+    std::filesystem::path file1 = dirPath / "file1.txt";
+    std::filesystem::path file2 = dirPath / "file2.txt";
+    std::filesystem::path file3 = dirPath / "file3.txt";
+
+    writefile(file1, "File1 content");
+    writefile(file2, "File2 content");
+    writefile(file3, "File3 content");
+
+    std::vector<std::filesystem::path> result = getFiles(dirPath);
+    EXPECT_EQ(result.size(), 3u);
+
+    // Sort the filenames for a deterministic comparison
+    std::vector<std::string> filenames;
+    filenames.reserve(result.size());
+    for (const auto &p : result) {
+        filenames.push_back(p.filename().string());
+    }
+    std::sort(filenames.begin(), filenames.end());
+
+    EXPECT_EQ(filenames[0], "file1.txt");
+    EXPECT_EQ(filenames[1], "file2.txt");
+    EXPECT_EQ(filenames[2], "file3.txt");
+}
