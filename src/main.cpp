@@ -56,11 +56,11 @@ int test_functions(std::vector<std::filesystem::path> files_vector) {
         }
 
         if (!areFilesIdentical(file, huffDecPath.string())) {
-            std::cout << "Huffman decoding failed" << std::endl;
+            std::cout << "Huffman decoding failed as the input and output file weren't identical" << std::endl;
             return 1;
         }
         if (!areFilesIdentical(file, lzDecPath.string())) {
-            std::cout << "LZ78 decoding failed" << std::endl;
+            std::cout << "LZ78 decoding failed as the input and output file weren't identical" << std::endl;
             return 1;
         }
         std::chrono::duration<double, std::milli> huffman_encode_duration = encode_end_huffman - encode_start_huffman;
