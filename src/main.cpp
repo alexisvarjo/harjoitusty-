@@ -99,11 +99,11 @@ int test_functions(std::vector<std::filesystem::path> files_vector) {
 }
 
 int main(int argc, char *argv[]) {
-    if (argc < 3) {
+    if (argc < 2) {
         std::cout << "Usage: ./main <filename> <algorithm/mode, 'h' or 'lz', 'p'>" << std::endl;
         return 1;
     }
-    if (argc > 4) {
+    if (argc > 3) {
         std::cout << "Too many arguments" << std::endl;
         return 1;
     }
@@ -114,20 +114,20 @@ int main(int argc, char *argv[]) {
         return 1;
     }
     std::vector<std::filesystem::path> files_vector = getFiles(filePath);
-    std::string encodingmode;
+    bool encodingmode;
     if (filePath.extension() == ".txt") {
-        encodingmode = "e";
+        encodingmode = true;
     } else if (filePath.extension() == ".bin") {
-        encodingmode = "d";
+        encodingmode = false;
     } else if (std::filesystem::is_directory(filePath)){
         if (files_vector.empty()) {
             std::cout << "Directory is empty" << std::endl;
             return 1;
         } else {
             if (files_vector[0].extension() == ".txt") {
-                encodingmode = "e";
+                encodingmode = true;
             } else if (files_vector[0].extension() == ".bin") {
-                encodingmode = "d";
+                encodingmode = false;
             } else {
                 std::cout << "Unsupported file type in directory" << std::endl;
                 std::cout << files_vector[0].string() << std::endl;
@@ -135,17 +135,19 @@ int main(int argc, char *argv[]) {
             }
         }
     }
-
-
+    std::string algo;
     // When doing encoding or decoding, use the same directory for the output file.
-    if (argc == 3) {
-        std::string algo = argv[2];
-        if (algo == "h" || algo == "lz"){
+    if (argc == 3 || (argc == 2 && encodingmode == false)) {
+        if (argc == 3){
+            algo = argv[2];
+        }
+        if (algo == "h" || algo == "lz" || encodingmode == false){
             for (std::filesystem::path& fp : files_vector) {
                 std::string filename = fp.string();
                 std::cout << "Processing file: " << filename << std::endl;
-                if (encodingmode == "e") {
-                    if (fp.extension() == ".bin"){
+                if (encodingmode == true) {
+                    // Encoding mode: process only .txt files.
+                    if (fp.extension() != ".txt"){
                         continue;
                     }
                     std::string content = readfile(fp);
@@ -155,14 +157,19 @@ int main(int argc, char *argv[]) {
                     outPath.replace_extension(".bin");
                     if (algo == "h") {
                         std::string encoded = huffman_encode(content);
+                        std::string marker = "0";
+                        encoded = marker + encoded;
                         writefile(outPath, encoded);
                     } else if (algo == "lz") {
                         std::string encoded = lz78_encode(content);
+                        std::string marker = "1";
+                        encoded = marker + encoded;
                         writefile(outPath, encoded);
                     }
                     std::filesystem::remove(fp);
-                } else if (encodingmode == "d") {
-                    if (fp.extension() == ".txt"){
+                } else {
+                    // Decoding mode: process only .bin files.
+                    if (fp.extension() != ".bin"){
                         continue;
                     }
                     std::string encoded = readfile(fp);
@@ -170,10 +177,12 @@ int main(int argc, char *argv[]) {
                         continue;
                     std::filesystem::path outPath = fp;
                     outPath.replace_extension(".txt");
-                    if (algo == "h") {
+                    if (encoded[0] == '0') {
+                        encoded = encoded.substr(1);
                         std::string decoded = huffman_decode(encoded);
                         writefile(outPath.string(), decoded);
-                    } else if (algo == "lz") {
+                    } else if (encoded[0] == '1') {
+                        encoded = encoded.substr(1);
                         std::string decoded = lz78_decode(encoded);
                         writefile(outPath.string(), decoded);
                     }
