@@ -63,7 +63,7 @@ Ohjelman on tarkoitus pystyä käsittelemään sekä kansioita että yksittäisi
 
 # To do
 
-- Käyttäjän ei tarvitse valita algoritmia purkaessa, koska ohjelma merkitsee käytetyn algoritmin pakatun tiedoston ensimmäisellä bitillä
+- Linuxilla projekti ei tällä hetkellä käänny, vaan tulee erroreita
 - Siistimistä koodiin, erityisesti main.cpp
 - Lisää testejä
 - Toteutusdokumentti
