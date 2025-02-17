@@ -8,53 +8,61 @@ int test_functions(std::vector<std::filesystem::path> files_vector) {
         if (content.empty())
             continue;
         std::cout << "Testing with file: " << file.string() << std::endl;
-        auto encode_start_huffman = std::chrono::high_resolution_clock::now();
-        std::string huffman_encoded = huffman_encode(content);
-        auto encode_end_huffman = std::chrono::high_resolution_clock::now();
-        auto encode_start_lz78 = std::chrono::high_resolution_clock::now();
-        std::string lz78_encoded = lz78_encode(content);
-        auto encode_end_lz78 = std::chrono::high_resolution_clock::now();
-
         std::filesystem::path dir = file.parent_path();
         std::string stem = file.stem().string();
         std::filesystem::path huffEncPath = dir / (stem + "_huffman_encoded.bin");
         std::filesystem::path lzEncPath = dir / (stem + "_lz78_encoded.bin");
-
+        std::filesystem::path huffDecPath = dir / (stem + "_huffman_decoded.txt");
+        std::filesystem::path lzDecPath = dir / (stem + "_lz78_decoded.txt");
+        std::chrono::time_point<std::chrono::high_resolution_clock> encode_start_huffman;
+        std::chrono::time_point<std::chrono::high_resolution_clock> encode_end_huffman;
+        std::chrono::time_point<std::chrono::high_resolution_clock> encode_start_lz78;
+        std::chrono::time_point<std::chrono::high_resolution_clock> encode_end_lz78;
+        std::chrono::time_point<std::chrono::high_resolution_clock> decode_start_huffman;
+        std::chrono::time_point<std::chrono::high_resolution_clock> decode_end_huffman;
+        std::chrono::time_point<std::chrono::high_resolution_clock> decode_start_lz78;
+        std::chrono::time_point<std::chrono::high_resolution_clock> decode_end_lz78;
+    {
+        encode_start_huffman = std::chrono::high_resolution_clock::now();
+        std::string huffman_encoded = huffman_encode(content);
+        encode_end_huffman = std::chrono::high_resolution_clock::now();
         if (writefile(huffEncPath, huffman_encoded) == 1){
             std::cout << "Error whilst writing Huffman encoded file"<< huffEncPath.string() << std::endl;
             return 1;
         }
+    }
+    {
+        encode_start_lz78 = std::chrono::high_resolution_clock::now();
+        std::string lz78_encoded = lz78_encode(content);
+        encode_end_lz78 = std::chrono::high_resolution_clock::now();
         if (writefile(lzEncPath, lz78_encoded) == 1){
             std::cout << "Error whilst writing LZ encoded file"<< lzEncPath.string() << std::endl;
             return 1;
         }
-
+    }
         auto size_huffman = std::filesystem::file_size(huffEncPath);
         auto size_lz78 = std::filesystem::file_size(lzEncPath);
         auto size_original = std::filesystem::file_size(file);
-
+    {
         std::string huffman_encoded_fromfile = readfile(huffEncPath);
-        std::string lz78_encoded_fromfile = readfile(lzEncPath);
-
-        auto decode_start_huffman = std::chrono::high_resolution_clock::now();
+        decode_start_huffman = std::chrono::high_resolution_clock::now();
         std::string huffman_decoded = huffman_decode(huffman_encoded_fromfile);
-        auto decode_end_huffman = std::chrono::high_resolution_clock::now();
-        auto decode_start_lz78 = std::chrono::high_resolution_clock::now();
-        std::string lz78_decoded = lz78_decode(lz78_encoded_fromfile);
-        auto decode_end_lz78 = std::chrono::high_resolution_clock::now();
-
-        std::filesystem::path huffDecPath = dir / (stem + "_huffman_decoded.txt");
-        std::filesystem::path lzDecPath = dir / (stem + "_lz78_decoded.txt");
-
+        decode_end_huffman = std::chrono::high_resolution_clock::now();
         if (writefile(huffDecPath, huffman_decoded) == 1) {
             std::cout << "Error whilst writing huffman decoded file " << huffDecPath.string() << std::endl;
             return 1;
         }
+    }
+    {
+        std::string lz78_encoded_fromfile = readfile(lzEncPath);
+        decode_start_lz78 = std::chrono::high_resolution_clock::now();
+        std::string lz78_decoded = lz78_decode(lz78_encoded_fromfile);
+        decode_end_lz78 = std::chrono::high_resolution_clock::now();
         if (writefile(lzDecPath, lz78_decoded) == 1) {
             std::cout << "Error whilst writing lz78 decoded file " << lzDecPath.string() << std::endl;
             return 1;
         }
-
+    }
         if (!areFilesIdentical(file, huffDecPath)) {
             std::cout << "Huffman decoding failed as the input and output file weren't identical" << std::endl;
             return 1;
