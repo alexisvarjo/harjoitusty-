@@ -2,9 +2,7 @@
 #include "utils.h"
 #include <__config>
 
-
 // Huffmantree-luokan toteutus ja metodit
-
 void HuffmanTree::deleteTree(Node* node) {
     if (!node) return;
     deleteTree(node->left);
@@ -91,7 +89,8 @@ void HuffmanTree::build(const std::unordered_map<char, int>& frequencies) {
 
 std::unordered_map<char, std::string> HuffmanTree::getCodes(void) {
     std::unordered_map<char, std::string> codes;
-    generateCodes(root, "", codes);
+    std::string empty = "";
+    generateCodes(root, empty, codes);
     return codes;
 }
 
@@ -130,20 +129,24 @@ std::string serializeTree(Node* root) {
 }
 
 std::tuple<std::string, size_t, std::string> stripData(const std::string& raw_data) {
-    // First 8 bytes: tree size.
-    std::string treeSizeStr = raw_data.substr(0, 8);
-    size_t treeSize = std::stoi(treeSizeStr);
 
-    // Next: the serialized tree.
-    std::string tree = raw_data.substr(8, treeSize);
+    if (raw_data.size() < 16){
+        std::cerr << "Invalid data: missing header" << std::endl;
+        return {"", 0, ""};
+    }
 
-    // Next 8 bytes: number of valid bits in the encoded data.
-    std::string bitCountStr = raw_data.substr(8 + treeSize, 8);
-    size_t encodedBitCount = std::stoi(bitCountStr);
+    uint64_t treeSize = 0;
+    for (int i = 0; i < 8; i++) {
+        treeSize |= (static_cast<uint64_t>(static_cast<unsigned char>(raw_data[i])) << (8 * i));
+    }
 
-    // The remainder: the packed encoded data.
-    std::string packedEncoded = raw_data.substr(8 + treeSize + 8);
+    uint64_t encodedBitCount = 0;
+    for (int i = 8; i < 16; i++) {
+        encodedBitCount |= (static_cast<uint64_t>(static_cast<unsigned char>(raw_data[i])) << (i * 8));
+    }
 
+    std::string tree = raw_data.substr(16, treeSize);
+    std::string packedEncoded = raw_data.substr(16+treeSize);
     return {tree, encodedBitCount, packedEncoded};
 }
 
@@ -191,19 +194,19 @@ std::string huffman_encode(const std::string& string_to_encode) {
     // Serialize the tree.
     Node* root = tree.getRoot();
     std::string serialized_tree = serializeTree(root);
-    size_t treeSize = serialized_tree.size();
+    uint64_t treeSize = serialized_tree.size();
 
     std::string packedEncoded = packBits(encoded);
-    size_t encodedBitCount = encoded.size();
-    std::ostringstream oss;
-    oss << std::setw(8) << std::setfill('0') << treeSize;
-    std::string treeHeader = oss.str();
-    oss.str("");
-    oss.clear();
-    oss << std::setw(8) << std::setfill('0') << encodedBitCount;
-    std::string bitCountHeader = oss.str();
+    uint64_t encodedBitCount = encoded.size();
+    std::string header(16, '\0');
+    for (int i = 0; i < 8; i++) {
+        header[i] = static_cast<char>((treeSize >> (i*8)) & 0xFF);
+    }
+    for (int i = 0; i < 8; i++) {
+        header[8+i] = static_cast<char>((encodedBitCount >> (i*8)) & 0xFF);
+    }
 
-    std::string final_bitstream = treeHeader + serialized_tree + bitCountHeader + packedEncoded;
+    std::string final_bitstream = header + serialized_tree + packedEncoded;
     return final_bitstream;
 }
 
@@ -213,7 +216,6 @@ std::string huffman_decode(const std::string& bitstream) {
         std::cerr << "Error: Empty string" << std::endl;
         return "";
     }
-
     // Extract metadata and data from the bitstream.
     auto [tree_str, encodedBitCount, packedEncoded] = stripData(bitstream);
 

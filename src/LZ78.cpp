@@ -61,7 +61,7 @@ std::string makebin(const std::vector<std::tuple<int, char> >& compressedData) {
     return oss.str();
 }
 
-std::vector<std::tuple<int, char>> readbin(std::string& bitstream) {
+std::vector<std::tuple<int, char>> readbin(const std::string& bitstream) {
     std::vector<std::tuple<int, char>> compressed;
     std::istringstream iss(bitstream, std::ios::binary);
     while (iss) {
