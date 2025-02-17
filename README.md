@@ -3,7 +3,6 @@
 Tätä ohjelmaa voi käyttää tiedostojen pakkaamiseen ja purkamiseen tai Huffmanin koodauksen ja Lempel-Ziv78 algoritmin tehojen vertailuun.
 
 # Riippuvuudet:
-- [icu4c](https://github.com/unicode-org/icu)
 - [googletest](https://github.com/google/googletest)
 
 # Kääntöohjeet
