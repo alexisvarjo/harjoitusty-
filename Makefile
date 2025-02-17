@@ -20,10 +20,6 @@ GTEST_LIBS     = -lgtest -lgtest_main
 SANITIZE ?= 0  # Enable with `make SANITIZE=1`
 
 ifeq ($(UNAME_S),Darwin)  # macOS
-  # ICU
-  CXXFLAGS += -I/opt/homebrew/opt/icu4c/include
-  LDFLAGS  += -L/opt/homebrew/opt/icu4c/lib -licuuc -licudata
-
   # GTest typically installed via Homebrew
   GTEST_INCLUDES += -I/opt/homebrew/include
   LDFLAGS        += -L/opt/homebrew/lib
@@ -36,9 +32,6 @@ ifeq ($(UNAME_S),Darwin)  # macOS
 endif
 
 ifeq ($(UNAME_S),Linux)
-  # If ICU is installed system-wide with pkg-config:
-  CXXFLAGS += $(shell pkg-config --cflags icu-uc)
-  LDFLAGS  += $(shell pkg-config --libs icu-uc)
 
   # Similarly for GTest on Linux
   # GTEST_INCLUDES += -I/path/to/gtest/include
