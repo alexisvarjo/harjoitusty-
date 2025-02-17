@@ -7,12 +7,12 @@ Tätä ohjelmaa voi käyttää tiedostojen pakkaamiseen ja purkamiseen tai Huffm
 
 # Kääntöohjeet
 ## MacOS
-Aja komentokehotteessa ```brew install icu4c@75 && brew install googletest```
+Aja komentokehotteessa ```brew install googletest```
 
 Sen jälkeen projektikansion juuressa ```make``` itse ohjelmaa varten ja ```make test``` testejä varten.
 
 ## Linux (Debian/Ubuntu tai pkg-config asennettuna)
-Aja komentokehotteessa ```sudo apt-get install libicu-dev && sudo apt install libgtest-dev```
+Aja komentokehotteessa ```sudo apt install libgtest-dev```
 
 Sen jälkeen projektikansion juuressa ```make``` ja ```make test``` testejä varten.
 
@@ -21,11 +21,16 @@ Jos tämä ei toimi, Makefilessä on kommentoituna lisää ohjeita, joista saatt
 
 # Käyttöohjeet
 Valmista projektia voi käyttää kahdella eri tavalla:
+Pakatessa:
+```build/main <tiedoston tai kansion nimi> <algoritmi>```
 
-```build/main <tiedoston tai kansion nimi> <algoritmi/käyttötila>```
+Purkaessa:
+```build/main <tiedoston tai kansion nimi>```
 
-```<algoritmi/käyttötila>```voi saada seuraavat arvot:
+Vertaillessa tehokkuutta:
+```build/main <tiedoston tai kansion nimi> p```
 
+Vipujen merkitys:
 'p', jolloin ohjelma suorittaa testin, jossa ohjelma ajaa molemmat algoritmit, ensin pakkaa, sitten purkaa ottaa tästä ajan ja tarkistaa
 tulosten oikeellisuuden. Ohjelma myös kertoo kuinka paljon tilaa pakattu tiedosto vie.
 'h' jolloin ohjelma purkaa tai pakkaa tiedoston Huffmanin koodauksella.
