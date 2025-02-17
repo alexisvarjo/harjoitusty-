@@ -7,7 +7,7 @@ int test_functions(std::vector<std::filesystem::path> files_vector) {
         std::string content = readfile(file);
         if (content.empty())
             continue;
-        std::cout << "File: " << file.string() << std::endl;
+        std::cout << "Testing with file: " << file.string() << std::endl;
         auto encode_start_huffman = std::chrono::high_resolution_clock::now();
         std::string huffman_encoded = huffman_encode(content);
         auto encode_end_huffman = std::chrono::high_resolution_clock::now();
@@ -55,11 +55,11 @@ int test_functions(std::vector<std::filesystem::path> files_vector) {
             return 1;
         }
 
-        if (!areFilesIdentical(file, huffDecPath.string())) {
+        if (!areFilesIdentical(file, huffDecPath)) {
             std::cout << "Huffman decoding failed as the input and output file weren't identical" << std::endl;
             return 1;
         }
-        if (!areFilesIdentical(file, lzDecPath.string())) {
+        if (!areFilesIdentical(file, lzDecPath)) {
             std::cout << "LZ78 decoding failed as the input and output file weren't identical" << std::endl;
             return 1;
         }
@@ -85,10 +85,10 @@ int test_functions(std::vector<std::filesystem::path> files_vector) {
 
         std::cout << "Both algorithms returned same file as they were given." << std::endl;
 
-        std::filesystem::remove(huffEncPath.string());
-        std::filesystem::remove(lzEncPath.string());
-        std::filesystem::remove(huffDecPath.string());
-        std::filesystem::remove(lzDecPath.string());
+        std::filesystem::remove(huffEncPath);
+        std::filesystem::remove(lzEncPath);
+        std::filesystem::remove(huffDecPath);
+        std::filesystem::remove(lzDecPath);
     }
     return 0;
 }
@@ -172,7 +172,7 @@ int main(int argc, char *argv[]) {
                 } else {
                     // Decoding mode: process only .bin files.
                     if (fp.extension() != ".bin"){
-                        std::cout << "Skipping non-binary file: " << fp.string() << std::endl;
+                        std::cout << "Skipping non-binary file: " << filename << std::endl;
                         continue;
                     }
                     std::string encoded = readfile(fp);
@@ -183,21 +183,21 @@ int main(int argc, char *argv[]) {
                     if (encoded[0] == '0') {
                         encoded = encoded.substr(1);
                         std::string decoded = huffman_decode(encoded);
-                        if (writefile(outPath.string(), decoded) == 1){
+                        if (writefile(outPath, decoded) == 1){
                             std::cout << "Error whilst writing file " << outPath.string() << std::endl;
                             return 1;
                         }
                     } else if (encoded[0] == '1') {
                         encoded = encoded.substr(1);
                         std::string decoded = lz78_decode(encoded);
-                        if (writefile(outPath.string(), decoded) == 1){
+                        if (writefile(outPath, decoded) == 1){
                             std::cout << "Error whilst writing file " << outPath.string() << std::endl;
                             return 1;
                         }
                     }
                     std::filesystem::remove(filename);
                 }
-                std::cout << "Processed file: " << fp.string() << std::endl;
+                std::cout << "Processed file: " << filename << std::endl;
             }
             return 0;
         } else if (algo == "p"){

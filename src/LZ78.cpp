@@ -40,7 +40,7 @@ std::vector<std::tuple<int, char> > LZ78_compress(const std::string& text) {
     return compressed;
 }
 
-std::string makebin(const std::vector<std::tuple<int, char> > compressedData) {
+std::string makebin(const std::vector<std::tuple<int, char> >& compressedData) {
     std::ostringstream oss(std::ios::binary);
 
     if (compressedData.empty()) {
@@ -61,17 +61,20 @@ std::string makebin(const std::vector<std::tuple<int, char> > compressedData) {
     return oss.str();
 }
 
-std::vector<std::tuple<int, char>> readbin(std::string bitstream) {
+std::vector<std::tuple<int, char>> readbin(std::string& bitstream) {
     std::vector<std::tuple<int, char>> compressed;
     std::istringstream iss(bitstream, std::ios::binary);
     while (iss) {
         int prefixIndex;
         char newChar;
-        iss.read(reinterpret_cast<char*>(&prefixIndex), sizeof(prefixIndex));
-        iss.read(reinterpret_cast<char*>(&newChar), sizeof(newChar));
-        compressed.emplace_back(prefixIndex, newChar);
+        if (iss.read(reinterpret_cast<char*>(&prefixIndex), sizeof(prefixIndex)) && iss.read(reinterpret_cast<char*>(&newChar), sizeof(newChar))) {
+            compressed.emplace_back(prefixIndex, newChar);
+        } else if(iss.eof()){
+            break;
+        } else{
+            throw std::runtime_error("Error reading binary file");
+        }
     }
-    compressed.pop_back(); // poistetaan lopetusmerkintä
     return compressed;
 }
 

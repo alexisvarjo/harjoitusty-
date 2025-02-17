@@ -54,7 +54,7 @@ int writefile(const std::filesystem::path& path, const std::string& content) {
 }
 
 
-bool areFilesIdentical(const std::string& file1, const std::string& file2) {
+bool areFilesIdentical(const std::filesystem::path& file1, const std::filesystem::path& file2) {
     std::ifstream f1(file1, std::ios::binary);
     std::ifstream f2(file2, std::ios::binary);
 
@@ -82,6 +82,7 @@ bool areFilesIdentical(const std::string& file1, const std::string& file2) {
 // Packs a string of bits (each character is '0' or '1') into a compact binary string.
 std::string packBits(const std::string &bits) {
     std::string out;
+    out.reserve((bits.size()+7)/8);
     uint8_t current = 0;
     int count = 0;
     for (char bit : bits) {

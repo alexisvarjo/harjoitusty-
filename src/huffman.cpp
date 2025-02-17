@@ -6,32 +6,28 @@
 // Huffmantree-luokan toteutus ja metodit
 
 void HuffmanTree::deleteTree(Node* node) {
-    if (node == nullptr || !node) {
-        return;
-    }
+    if (!node) return;
     deleteTree(node->left);
     deleteTree(node->right);
     delete node;
 }
 
-void HuffmanTree::generateCodes(Node* node, const std::string& code,
+void HuffmanTree::generateCodes(Node* node, std::string& code,
     std::unordered_map<char, std::string>& codes) {
     if (!node) return;
 
     // lehti
     if (!node->left && !node->right) {
-        if (code.empty()) {
-            codes[node->symbol] = "0";
-        } else {
-        codes[node->symbol] = code;
-        }
+        codes[node->symbol] = code.empty() ? "0" : code;
         return;
     }
+    code.push_back('0');
+    generateCodes(node->left, code, codes);
+    code.pop_back();
 
-    // käy rekursiivisesti oikeassa ja vasemmassa
-    // jonossa, ja lisää koodiin 0 tai 1
-    generateCodes(node->left, code + "0", codes);
-    generateCodes(node->right, code + "1", codes);
+    code.push_back('1');
+    generateCodes(node->right, code, codes);
+    code.pop_back();
 }
 
 Node* HuffmanTree::buildFromSerializedTree(const std::string& serialized_tree, size_t& index) {
@@ -115,6 +111,7 @@ std::unordered_map<char, int> get_frequencies(const std::string& text) {
 
 std::string encode(std::string const& original_text, HuffmanTree& huffman_tree) {
     std::string encoded_text = "";
+    encoded_text.reserve(original_text.size() * 10); // Reserve space for worst case scenario
     std::unordered_map<char, std::string> codes = huffman_tree.getCodes();
     for (char c : original_text) {
         encoded_text += codes[c];

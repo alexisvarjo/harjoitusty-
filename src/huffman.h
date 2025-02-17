@@ -35,7 +35,7 @@ class HuffmanTree {
     void deleteTree(Node* node);  // poistaa puun
 
     // luo jokaista merkkiä vastaavan lyhytkoodin (binäärin) huffman-puuhun
-    void generateCodes(Node* node, const std::string& code,
+    void generateCodes(Node* node, std::string& code,
         std::unordered_map<char, std::string>& codes);
 
     // luo puun uudelleen merkkijonosta, joka sisältää puun informaation binäärinä

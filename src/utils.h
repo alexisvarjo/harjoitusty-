@@ -17,7 +17,7 @@ int writefile(const std::filesystem::path& path, const std::string& content);
 // lukee binääritiedostosta sisällön ja palauttaa sen merkkijonona
 std::string readfile(const std::filesystem::path& fp);
 
-bool areFilesIdentical(const std::string& file1, const std::string& file2);
+bool areFilesIdentical(const std::filesystem::path& file1, const std::filesystem::path& file2);
 
 std::string unpackBits(const std::string &packed, size_t bitCount);
 
