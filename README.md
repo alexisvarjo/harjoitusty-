@@ -11,10 +11,14 @@ Aja komentokehotteessa ```brew install googletest```
 
 Sen jälkeen projektikansion juuressa ```make``` itse ohjelmaa varten ja ```make test``` testejä varten.
 
+Jos haluat ajaa projektin ASanilla, lisää make-komentoon vipu ```SANITIZE=1``` ja aja ohjelma normaalisti.
+
 ## Linux (Debian/Ubuntu tai pkg-config asennettuna)
 Aja komentokehotteessa ```sudo apt install libgtest-dev```
 
 Sen jälkeen projektikansion juuressa ```make``` ja ```make test``` testejä varten.
+
+Jos haluat ajaa projektin Valgrindilla, lisää make-komentoon vipu ```SANITIZE=1``` ja aja ohjelma normaalisti.
 
 Jos tämä ei toimi, Makefilessä on kommentoituna lisää ohjeita, joista saattaa olla hyötyä.
 
@@ -65,3 +69,5 @@ Ohjelman on tarkoitus pystyä käsittelemään sekä kansioita että yksittäisi
 
 - Linuxilla projekti ei tällä hetkellä käänny, vaan tulee erroreita
 - Toteutusdokumentti
+- Testausdokumentin päivitys
+- Käyttöohjedokumentti
