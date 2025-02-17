@@ -135,3 +135,91 @@ TEST(UtilsTest, readfile_binary_data) {
     std::string read_content = readfile(filename);
     EXPECT_EQ(content, read_content);
 }
+
+TEST(UtilsTest, AreFilesIdentical_SameContent) {
+    std::string fileA = "test_files/test_areFilesIdentical_1a.txt";
+    std::string fileB = "test_files/test_areFilesIdentical_1b.txt";
+    std::string content = "same content";
+    writefile(fileA, content);
+    writefile(fileB, content);
+    EXPECT_TRUE(areFilesIdentical(fileA, fileB));
+}
+
+TEST(UtilsTest, AreFilesIdentical_DifferentContent) {
+    std::string fileA = "test_files/test_areFilesIdentical_2a.txt";
+    std::string fileB = "test_files/test_areFilesIdentical_2b.txt";
+    writefile(fileA, "abc");
+    writefile(fileB, "xyz");
+    EXPECT_FALSE(areFilesIdentical(fileA, fileB));
+}
+
+TEST(UtilsTest, PackBits_Basic) {
+    std::string bits = "10101010";
+    std::string packed = packBits(bits);
+    EXPECT_EQ(static_cast<size_t>(1), packed.size());
+    EXPECT_EQ('\xAA', packed[0]);
+}
+
+TEST(UtilsTest, PackBits_Partial) {
+    std::string bits = "110";
+    std::string packed = packBits(bits);
+    EXPECT_EQ(static_cast<size_t>(1), packed.size());
+    // 110 followed by five zeros -> 11000000 in binary -> 0xC0
+    EXPECT_EQ('\xC0', packed[0]);
+}
+
+TEST(UtilsTest, PackBits_MultipleBytes) {
+    std::string bits = "11011100000";
+    std::string packed = packBits(bits);
+    EXPECT_EQ(static_cast<size_t>(2), packed.size());
+    EXPECT_EQ('\xDC', packed[0]);  // 0xDC = 220
+    EXPECT_EQ('\x00', packed[1]);  // 0x00 = 0
+}
+
+TEST(UtilsTest, PackBits_MultipleBytesPartial) {
+    std::string bits = "1101110000011";
+    std::string packed = packBits(bits);
+    EXPECT_EQ(static_cast<size_t>(2), packed.size());
+    EXPECT_EQ('\xDC', packed[0]);  // same first 8 bits as above
+    EXPECT_EQ('\x18', packed[1]);  // 0x18 = 24
+}
+
+TEST(UtilsTest, PackBits_MultipleBytesPartial2) {
+    std::string bits = "11011100000111";
+    std::string packed = packBits(bits);
+    EXPECT_EQ(static_cast<size_t>(2), packed.size());
+    EXPECT_EQ('\xDC', packed[0]);  // again, first 8 bits are "11011100"
+    EXPECT_EQ('\x1C', packed[1]);  // 0x1C = 28
+}
+
+TEST(UtilsTest, UnpackBits_Basic) {
+    std::string packed = "\xAA"; // 10101010
+    size_t bitCount = 8;
+    std::string bits = unpackBits(packed, bitCount);
+    EXPECT_EQ("10101010", bits);
+}
+
+TEST(UtilsTest, UnpackBits_PartialByte) {
+    std::string packed = "\xC0"; // 11000000
+    size_t bitCount = 3;
+    std::string bits = unpackBits(packed, bitCount);
+    EXPECT_EQ("110", bits);
+}
+
+TEST(UtilsTest, UnpackBits_MultipleBytes) {
+    // 0xDC = 11011100, 0x00 = 00000000
+    std::string packed = "\xDC\x00";
+    size_t bitCount = 10;
+    std::string bits = unpackBits(packed, bitCount);
+    // Reads 8 bits from 0xDC and 2 bits from 0x00.
+    EXPECT_EQ("11011100", bits);
+}
+
+TEST(UtilsTest, UnpackBits_MultipleBytesPartial) {
+    // 0xDC = 11011100, 0x00 = 00000000
+    std::string packed = "\xDC\x00";
+    size_t bitCount = 11;
+    std::string bits = unpackBits(packed, bitCount);
+    // Reads 8 bits from 0xDC and 3 bits from 0x00.
+    EXPECT_EQ("11011100", bits);
+}

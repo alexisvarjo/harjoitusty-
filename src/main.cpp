@@ -1,4 +1,6 @@
 #include "main.h"
+#include <iostream>
+#include <sys/signal.h>
 
 std::vector<std::filesystem::path> getFiles(std::filesystem::path fp) {
     std::vector<std::filesystem::path> files_vector;
@@ -148,6 +150,7 @@ int main(int argc, char *argv[]) {
                 if (encodingmode == true) {
                     // Encoding mode: process only .txt files.
                     if (fp.extension() != ".txt"){
+                        std::cout << "Skipping non-text file: " << filename << std::endl;
                         continue;
                     }
                     std::string content = readfile(fp);
@@ -170,6 +173,7 @@ int main(int argc, char *argv[]) {
                 } else {
                     // Decoding mode: process only .bin files.
                     if (fp.extension() != ".bin"){
+                        std::cout << "Skipping non-binary file: " << fp.string() << std::endl;
                         continue;
                     }
                     std::string encoded = readfile(fp);
