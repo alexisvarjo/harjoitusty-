@@ -64,5 +64,4 @@ Ohjelman on tarkoitus pystyä käsittelemään sekä kansioita että yksittäisi
 # To do
 
 - Linuxilla projekti ei tällä hetkellä käänny, vaan tulee erroreita
-- Siistimistä koodiin, erityisesti main.cpp
 - Toteutusdokumentti
