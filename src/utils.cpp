@@ -3,10 +3,12 @@
 
 
 std::string readfile(const std::filesystem::path& fp) {
+    std::ifstream rf;
     std::string ext = fp.extension().string();
     std::string content;
+
     if (ext == ".txt") {
-        std::ifstream rf(fp, std::ios::in);
+        rf.open(fp, std::ios::in);
         if (!rf) {
             std::cerr << "Error opening file " << fp.string() << std::endl;
             return "";
@@ -14,42 +16,48 @@ std::string readfile(const std::filesystem::path& fp) {
         content = std::string((std::istreambuf_iterator<char>(rf)), std::istreambuf_iterator<char>());
         // rf will be closed automatically when it goes out of scope.
     } else if (ext == ".bin") {
-        std::ifstream rf(fp, std::ios::in | std::ios::binary);
+        rf.open(fp, std::ios::in | std::ios::binary);
         if (!rf) {
             std::cerr << "Error opening file " << fp.string() << std::endl;
             return "";
         }
-        rf.seekg(0, std::ios::end);
-        std::streampos length = rf.tellg();
-        rf.seekg(0, std::ios::beg);
-        content.resize(length);
-        rf.read(&content[0], length);
-        // rf will be closed automatically when it goes out of scope.
     } else {
         std::cerr << "Unsupported file type: " << ext << std::endl;
         return "";
+    }
+    const std::size_t chunkSize = 256 * 1024; // 256kB chunk
+    std::vector<char> buffer(chunkSize);
+
+    while (rf){
+        rf.read(buffer.data(), buffer.size());
+        std::streamsize bytesRead = rf.gcount();
+        if (bytesRead > 0){
+            content.append(buffer.data(), static_cast<size_t>(bytesRead));
+        }
     }
     return content;
 }
 
 int writefile(const std::filesystem::path& path, const std::string& content) {
-    if (path.extension() == ".txt") {
-        std::ofstream wf(path, std::ios::out | std::ios::binary);
-        if (!wf) {
-            std::cerr << "Error opening file " << path.string() << std::endl;
-            return 1;
-        }
-        wf.write(content.c_str(), content.size());
-    wf.close();
-    } else if (path.extension() == ".bin") {
-        std::ofstream wf(path, std::ios::out | std::ios::binary);
-        if (!wf) {
-            std::cerr << "Error opening file " << path.string() << std::endl;
-            return 1;
-        }
-        wf.write(content.c_str(), content.size());
-        wf.close();
+    std::ofstream wf(path, std::ios::out | std::ios::binary);
+    if (!wf) {
+        std::cerr << "Error opening file " << path.string() << std::endl;
+        return 1;
     }
+
+    const std::size_t chunkSize = 256 * 1024; // 256kB chunk
+    size_t pos = 0;
+
+    while (pos < content.size()){
+        size_t bytesToWrite = std::min(chunkSize, content.size() - pos);
+        wf.write(content.data() + pos, bytesToWrite);
+        if (!wf){
+            std::cerr << "Error writing to file " << path.string() << std::endl;
+            return 1;
+        }
+        pos += bytesToWrite;
+    }
+    wf.close();
     return 0;
 }
 

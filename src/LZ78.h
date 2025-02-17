@@ -18,7 +18,7 @@ std::string LZ78_decompress(const std::vector<std::tuple<int, char> >& dictionar
 std::string makebin(const std::vector<std::tuple<int, char> >& compressedData);
 
 // read binary data to LZ78 compressed data
-std::vector<std::tuple<int, char>> readbin(std::string& bitstream);
+std::vector<std::tuple<int, char>> readbin(const std::string& bitstream);
 
 std::string lz78_decode(const std::string& bitstream);
 
