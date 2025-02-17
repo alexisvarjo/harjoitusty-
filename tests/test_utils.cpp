@@ -6,7 +6,7 @@
 TEST(UtilsTest, WriteToFileTestBasic) {
     std::string filename = "test_files/testfile.txt";
     std::string content = "test";
-    writefile(filename, content);
+    int s1 = writefile(filename, content);
     std::ifstream rf(filename);
     std::string read_content;
     rf >> read_content;
@@ -17,7 +17,7 @@ TEST(UtilsTest, WriteToFileTestBasic) {
 TEST(UtilsTest, WriteToFileTestEmpty) {
     std::filesystem::path filename = "test_files/testfile_empty.txt";
     std::string content = "";
-    writefile(filename, content);
+    int s1 = writefile(filename, content);
     std::ifstream rf(filename);
     std::string read_content;
     rf >> read_content;
@@ -28,7 +28,7 @@ TEST(UtilsTest, WriteToFileTestEmpty) {
 TEST(UtilsTest, WriteToFileTestSpecialCharacters) {
     std::string filename = "test_files/testfile_special.txt";
     std::string content = "tëstî";
-    writefile(filename, content);
+    int s1 = writefile(filename, content);
     std::ifstream rf(filename);
     std::string read_content;
     rf >> read_content;
@@ -39,7 +39,7 @@ TEST(UtilsTest, WriteToFileTestSpecialCharacters) {
 TEST(UtilsTest, readfiletest) {
     std::string filename = "test_files/testfile.txt";
     std::string content = "test";
-    writefile(filename, content);
+    int s1 =writefile(filename, content);
     std::string read_content = readfile(filename);
     EXPECT_EQ(content, read_content);
 }
@@ -47,7 +47,7 @@ TEST(UtilsTest, readfiletest) {
 TEST(UtilsTest, readfiletest_empty) {
     std::string filename = "test_files/testfile_empty.txt";
     std::string content = "";
-    writefile(filename, content);
+    int s1 = writefile(filename, content);
     std::string read_content = readfile(filename);
     EXPECT_EQ(content, read_content);
 }
@@ -55,7 +55,7 @@ TEST(UtilsTest, readfiletest_empty) {
 TEST(UtilsTest, readfiletest_special_characters) {
     std::string filename = "test_files/testfile_special.txt";
     std::string content = "tëstî";
-    writefile(filename, content);
+    int s1 = writefile(filename, content);
     std::string read_content = readfile(filename);
     EXPECT_EQ(content, read_content);
 }
@@ -63,7 +63,7 @@ TEST(UtilsTest, readfiletest_special_characters) {
 TEST(UtilsTest, readfiletest_long_string) {
     std::string filename = "test_files/testfile_long.txt";
     std::string content = "this is a longer test string with multiple characters";
-    writefile(filename, content);
+    int s1 = writefile(filename, content);
     std::string read_content = readfile(filename);
     EXPECT_EQ(content, read_content);
 }
@@ -72,8 +72,8 @@ TEST(UtilsTest, readfiletest_overwrite) {
     std::string filename = "test_files/testfile_overwrite.txt";
     std::string content1 = "first content";
     std::string content2 = "second content";
-    writefile(filename, content1);
-    writefile(filename, content2);
+    int s1 = writefile(filename, content1);
+    int s2 = writefile(filename, content2);
     std::string read_content = readfile(filename);
     EXPECT_EQ(content2, read_content);
 }
@@ -81,7 +81,7 @@ TEST(UtilsTest, readfiletest_overwrite) {
 TEST(UtilsTest, readfiletest_binary_data) {
     std::string filename = "test_files/testfile_binary.txt";
     std::string content = "\x00\x01\x02\x03\x04\x05";
-    writefile(filename, content);
+    int s1 = writefile(filename, content);
     std::string read_content = readfile(filename);
     EXPECT_EQ(content, read_content);
 }
@@ -89,7 +89,7 @@ TEST(UtilsTest, readfiletest_binary_data) {
 TEST(UtilsTest, readfile_basic) {
     std::string filename = "test_files/testfile.txt";
     std::string content = "test";
-    writefile(filename, content);
+    int s1 = writefile(filename, content);
     std::string read_content = readfile(filename);
     EXPECT_EQ(content, read_content);
 }
@@ -97,7 +97,7 @@ TEST(UtilsTest, readfile_basic) {
 TEST(UtilsTest, readfile_empty) {
     std::string filename = "test_files/testfile_empty.txt";
     std::string content = "";
-    writefile(filename, content);
+    int s1 = writefile(filename, content);
     std::string read_content = readfile(filename);
     EXPECT_EQ(content, read_content);
 }
@@ -105,7 +105,7 @@ TEST(UtilsTest, readfile_empty) {
 TEST(UtilsTest, readfile_special_characters) {
     std::string filename = "test_files/testfile_special.txt";
     std::string content = "tëstî";
-    writefile(filename, content);
+    int s1 = writefile(filename, content);
     std::string read_content = readfile(filename);
     EXPECT_EQ(content, read_content);
 }
@@ -113,7 +113,7 @@ TEST(UtilsTest, readfile_special_characters) {
 TEST(UtilsTest, readfile_long_string) {
     std::string filename = "test_files/testfile_long.txt";
     std::string content = "this is a longer test string with multiple characters";
-    writefile(filename, content);
+    int s1 = writefile(filename, content);
     std::string read_content = readfile(filename);
     EXPECT_EQ(content, read_content);
 }
@@ -122,8 +122,8 @@ TEST(UtilsTest, readfile_overwrite) {
     std::string filename = "test_files/testfile_overwrite.txt";
     std::string content1 = "first content";
     std::string content2 = "second content";
-    writefile(filename, content1);
-    writefile(filename, content2);
+    int s1 = writefile(filename, content1);
+    int s2 = writefile(filename, content2);
     std::string read_content = readfile(filename);
     EXPECT_EQ(content2, read_content);
 }
@@ -131,7 +131,7 @@ TEST(UtilsTest, readfile_overwrite) {
 TEST(UtilsTest, readfile_binary_data) {
     std::string filename = "test_files/testfile_binary.txt";
     std::string content = "\x00\x01\x02\x03\x04\x05";
-    writefile(filename, content);
+    int s1 = writefile(filename, content);
     std::string read_content = readfile(filename);
     EXPECT_EQ(content, read_content);
 }
@@ -140,16 +140,16 @@ TEST(UtilsTest, AreFilesIdentical_SameContent) {
     std::string fileA = "test_files/test_areFilesIdentical_1a.txt";
     std::string fileB = "test_files/test_areFilesIdentical_1b.txt";
     std::string content = "same content";
-    writefile(fileA, content);
-    writefile(fileB, content);
+    int s1 = writefile(fileA, content);
+    int s2 = writefile(fileB, content);
     EXPECT_TRUE(areFilesIdentical(fileA, fileB));
 }
 
 TEST(UtilsTest, AreFilesIdentical_DifferentContent) {
     std::string fileA = "test_files/test_areFilesIdentical_2a.txt";
     std::string fileB = "test_files/test_areFilesIdentical_2b.txt";
-    writefile(fileA, "abc");
-    writefile(fileB, "xyz");
+    int s1 = writefile(fileA, "abc");
+    int s2 = writefile(fileB, "xyz");
     EXPECT_FALSE(areFilesIdentical(fileA, fileB));
 }
 
@@ -233,7 +233,7 @@ TEST(UtilsTest, getFilesTest_NonExistentPath) {
 TEST(UtilsTest, getFilesTest_SingleFile) {
     std::filesystem::path path("test_files/single_file_test.txt");
     std::string content = "Single file content";
-    writefile(path, content);
+    int s1 = writefile(path, content);
 
     std::vector<std::filesystem::path> result = getFiles(path);
     EXPECT_EQ(result.size(), 1u);
@@ -248,9 +248,9 @@ TEST(UtilsTest, getFilesTest_DirectoryWithMultipleFiles) {
     std::filesystem::path file2 = dirPath / "file2.txt";
     std::filesystem::path file3 = dirPath / "file3.txt";
 
-    writefile(file1, "File1 content");
-    writefile(file2, "File2 content");
-    writefile(file3, "File3 content");
+    int s1 = writefile(file1, "File1 content");
+    int s2 = writefile(file2, "File2 content");
+    int s3 = writefile(file3, "File3 content");
 
     std::vector<std::filesystem::path> result = getFiles(dirPath);
     EXPECT_EQ(result.size(), 3u);

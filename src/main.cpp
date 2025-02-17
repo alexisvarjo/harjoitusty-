@@ -2,8 +2,6 @@
 #include <iostream>
 #include <sys/signal.h>
 
-
-
 int test_functions(std::vector<std::filesystem::path> files_vector) {
     for (const std::filesystem::path &file : files_vector) {
         std::string content = readfile(file);
@@ -22,8 +20,14 @@ int test_functions(std::vector<std::filesystem::path> files_vector) {
         std::filesystem::path huffEncPath = dir / (stem + "_huffman_encoded.bin");
         std::filesystem::path lzEncPath = dir / (stem + "_lz78_encoded.bin");
 
-        writefile(huffEncPath, huffman_encoded);
-        writefile(lzEncPath, lz78_encoded);
+        if (writefile(huffEncPath, huffman_encoded) == 1){
+            std::cout << "Error whilst writing Huffman encoded file"<< huffEncPath.string() << std::endl;
+            return 1;
+        }
+        if (writefile(lzEncPath, lz78_encoded) == 1){
+            std::cout << "Error whilst writing LZ encoded file"<< lzEncPath.string() << std::endl;
+            return 1;
+        }
 
         auto size_huffman = std::filesystem::file_size(huffEncPath);
         auto size_lz78 = std::filesystem::file_size(lzEncPath);
@@ -42,8 +46,14 @@ int test_functions(std::vector<std::filesystem::path> files_vector) {
         std::filesystem::path huffDecPath = dir / (stem + "_huffman_decoded.txt");
         std::filesystem::path lzDecPath = dir / (stem + "_lz78_decoded.txt");
 
-        writefile(huffDecPath, huffman_decoded);
-        writefile(lzDecPath, lz78_decoded);
+        if (writefile(huffDecPath, huffman_decoded) == 1) {
+            std::cout << "Error whilst writing huffman decoded file " << huffDecPath.string() << std::endl;
+            return 1;
+        }
+        if (writefile(lzDecPath, lz78_decoded) == 1) {
+            std::cout << "Error whilst writing lz78 decoded file " << lzDecPath.string() << std::endl;
+            return 1;
+        }
 
         if (!areFilesIdentical(file, huffDecPath.string())) {
             std::cout << "Huffman decoding failed" << std::endl;
@@ -145,12 +155,18 @@ int main(int argc, char *argv[]) {
                         std::string encoded = huffman_encode(content);
                         std::string marker = "0";
                         encoded = marker + encoded;
-                        writefile(outPath, encoded);
+                        if (writefile(outPath, encoded) == 1){
+                            std::cout << "Error whilst writing file " << outPath.string() << std::endl;
+                            return 1;
+                        }
                     } else if (algo == "lz") {
                         std::string encoded = lz78_encode(content);
                         std::string marker = "1";
                         encoded = marker + encoded;
-                        writefile(outPath, encoded);
+                        if (writefile(outPath, encoded) == 1){
+                            std::cout << "Error whilst writing file " << outPath.string() << std::endl;
+                            return 1;
+                        }
                     }
                     std::filesystem::remove(fp);
                 } else {
@@ -167,11 +183,17 @@ int main(int argc, char *argv[]) {
                     if (encoded[0] == '0') {
                         encoded = encoded.substr(1);
                         std::string decoded = huffman_decode(encoded);
-                        writefile(outPath.string(), decoded);
+                        if (writefile(outPath.string(), decoded) == 1){
+                            std::cout << "Error whilst writing file " << outPath.string() << std::endl;
+                            return 1;
+                        }
                     } else if (encoded[0] == '1') {
                         encoded = encoded.substr(1);
                         std::string decoded = lz78_decode(encoded);
-                        writefile(outPath.string(), decoded);
+                        if (writefile(outPath.string(), decoded) == 1){
+                            std::cout << "Error whilst writing file " << outPath.string() << std::endl;
+                            return 1;
+                        }
                     }
                     std::filesystem::remove(filename);
                 }

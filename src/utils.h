@@ -12,7 +12,7 @@
 // joita tarvitaan molemmissa algoritmeissa
 
 // kirjoittaa sisällön annettuun tiedostoon binäärinä
-void writefile(const std::filesystem::path& path, const std::string& content);
+int writefile(const std::filesystem::path& path, const std::string& content);
 
 // lukee binääritiedostosta sisällön ja palauttaa sen merkkijonona
 std::string readfile(const std::filesystem::path& fp);

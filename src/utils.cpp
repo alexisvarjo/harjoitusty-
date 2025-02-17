@@ -32,12 +32,12 @@ std::string readfile(const std::filesystem::path& fp) {
     return content;
 }
 
-void writefile(const std::filesystem::path& path, const std::string& content) {
+int writefile(const std::filesystem::path& path, const std::string& content) {
     if (path.extension() == ".txt") {
         std::ofstream wf(path, std::ios::out | std::ios::binary);
         if (!wf) {
             std::cerr << "Error opening file " << path.string() << std::endl;
-            return;
+            return 1;
         }
         wf.write(content.c_str(), content.size());
     wf.close();
@@ -45,11 +45,12 @@ void writefile(const std::filesystem::path& path, const std::string& content) {
         std::ofstream wf(path, std::ios::out | std::ios::binary);
         if (!wf) {
             std::cerr << "Error opening file " << path.string() << std::endl;
-            return;
+            return 1;
         }
         wf.write(content.c_str(), content.size());
         wf.close();
     }
+    return 0;
 }
 
 
