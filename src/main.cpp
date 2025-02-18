@@ -1,7 +1,4 @@
 #include "main.h"
-#include <cstdlib>
-#include <iostream>
-#include <sys/signal.h>
 
 int test_functions(std::vector<std::filesystem::path> files_vector) {
     for (const std::filesystem::path &file : files_vector) {
