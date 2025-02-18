@@ -18,7 +18,7 @@ Aja komentokehotteessa ```sudo apt install libgtest-dev```
 
 Sen jälkeen projektikansion juuressa ```make``` ja ```make test``` testejä varten.
 
-Jos haluat ajaa projektin Valgrindilla, lisää make-komentoon vipu ```SANITIZE=1``` ja aja ohjelma normaalisti.
+Jos haluat ajaa projektin Valgrindilla, lisää make-komentoon vipu ```SANITIZE=1```. Tällöin ```make test``` ajaa samalla myös testit Valgrindilla.
 
 Jos tämä ei toimi, Makefilessä on kommentoituna lisää ohjeita, joista saattaa olla hyötyä.
 
