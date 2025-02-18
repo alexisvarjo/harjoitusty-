@@ -70,3 +70,4 @@ Ohjelman on tarkoitus pystyä käsittelemään sekä kansioita että yksittäisi
 - Toteutusdokumentti
 - Testausdokumentin päivitys
 - Käyttöohjedokumentti
+- Kaikki dokumentit markdownilla (näyttää nätimmältä githubin selaimessa kuin pdf)
