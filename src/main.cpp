@@ -1,4 +1,5 @@
 #include "main.h"
+#include <cstdlib>
 #include <iostream>
 #include <sys/signal.h>
 
@@ -102,6 +103,7 @@ int test_functions(std::vector<std::filesystem::path> files_vector) {
 }
 
 int main(int argc, char *argv[]) {
+    try{
     if (argc < 2) {
         std::cout << "Usage: ./main <filename> <algorithm/mode, 'h' or 'lz', 'p'>" << std::endl;
         return 1;
@@ -213,4 +215,9 @@ int main(int argc, char *argv[]) {
         }
     }
     return 1;
+    }
+    catch(std::exception& e){
+        std::cerr << "Exception caught: " << e.what() << std::endl;
+        return 1;
+    }
 }
