@@ -7,6 +7,7 @@
 #include <iostream>
 #include <locale>
 #include <string>
+#include <vector>
 
 
 // tämä otsaketiedosto ja utils.cpp sisältävät apufunktioita,
