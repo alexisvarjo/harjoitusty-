@@ -155,42 +155,83 @@ TEST(TreeDeserializationTest, SingleNodeTree) {
 }
 
 TEST(DataStripTest, SimpleTreeAndText) {
-    // "00000002" => treeSize = 2
-    // "1a"       => the tree (2 bytes)
-    // "00000008" => bitCount = 8
-    // "encodedtext" => remainder
-    std::string raw_data = "000000021a00000008encodedtext";
+    // We want treeSize = 2 (binary) and bitCount = 8 (binary).
 
+    // 1) Make a 16-byte header (8 bytes for treeSize + 8 bytes for bitCount).
+    std::string raw_data(16, '\0');
+
+    // treeSize = 2 in little-endian => put a 2 in raw_data[0].
+    raw_data[0] = static_cast<char>(2);
+
+    // bitCount = 8 in little-endian => put an 8 in raw_data[8].
+    raw_data[8] = static_cast<char>(8);
+
+    // 2) Now append the actual tree data (2 bytes) plus whatever remains
+    raw_data += "1a";            // tree part (2 bytes)
+    raw_data += "encodedtext";   // remainder
+
+    // Now call stripData
     auto result = stripData(raw_data);
-    EXPECT_EQ(std::get<0>(result), "1a");          // The UTF-32 tree
-    EXPECT_EQ(std::get<1>(result), 8);              // The bit count
-    EXPECT_EQ(std::get<2>(result), "encodedtext");  // The remaining data
+
+    EXPECT_EQ(std::get<0>(result), "1a");
+    EXPECT_EQ(std::get<1>(result), 8);
+    EXPECT_EQ(std::get<2>(result), "encodedtext");
 }
 
-TEST(DataStripTest, EmptyTreeAndText) {
-    // "00000000" => treeSize = 0, so no tree bytes
-    // "00000000" => bitCount = 0
-    // "encodedtext" => remainder
-    std::string raw_data = "0000000000000000encodedtext";
 
+TEST(DataStripTest, EmptyTreeAndText) {
+    // We want:
+    //   treeSize = 0 (64-bit little-endian)
+    //   bitCount = 0 (64-bit little-endian)
+    //   remainder = "encodedtext"
+
+    // Create 16 bytes of header (8 bytes for treeSize, 8 for bitCount).
+    std::string raw_data(16, '\0');
+
+    // treeSize = 0 => all 8 bytes are already '\0' (no changes needed).
+    // bitCount = 0 => likewise remains '\0'.
+
+    // Append the remainder ("encodedtext").
+    raw_data += "encodedtext";
+
+    // Now call stripData with this binary header.
     auto result = stripData(raw_data);
-    EXPECT_EQ(std::get<0>(result), "");            // Empty tree
-    EXPECT_EQ(std::get<1>(result), 0);              // Bit count = 0
-    EXPECT_EQ(std::get<2>(result), "encodedtext");  // The remaining data
+
+    EXPECT_EQ(std::get<0>(result), "");              // Empty tree
+    EXPECT_EQ(std::get<1>(result), 0u);              // Bit count = 0
+    EXPECT_EQ(std::get<2>(result), "encodedtext");   // The remaining data
 }
 
 TEST(DataStripTest, ComplexTreeAndText) {
-    // "00000013" => treeSize = 13
-    // "0010d1e010f1g" => the tree (13 bytes)
-    // "00000012" => bitCount = 12
-    // "encodedtext" => remainder
-    std::string raw_data = "000000130010d1e010f1g00000012encodedtext";
+    // We want:
+    //   treeSize = 13 (binary)
+    //   bitCount = 12 (binary)
+    //   tree string = "0010d1e010f1g" (13 bytes)
+    //   remainder = "encodedtext"
+
+    // 1) Make a 16-byte header (8 bytes for treeSize, 8 for bitCount).
+    std::string raw_data(16, '\0');
+
+    // treeSize = 13 in little-endian => put char(13) at raw_data[0].
+    raw_data[0] = static_cast<char>(13);
+
+    // bitCount = 12 in little-endian => put char(12) at raw_data[8].
+    raw_data[8] = static_cast<char>(12);
+
+    // 2) Append the 13-byte tree data.
+    //    (Make sure it’s exactly 13 bytes long!)
+    raw_data += "0010d1e010f1g";
+
+    // 3) Append the remainder
+    raw_data += "encodedtext";
 
     auto result = stripData(raw_data);
-    EXPECT_EQ(std::get<0>(result), "0010d1e010f1g");  // The UTF-32 tree
-    EXPECT_EQ(std::get<1>(result), 12);               // The bit count
-    EXPECT_EQ(std::get<2>(result), "encodedtext");    // The remaining data
+
+    EXPECT_EQ(std::get<0>(result), "0010d1e010f1g");  // The 13-byte tree
+    EXPECT_EQ(std::get<1>(result), 12u);              // bitCount = 12
+    EXPECT_EQ(std::get<2>(result), "encodedtext");    // remainder
 }
+
 
 TEST(DecodeTest, SingleCharTest) {
     std::string test_string = "a";
