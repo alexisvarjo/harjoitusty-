@@ -1,6 +1,5 @@
 #include "huffman.h"
 #include "utils.h"
-#include <__config>
 
 // Huffmantree-luokan toteutus ja metodit
 void HuffmanTree::deleteTree(Node* node) {
