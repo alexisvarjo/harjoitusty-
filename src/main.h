@@ -11,6 +11,9 @@
 #include <iostream>
 #include <sys/signal.h>
 
+// tämä funktio sieventää main funktiota hieman
 int test_functions(std::vector<std::filesystem::path> files_vector);
+// main
 int main(int argc, char *argv[]);
+
 #endif //MAIN_H

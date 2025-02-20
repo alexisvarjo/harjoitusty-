@@ -1,6 +1,6 @@
 #include "utils.h"
 
-
+//luetaan tiedosto. funktio päättelee tiedostopäätteestä lukumoodin
 std::string readfile(const std::filesystem::path& fp) {
     std::ifstream rf;
     std::string ext = fp.extension().string();
@@ -37,6 +37,7 @@ std::string readfile(const std::filesystem::path& fp) {
     return content;
 }
 
+//kirjoitetaan tiedosto. funktio päättelee tiedostopäätteestä kirjoitustyypin
 int writefile(const std::filesystem::path& path, const std::string& content) {
     std::ofstream wf(path, std::ios::out | std::ios::binary);
     if (!wf) {
@@ -60,7 +61,7 @@ int writefile(const std::filesystem::path& path, const std::string& content) {
     return 0;
 }
 
-
+// tarkistetaan ovatko tiedostot bittitasolla samat.
 bool areFilesIdentical(const std::filesystem::path& file1, const std::filesystem::path& file2) {
     std::ifstream f1(file1, std::ios::binary);
     std::ifstream f2(file2, std::ios::binary);
@@ -108,6 +109,7 @@ std::string packBits(const std::string &bits) {
     return out;
 }
 
+// puretaan bitit
 std::string unpackBits(const std::string &packed, size_t bitCount) {
     std::string bits;
     for (size_t i = 0; i < packed.size() && bitCount > 0; ++i) {
@@ -121,6 +123,7 @@ std::string unpackBits(const std::string &packed, size_t bitCount) {
     return bits;
 }
 
+// mainissa tällä haetaan kaikki kansion sisältämät tiedostot
 std::vector<std::filesystem::path> getFiles(std::filesystem::path fp) {
     std::vector<std::filesystem::path> files_vector;
     if (std::filesystem::exists(fp)){

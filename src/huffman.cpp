@@ -2,6 +2,8 @@
 #include "utils.h"
 
 // Huffmantree-luokan toteutus ja metodit
+
+// julkinen destruktori
 void HuffmanTree::deleteTree(Node* node) {
     if (!node) return;
     deleteTree(node->left);
@@ -9,6 +11,7 @@ void HuffmanTree::deleteTree(Node* node) {
     delete node;
 }
 
+// luo koodit annetun merkkien esiintymismäärän perusteella
 void HuffmanTree::generateCodes(Node* node, std::string& code,
     std::unordered_map<char, std::string>& codes) {
     if (!node) return;
@@ -27,6 +30,7 @@ void HuffmanTree::generateCodes(Node* node, std::string& code,
     code.pop_back();
 }
 
+//rakentaa puun aikaisemmin luodusta merkkijonoesityksestä
 Node* HuffmanTree::buildFromSerializedTree(const std::string& serialized_tree, size_t& index) {
     if (index >= serialized_tree.size()) return nullptr;
 
@@ -45,8 +49,10 @@ Node* HuffmanTree::buildFromSerializedTree(const std::string& serialized_tree, s
     return nullptr;
 }
 
+//konstruktori
 HuffmanTree::HuffmanTree() : root(nullptr) {}
 
+//destruktori
 HuffmanTree::~HuffmanTree() {
     deleteTree(root);
 }
@@ -55,6 +61,7 @@ Node* HuffmanTree::getRoot() {
     return root;
 }
 
+// rakentaa puun annettujen merkkien esiintymistiheyden perusteella
 void HuffmanTree::build(const std::unordered_map<char, int>& frequencies) {
     // vain yhdenlaisen merkin tapaus
     if (frequencies.size() == 1) {
@@ -86,6 +93,7 @@ void HuffmanTree::build(const std::unordered_map<char, int>& frequencies) {
     root = pq.top();
 }
 
+// Alustetaan puu ja kutsutaan yksityistä metodia
 std::unordered_map<char, std::string> HuffmanTree::getCodes(void) {
     std::unordered_map<char, std::string> codes;
     std::string empty = "";
@@ -93,12 +101,13 @@ std::unordered_map<char, std::string> HuffmanTree::getCodes(void) {
     return codes;
 }
 
+// wrapper jolla kutsutaan yksityistä metodia
 void HuffmanTree::rebuildTree(const std::string& serialized) {
     size_t index = 0;
     root = buildFromSerializedTree(serialized, index);
 }
 
-// Muut funktiot
+// laskee pakkaamattoman tekstitiedoston merkkien esiintymismäärät
 std::unordered_map<char, int> get_frequencies(const std::string& text) {
     std::unordered_map<char, int> frequencies;
     for (char c : text) {
@@ -107,6 +116,7 @@ std::unordered_map<char, int> get_frequencies(const std::string& text) {
     return frequencies;
 }
 
+// pakkaa merkkijonon Huffmanin algoritmilla
 std::string encode(std::string const& original_text, HuffmanTree& huffman_tree) {
     std::string encoded_text = "";
     encoded_text.reserve(original_text.size() * 10); // Reserve space for worst case scenario
@@ -117,6 +127,7 @@ std::string encode(std::string const& original_text, HuffmanTree& huffman_tree) 
     return encoded_text;
 }
 
+// muuttaa huffmanin puun merkkijonoksi
 std::string serializeTree(Node* root) {
     if (!root) return "";
     // Lehti:
@@ -127,6 +138,7 @@ std::string serializeTree(Node* root) {
     return "0" + serializeTree(root->left) + serializeTree(root->right);
 }
 
+// hakee puuhun liittyvät metatiedot ja muut tiedot pakatusta bittijonosta
 std::tuple<std::string, size_t, std::string> stripData(const std::string& raw_data) {
 
     if (raw_data.size() < 16){
@@ -149,6 +161,8 @@ std::tuple<std::string, size_t, std::string> stripData(const std::string& raw_da
     return {tree, encodedBitCount, packedEncoded};
 }
 
+
+// purkaa pakatun bittijonon
 std::string decode(const std::string& text, Node* root) {
     if (!root->left && !root->right){
         if (text.empty()) {
@@ -157,7 +171,6 @@ std::string decode(const std::string& text, Node* root) {
 
         return std::string(text.size(), root->symbol);
     }
-
 
     std::string decoded_text = "";
     Node* current = root;
@@ -179,6 +192,8 @@ std::string decode(const std::string& text, Node* root) {
     return decoded_text;
 }
 
+// funktio, joka suorittaa koko funktioketjun huffmanin pakkaamista varten
+// tätä kutsutaan mainista
 std::string huffman_encode(const std::string& string_to_encode) {
     if (string_to_encode.empty()) {
         std::cerr << "Error: Empty string" << std::endl;
@@ -209,7 +224,8 @@ std::string huffman_encode(const std::string& string_to_encode) {
     return final_bitstream;
 }
 
-
+// funktio jolla suoritetaan koko funktioketju huffmanin purkamista varten
+// tätä kutsutaan mainista
 std::string huffman_decode(const std::string& bitstream) {
     if (bitstream.empty()) {
         std::cerr << "Error: Empty string" << std::endl;

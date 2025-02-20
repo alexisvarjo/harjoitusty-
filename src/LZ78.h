@@ -20,10 +20,10 @@ std::string makebin(const std::vector<std::tuple<int, char> >& compressedData);
 // read binary data to LZ78 compressed data
 std::vector<std::tuple<int, char>> readbin(const std::string& bitstream);
 
+// tätä funktiota kutsutaan mainista, ja se suorittaa koko lz78 purkamisen
 std::string lz78_decode(const std::string& bitstream);
 
+// tätä funktiota kutsutaan mainista, ja se suorittaa koko lz78 pakkaamisen
 std::string lz78_encode(const std::string& text);
-
-
 
 #endif  // SRC_LZ78_H_

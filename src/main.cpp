@@ -1,5 +1,7 @@
 #include "main.h"
 
+
+//tällä sievennetään main funktion ulkoasua
 int test_functions(std::vector<std::filesystem::path> files_vector) {
     for (const std::filesystem::path &file : files_vector) {
         std::string content = readfile(file);
@@ -160,7 +162,7 @@ int main(int argc, char *argv[]) {
                     outPath.replace_extension(".bin");
                     if (algo == "h") {
                         std::string encoded = huffman_encode(content);
-                        std::string marker = "0";
+                        std::string marker = "0"; //merkitään Huffman pakkaamisen merkiksi purkamista varten
                         encoded = marker + encoded;
                         if (writefile(outPath, encoded) == 1){
                             std::cout << "Error whilst writing file " << outPath.string() << std::endl;
@@ -168,7 +170,7 @@ int main(int argc, char *argv[]) {
                         }
                     } else if (algo == "lz") {
                         std::string encoded = lz78_encode(content);
-                        std::string marker = "1";
+                        std::string marker = "1";  //merkitään lz78 pakkaamisen merkiksi purkamista varten
                         encoded = marker + encoded;
                         if (writefile(outPath, encoded) == 1){
                             std::cout << "Error whilst writing file " << outPath.string() << std::endl;
@@ -187,14 +189,14 @@ int main(int argc, char *argv[]) {
                         continue;
                     std::filesystem::path outPath = fp;
                     outPath.replace_extension(".txt");
-                    if (encoded[0] == '0') {
+                    if (encoded[0] == '0') { // aikaisemmin asetettu merkintä
                         encoded = encoded.substr(1);
                         std::string decoded = huffman_decode(encoded);
                         if (writefile(outPath, decoded) == 1){
                             std::cout << "Error whilst writing file " << outPath.string() << std::endl;
                             return 1;
                         }
-                    } else if (encoded[0] == '1') {
+                    } else if (encoded[0] == '1') { // aikaisemmin asetettu merkintä
                         encoded = encoded.substr(1);
                         std::string decoded = lz78_decode(encoded);
                         if (writefile(outPath, decoded) == 1){
