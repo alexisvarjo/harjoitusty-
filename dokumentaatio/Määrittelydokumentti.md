@@ -30,10 +30,11 @@ LZ78-algoritmissa muodostetaan lista tupleja, joka sisältää alimerkkijonon ja
 Harjoitustyöni tärkein osa on pakkausalgoritmit. Tärkeintä on, että pakkaus toimii
 häviöttömästi ja sitä on helppo testata ja mitata eri syötteillä. Myös esimerkiksi
 muistinhallinta ja yleisesti ohjelman pitää toimia joka ikisellä kerralla. Ytimessä on
-LZ77/LZ78, ja Huffmanin koodaus. Toinen yhtä tärkeä osa ohjelmaa on ohjelman osa,
-joka purkaa pakkauksen.
+LZ77/LZ78, ja Huffmanin koodaus. Toinen yhtä tärkeä osa ohjelmaa on pakatun tiedoston purku.
 
 **Viitteet:**
 1: https://stackoverflow.com/questions/759707/efficient-way-of-storing-huffman-tree
-2: https://en.wikipedia.org/wiki/HuIman_coding
+
+2: https://en.wikipedia.org/wiki/Huffman_coding
+
 3: https://en.wikipedia.org/wiki/LZ77_and_LZ78
