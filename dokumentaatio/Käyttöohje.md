@@ -30,6 +30,7 @@ Jos tämä ei toimi, Makefilessä on kommentoituna lisää ohjeita, joista saatt
 
 # Käyttöohjeet
 Valmista projektia voi käyttää parilla eri tavalla. Jos käänsit projektin makefilellä, niin käyttö on seuraavaa. Kaikki komennot ajetaan projektin juuressa
+
 **Pakatessa:**
 ```build/main <tiedoston tai kansion nimi> <algoritmi>```
 Ohjelma hyväksyy syötteeksi ainoastaan tiedostoja, joissa päätteenä .txt, tai kansion. Jos kansiossa on sekä .txt-tiedostoja että muita, ja kansion ensimmäinen tiedosto on .txt-tiedosto, ohjelma pakkaa kaikki .txt-tiedostot eikä koske muihin tiedostoihin.
