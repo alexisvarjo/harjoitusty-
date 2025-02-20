@@ -52,4 +52,6 @@ Muuten ohjelmaa pystyy myös testaamaan ajamalla projektin juuressa ```build/mai
 ---
 
 ## **Ohjelman toiminnan mahdollisen empiirisen testauksen tulosten esittäminen graafisessa muodossa.**
-Ajattelin tehdä tämän jonkinlaiseen diaesitykseen, mihin kokoan kuvaajia erilaisilla syötteillä.
+![screenshot](dokumentaatio/1.png)
+![screenshot](dokumentaatio/2.png)
+![screenshot](dokumentaatio/3.png)
