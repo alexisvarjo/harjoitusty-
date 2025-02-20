@@ -25,7 +25,11 @@ Tein pitkälti testit hyödyntämällä Googlen testauskirjastoa. Kaikki testit 
 Yleisesti perustapaukset, ja myös parit rajatapaukset. Laajemmat koko
 ohjelman testit satunnaisilla syötteillä.
 ### Miten testit voidaan toistaa?
-Satunnaisten merkkien testejä ei pysty toistamaan täsmälleen samana, mutta muut testit
-voidaan toistaa samana ajamalla testiohjelma uudestaan
+Satunnaisten merkkien testejä ei pysty toistamaan täsmälleen samana, mutta muut testit voidaan toistaa samana ajamalla testiohjelma uudestaan. Testit voi toistaa ajamalla projektin juuressa ```make test```, kunhan on Googlen test kirjasto asennettuna.
+
+Linuxilla: ```sudo apt-get install pkg-config``` ja ```sudo apt install libgtest-dev``` jonka jälkeen voi ajaa ```make test``` tai ```make test SANITIZE=1``` joka ajaa ohjelman Valgrindilla. Jälkimmäinen vaatii ```sudo apt install valgrind```.
+
+Macilla: ```brew install googletest``` jonka jälkeen voi ajaa ```make test``` tai myös parametrilla ```SANITIZE=1```. 
+
 ### Ohjelman toiminnan mahdollisen empiirisen testauksen tulosten esittäminen graafisessa muodossa. (Mikäli sopii aiheeseen)
 Ajattelin tehdä tämän jonkinlaiseen diaesitykseen, mihin kokoan kuvaajia erilaisilla syötteillä.
