@@ -33,6 +33,7 @@ muistinhallinta ja yleisesti ohjelman pitää toimia joka ikisellä kerralla. Yt
 LZ77/LZ78, ja Huffmanin koodaus. Toinen yhtä tärkeä osa ohjelmaa on pakatun tiedoston purku.
 
 **Viitteet:**
+
 1: https://stackoverflow.com/questions/759707/efficient-way-of-storing-huffman-tree
 
 2: https://en.wikipedia.org/wiki/Huffman_coding
