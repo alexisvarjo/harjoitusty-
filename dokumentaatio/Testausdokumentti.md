@@ -20,16 +20,18 @@ Kaikilla funktioilla on ainakin pari testiä.
 Ei ole yksikkötestejä, koska mainissa ei oikeastaan ole funktioita testattavana.
 
 ### Mitä on testattu, miten tämä tehtiin?
-Tein pitkälti testit hyödyntämällä Googlen testauskirjastoa. Kaikki testit on myös ajettu Valgrindilla muistivuotojen varmistamiseksi. Käytännön ohjelman testaamisessa voi käyttää vipua 'p', ja niitä testejä on ajettu kansion samples/ tiedostoilla onnistuneesti. Omalla tietokoneella minulla on myös vielä pari isompaa tekstitiedostoa, joista suurin oli kooltaan 1 GB, ja jonka pystyi ajamaan onnistuneesti vivulla p. 
+Tein pitkälti testit hyödyntämällä Googlen testauskirjastoa. Kaikki testit on myös ajettu Valgrindilla muistivuotojen varmistamiseksi.
 ### Minkälaisilla syötteillä testaus tehtiin?
 Yleisesti perustapaukset, ja myös parit rajatapaukset. Laajemmat koko
-ohjelman testit satunnaisilla syötteillä.
+ohjelman testit satunnaisilla syötteillä. Käytännön ohjelman testaamisessa voi käyttää vipua 'p', ja niitä testejä on ajettu kansion samples/ tiedostoilla onnistuneesti. Omalla tietokoneella minulla on myös vielä pari isompaa tekstitiedostoa, joista suurin oli kooltaan 1 GB, ja jonka pystyi ajamaan onnistuneesti vivulla p. 
 ### Miten testit voidaan toistaa?
 Satunnaisten merkkien testejä ei pysty toistamaan täsmälleen samana, mutta muut testit voidaan toistaa samana ajamalla testiohjelma uudestaan. Testit voi toistaa ajamalla projektin juuressa ```make test```, kunhan on Googlen test kirjasto asennettuna.
 
 Linuxilla: ```sudo apt-get install pkg-config``` ja ```sudo apt install libgtest-dev``` jonka jälkeen voi ajaa ```make test``` tai ```make test SANITIZE=1``` joka ajaa ohjelman Valgrindilla. Jälkimmäinen vaatii ```sudo apt install valgrind```.
 
 Macilla: ```brew install googletest``` jonka jälkeen voi ajaa ```make test``` tai myös parametrilla ```SANITIZE=1```. 
+
+Muuten ohjelmaa pystyy myös testaamaan ajamalla projektin juuressa ```build/main samples/ p```. Tämä ajaa koko samples/ kansion läpi
 
 ### Ohjelman toiminnan mahdollisen empiirisen testauksen tulosten esittäminen graafisessa muodossa. (Mikäli sopii aiheeseen)
 Ajattelin tehdä tämän jonkinlaiseen diaesitykseen, mihin kokoan kuvaajia erilaisilla syötteillä.
