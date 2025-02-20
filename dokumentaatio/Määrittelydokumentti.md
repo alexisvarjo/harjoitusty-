@@ -1,6 +1,9 @@
 Määrittelydokumentti
+
 Alexis Varjo
+
 Kieli: c++
+
 Opinto-ohjelma: TKT
 
 Käytän projektissa C++:aa, koska haluan oppia kyseistä kieltä enemmän, niin pyrin
@@ -10,7 +13,7 @@ oleva kieli, joten sillä koodatut ohjelmat käyttävät yhden ytimen tehoa kät
 Muita riittävästi hallitsemiani kieliä on esimerkiksi Python ja C, joilla tehtyjä töitä pystyn
 arvioimaan.
 
-Toteutetut algoritmit: HuImanin koodaus ja LZ77.
+Toteutetut algoritmit: Huffmanin koodaus ja LZ78.
 Ratkaistu ongelma on rajallisen tiedostotilan säästäminen.
 Ohjelma saa syötteenä tiedoston, ja argumenttina ajanmittauksen (tai performance
 evaluation mode), ja käytetyn algoritmin.
@@ -21,9 +24,7 @@ pysyy suomen- ja englanninkielisissä teksteissä suhteellisen vakiona. Huffmani
 koodaus vie tilaa noin 2 – 320 tavua, jos oletuksena on 8-bittiset aakkoset ja puu
 kootaan rekursiivisesti.
 
-LZ77 toteutetaan liukuvan ikkunan avulla, ja sen aikavaativuus on O(n*w), jossa n on
-pakattavan tekstin koko, ja w on liukuvan ikkunan koko. Pakkaus on mahdollista
-optimoida O(n)-vaativuuteen tilankäytön kustannuksella.
+LZ78-algoritmissa muodostetaan lista tupleja, joka sisältää alimerkkijonon ja missä indeksissä se esiintyy. Mitä enemmän alijonoja tekstissä on, sitä enemmän tilaa tällä pystytään säästämään
 
 **Harjoitustyön ydin**
 Harjoitustyöni tärkein osa on pakkausalgoritmit. Tärkeintä on, että pakkaus toimii
