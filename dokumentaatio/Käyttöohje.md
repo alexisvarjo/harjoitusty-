@@ -46,6 +46,4 @@ Ohjelmalle ei nyt tarvitse antaa algoritmia, sillä ohjelma päättelee jokaisen
 Tämä suorittaa nopeusvertailun joko yhdelle tiedostolle tai kummallekin tiedostolle. Lisäksi pakattujen tiedostojen kokoja vertaillaan. Ohjelma myös tarkistaa että lopputuloksena on sama tiedosto kuin syötteenä.
 Testi menee seuraavasti: luetaan tiedosto, pakataan se, kirjoitetaan pakattu tiedosto, luetaan pakattu tiedosto, puretaan se, ja kirjoitetaan pakattu tiedosto. Sen jälkeen tarkistetaan, että saatu tiedosto on sama kuin syötetty tiedosto.
 Tämä testi tehdään molemmille algoritmeille peräkkäin, ja ajastetaan pakkaaminen ja purkaminen (ilman tiedostonkirjoitusta tai lukua).
-Ohjelma tulostaa ajanoton tulokset, ja myös molemmilla algoritmeilla kuinka paljon pakkaamisella säästetään tilaa (pakatun tiedoston koko jaettuna syötetyn tiedoston koolla).
-
-Kaikkien näiden testien jälkeen ohjelma poistaa kaikki saadut tiedostot, paitsi alkuperäisen .txt-tiedoston.
+Ohjelma tulostaa ajanoton tulokset, ja myös molemmilla algoritmeilla kuinka paljon pakkaamisella säästetään tilaa (pakatun tiedoston koko jaettuna syötetyn tiedoston koolla). Vivulla p ohjelma poistaa kaikki luodut tiedostot.
