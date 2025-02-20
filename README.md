@@ -2,8 +2,12 @@
 
 Tätä ohjelmaa voi käyttää tiedostojen pakkaamiseen ja purkamiseen tai Huffmanin koodauksen ja Lempel-Ziv78 algoritmin tehojen vertailuun.
 
+---
+
 # Riippuvuudet:
 - [googletest](https://github.com/google/googletest)
+
+---
 
 # Kääntöohjeet
 ## MacOS
@@ -11,17 +15,18 @@ Aja komentokehotteessa ```brew install googletest```
 
 Sen jälkeen projektikansion juuressa ```make``` itse ohjelmaa varten ja ```make test``` testejä varten.
 
-Jos haluat ajaa projektin ASanilla, lisää make-komentoon vipu ```SANITIZE=1``` ja aja ohjelma normaalisti.
+Jos haluat ajaa projektin ASanilla, lisää make-komentoon vipu `SANITIZE=1` ja aja ohjelma normaalisti.
 
 ## Linux (Debian/Ubuntu tai pkg-config asennettuna)
 Aja komentokehotteessa ```sudo apt install libgtest-dev```
 
 Sen jälkeen projektikansion juuressa ```make``` ja ```make test``` testejä varten.
 
-Jos haluat ajaa projektin Valgrindilla, lisää make-komentoon vipu ```SANITIZE=1```. Tällöin ```make test``` ajaa samalla myös testit Valgrindilla.
+Jos haluat ajaa projektin Valgrindilla, lisää make-komentoon vipu `SANITIZE=1`. Tällöin ```make test``` ajaa samalla myös testit Valgrindilla.
 
 Jos tämä ei toimi, Makefilessä on kommentoituna lisää ohjeita, joista saattaa olla hyötyä.
 
+---
 
 # Käyttöohjeet
 Valmista projektia voi käyttää kahdella eri tavalla:
@@ -35,12 +40,14 @@ Vertaillessa tehokkuutta:
 ```build/main <tiedoston tai kansion nimi> p```
 
 Vipujen merkitys:
-'p', jolloin ohjelma suorittaa testin, jossa ohjelma ajaa molemmat algoritmit, ensin pakkaa, sitten purkaa ottaa tästä ajan ja tarkistaa
+`p`, jolloin ohjelma suorittaa testin, jossa ohjelma ajaa molemmat algoritmit, ensin pakkaa, sitten purkaa ottaa tästä ajan ja tarkistaa
 tulosten oikeellisuuden. Ohjelma myös kertoo kuinka paljon tilaa pakattu tiedosto vie.
-'h' jolloin ohjelma purkaa tai pakkaa tiedoston Huffmanin koodauksella.
-'lz' jolloin ohjelma purkaa tai pakkaa tiedoston Lempel-Ziv78-algoritmilla.
+`h` jolloin ohjelma purkaa tai pakkaa tiedoston Huffmanin koodauksella.
+`lz` jolloin ohjelma purkaa tai pakkaa tiedoston Lempel-Ziv78-algoritmilla.
 
 Ohjelman on tarkoitus pystyä käsittelemään sekä kansioita että yksittäisiä tiedostoja.
+
+---
 
 # Dokumentaatio
 
@@ -52,6 +59,7 @@ Ohjelman on tarkoitus pystyä käsittelemään sekä kansioita että yksittäisi
 
 [Käyttöohje](dokumentaatio/Käyttöohje.md)
 
+---
 
 # Viikkoraportit
 
