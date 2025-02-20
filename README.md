@@ -66,8 +66,3 @@ Ohjelman on tarkoitus pystyä käsittelemään sekä kansioita että yksittäisi
 [Viikkoraportti 5](Viikkoraportit/Viikkoraportti5.md)
 
 [Viikkoraportti 6](Viikkoraportit/Viikkoraportti6.md)
-
-# To do
-
-- Toteutusdokumentti
-- Käyttöohjedokumentti
