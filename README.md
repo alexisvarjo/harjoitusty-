@@ -53,7 +53,7 @@ Ohjelman on tarkoitus pystyä käsittelemään sekä kansioita että yksittäisi
 [Käyttöohje](dokumentaatio/Käyttöohje.md)
 
 
-## Viikkoraportit
+# Viikkoraportit
 
 [Viikkoraportti 1](Viikkoraportit/Viikkoraportti1.md)
 
