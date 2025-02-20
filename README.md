@@ -42,28 +42,30 @@ tulosten oikeellisuuden. Ohjelma myös kertoo kuinka paljon tilaa pakattu tiedos
 
 Ohjelman on tarkoitus pystyä käsittelemään sekä kansioita että yksittäisiä tiedostoja.
 
-## [Määrittelydokumentti](dokumentaatio/Määrittelydokumentti.pdf)
+# Dokumentaatio
 
-## [Testausdokumentti](dokumentaatio/Testausdokumentti.pdf)
+[Määrittelydokumentti](dokumentaatio/Määrittelydokumentti.md)
 
-## [Toteutusdokumentti](dokumentaatio/Toteutusdokumentti.pdf)
+[Testausdokumentti](dokumentaatio/Testausdokumentti.md)
 
-## [Käyttöohje](dokumentaatio/Käyttöohje.pdf)
+[Toteutusdokumentti](dokumentaatio/Toteutusdokumentti.md)
+
+[Käyttöohje](dokumentaatio/Käyttöohje.md)
 
 
 ## Viikkoraportit
 
-[Viikkoraportti 1](Viikkoraportit/Viikkoraportti1.pdf)
+[Viikkoraportti 1](Viikkoraportit/Viikkoraportti1.md)
 
-[Viikkoraportti 2](Viikkoraportit/Viikkoraportti2.pdf)
+[Viikkoraportti 2](Viikkoraportit/Viikkoraportti2.md)
 
-[Viikkoraportti 3](Viikkoraportit/Viikkoraportti3.pdf)
+[Viikkoraportti 3](Viikkoraportit/Viikkoraportti3.md)
 
-[Viikkoraportti 4](Viikkoraportit/Viikkoraportti4.pdf)
+[Viikkoraportti 4](Viikkoraportit/Viikkoraportti4.md)
 
-[Viikkoraportti 5](Viikkoraportit/Viikkoraportti5.pdf)
+[Viikkoraportti 5](Viikkoraportit/Viikkoraportti5.md)
 
-[Viikkoraportti 6](Viikkoraportit/Viikkoraportti6.pdf)
+[Viikkoraportti 6](Viikkoraportit/Viikkoraportti6.md)
 
 # To do
 
