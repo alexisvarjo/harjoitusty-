@@ -23,7 +23,7 @@ Ei ole yksikkötestejä, koska mainissa ei oikeastaan ole funktioita testattavan
 Tein pitkälti testit hyödyntämällä Googlen testauskirjastoa. Kaikki testit on myös ajettu Valgrindilla muistivuotojen varmistamiseksi.
 ### Minkälaisilla syötteillä testaus tehtiin?
 Yleisesti perustapaukset, ja myös parit rajatapaukset. Laajemmat koko
-ohjelman testit satunnaisilla syötteillä. Käytännön ohjelman testaamisessa voi käyttää vipua 'p', ja niitä testejä on ajettu kansion samples/ tiedostoilla onnistuneesti. Omalla tietokoneella minulla on myös vielä pari isompaa tekstitiedostoa, joista suurin oli kooltaan 1 GB, ja jonka pystyi ajamaan onnistuneesti vivulla p. 
+ohjelman testit satunnaisilla syötteillä. Käytännön ohjelman testaamisessa voi käyttää vipua 'p', ja niitä testejä on ajettu kansion samples/ tiedostoilla onnistuneesti. Omalla tietokoneella minulla on myös vielä pari isompaa tekstitiedostoa, joista suurin oli kooltaan 1 GB, ja jonka pystyi ajamaan onnistuneesti vivulla p. Repon samples/ kansio sisältää erilaisia testitiedostoja, joista suurin on kooltaan noin 28 MB.
 ### Miten testit voidaan toistaa?
 Satunnaisten merkkien testejä ei pysty toistamaan täsmälleen samana, mutta muut testit voidaan toistaa samana ajamalla testiohjelma uudestaan. Testit voi toistaa ajamalla projektin juuressa ```make test```, kunhan on Googlen test kirjasto asennettuna.
 
