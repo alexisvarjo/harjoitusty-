@@ -51,7 +51,7 @@ Muuten ohjelmaa pystyy myös testaamaan ajamalla projektin juuressa ```build/mai
 
 ---
 
-## **Ohjelman toiminnan mahdollisen empiirisen testauksen tulosten esittäminen graafisessa muodossa.**
-![screenshot](dokumentaatio/1.png)
-![screenshot](dokumentaatio/2.png)
-![screenshot](dokumentaatio/3.png)
+## **Ohjelman toiminnan empiirisen testauksen tulosten esittäminen graafisessa muodossa.**
+![screenshot](./1.png)
+![screenshot](./2.png)
+![screenshot](./3.png)
