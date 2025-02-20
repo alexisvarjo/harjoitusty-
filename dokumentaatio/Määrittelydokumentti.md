@@ -1,10 +1,10 @@
-Määrittelydokumentti
+# Määrittelydokumentti
 
-Alexis Varjo
+**Alexis Varjo**
 
-Kieli: c++
+**Kieli: c++**
 
-Opinto-ohjelma: TKT
+**Opinto-ohjelma: TKT**
 
 Käytän projektissa C++:aa, koska haluan oppia kyseistä kieltä enemmän, niin pyrin
 tekemään kaiken koodauksen tällä hetkellä sillä kielellä. Siinä on myös valmiita
@@ -27,6 +27,7 @@ kootaan rekursiivisesti.
 LZ78-algoritmissa muodostetaan lista tupleja, joka sisältää alimerkkijonon ja missä indeksissä se esiintyy. Mitä enemmän alijonoja tekstissä on, sitä enemmän tilaa tällä pystytään säästämään
 
 **Harjoitustyön ydin**
+
 Harjoitustyöni tärkein osa on pakkausalgoritmit. Tärkeintä on, että pakkaus toimii
 häviöttömästi ja sitä on helppo testata ja mitata eri syötteillä. Myös esimerkiksi
 muistinhallinta ja yleisesti ohjelman pitää toimia joka ikisellä kerralla. Ytimessä on
