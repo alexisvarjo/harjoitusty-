@@ -95,14 +95,20 @@ Lopullinen tilavaativuus on **`O(M + k + n) ≈ O(n)`**, jos `M` on lähelle `n`
 | linis.txt | 139 ms | 203 ms | 64 ms | 49 ms | 0.65 | 0.72 |
 | bible.txt | 695 ms | 1053 ms | 272 ms | 224 ms | 0.55 | 0.61 |
 | asyoulik.txt | 22 ms | 36 ms | 9.9 ms | 10 ms | 0.61 | 1.02 |
-| enwik6.txt | 6.33 s | 12.14 s | 2.33 s | 2.30 s | 0.64 | 0.62 |
 | lcet10.txt | 78 ms | 119 ms | 33 ms | 30 ms | 0.59 | 0.84 |
 | enwik5.txt | 2.13 s | 3.91 s | 765 ms | 958 ms | 0.64 | 0.68 |
+| enwik6.txt | 5.24 s | 11.6 s | 2.36 s | 1.94 s | 0.64 | 0.62 |
+| enwik7.txt | 8.67 s | 19.70 s | 4.24 s | 3.36 s | 0.64 | 0.58 |
+| enwik8.txt | 17.1 s | 40.7 s | 8.65 s | 6.96 s | 0.64 | 0.55 |
+| enwik9.txt | 182 s | 452 s | 90.9 s | 134 s | 0.65 | 0.41 |
 | plrabn12.txt | 95 ms | 145 ms | 35 ms | 36 ms | 0.57 | 0.88 |
 | C-ohjelmointi.txt | 2.3 ms | 4 ms | 0.96 ms | 1.4 ms | 0.68 | 1.54 |
 | alice29.txt | 28 ms | 43 ms | 11 ms | 12 ms | 0.58 | 0.96 |
 | japani.txt | 14 ms | 23 ms | 5.9 ms | 7.5 ms | 0.62 | 1.13|
 | test.txt | 20 ms | 22 ms | 7.3 ms | 1.7 ms | 0.51 | 0.16 |
+
+enwik7.txt, enwik8.txt ja enwik9.txt ovat repon ulkopuolisia tekstitiedostoja, joiden koot ovat noin 51,3MB, 100MB ja 1GB.
+Enwik tiedostot ovat muodostettu aina puolittamalla tekstitiedosto. Esim. enwik8.txt sisältää enwik9.txt:n alkupuoliskon, ja enwik7.txt sisältää enwik8.txt:n alkupuoliskon jne. kunnes päästään pienimpään, eli enwik5.txt joka on 9,3 MB. 
 
 ---
 
